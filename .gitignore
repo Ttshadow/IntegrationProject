@@ -9,3 +9,5 @@ Backend/src/main/resources/application.properties
 .DS_Store
 Backend/pom.xml
 Backend/src/main/resources/application.properties
+*.properties
+*.xml
