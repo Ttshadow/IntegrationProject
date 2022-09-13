@@ -1,0 +1,6 @@
+
+*.jar
+Backend/src/main/resources/application.properties
+*.xml
+*.jsp
+*.iml
