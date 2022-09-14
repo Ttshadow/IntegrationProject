@@ -13,11 +13,9 @@ import java.util.Optional;
 @Service
 public class MenuService {
     private final MenuRepository menuRepository;
-    private final CategoryRepository categoryRepository;
 
     public MenuService(MenuRepository menuRepository, CategoryRepository categoryRepository) {
         this.menuRepository = menuRepository;
-        this.categoryRepository = categoryRepository;
     }
     public List<Menu> getAllMenu(){
         return menuRepository.findAll();
