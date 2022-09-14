@@ -9,5 +9,7 @@ public class ErrorMessage {
     public static final String CATEGORYNAME_SIZE_LIMIT_ERROR_MESSAGE = "Please enter a valid name. It should be less than 30 characters.";
     //Comment:
     public static final String COMMENT_IS_REQUIRED_ERROR_MESSAGE = "Comment should not be empty.";
+    //CartItem:
+    public static final String QUANTITY_SIZE_LIMIT_ERROR_MESSAGE = "Maximum 10 items can be added.";
 
 }

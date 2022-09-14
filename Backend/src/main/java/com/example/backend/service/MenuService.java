@@ -27,9 +27,9 @@ public class MenuService {
         }
         throw new RecordNotFoundException("Menu Not Found.");
     }
-    public void saveOrUpdateMenu(Menu newMenu, Category category) throws RecordNotFoundException {
+    public void saveOrUpdateMenu(Menu newMenu/*, Category category*/) throws RecordNotFoundException {
         if(newMenu.getId() == null){
-            newMenu.setCategory(category);
+            //newMenu.setCategory(category);
             menuRepository.save(newMenu);
         }else{
             Menu menuFromDb = getMenuById(newMenu.getId());
@@ -39,6 +39,7 @@ public class MenuService {
             menuFromDb.setName(newMenu.getName());
             //
             menuFromDb.setStatus(newMenu.getStatus());
+            menuRepository.save(menuFromDb);
         }
     }
     public void deleteMenuById(Long id){

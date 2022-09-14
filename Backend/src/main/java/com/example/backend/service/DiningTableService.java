@@ -15,22 +15,23 @@ public class DiningTableService {
     public DiningTableService(DiningTableRepository diningTableRepository) {
         this.diningTableRepository = diningTableRepository;
     }
-    public List<DiningTable> getAllDiningTables(){
+
+    public List<DiningTable> getAllDiningTables() {
         return diningTableRepository.findAll();
     }
 
     public DiningTable getDiningTableById(Long id) throws RecordNotFoundException {
         Optional<DiningTable> diningTable = diningTableRepository.findById(id);
-        if(diningTable.isPresent()){
+        if (diningTable.isPresent()) {
             return diningTable.get();
         }
         throw new RecordNotFoundException("Dining Table Not Found.");
     }
+
     public void saveOrUpdateDiningTable(DiningTable newDiningTable) throws RecordNotFoundException {
-        if(newDiningTable.getId() == null){
+        if (newDiningTable.getId() == null) {
             diningTableRepository.save(newDiningTable);
-        }
-        else{
+        } else {
             DiningTable diningTableFromDb = getDiningTableById(newDiningTable.getId());
             diningTableFromDb.setName(newDiningTable.getName());
             diningTableFromDb.setCapacity(newDiningTable.getCapacity());
@@ -38,15 +39,18 @@ public class DiningTableService {
             diningTableRepository.save(diningTableFromDb);
         }
     }
-    public void deleteDiningTableById(Long id){
+
+    public void deleteDiningTableById(Long id) {
         diningTableRepository.deleteById(id);
     }
+
     public void changeDiningTableStatus(Long id, String status) throws RecordNotFoundException {
         DiningTable diningTable = getDiningTableById((id));
         diningTable.setStatus(status);
         diningTableRepository.save(diningTable);
     }
-    public List<DiningTable> getDiningTableByAvailability(String status){
+
+    public List<DiningTable> getDiningTableByAvailability(String status) {
         return diningTableRepository.findDiningTableByStatus(status);
     }
 }
