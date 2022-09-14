@@ -10,6 +10,7 @@ import java.util.Optional;
 
 @Service
 public class PromotionService {
+
     private final PromotionRepository promotionRepository;
 
     public PromotionService(PromotionRepository promotionRepository) {

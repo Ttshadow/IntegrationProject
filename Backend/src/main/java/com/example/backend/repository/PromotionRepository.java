@@ -10,6 +10,6 @@ import java.util.List;
 
 @Repository
 public interface PromotionRepository extends JpaRepository<Promotion, Long> {
-    @Query(value = "select * from promotions where status == :stauts", nativeQuery = true)
+    @Query(value = "select * from promotions where status == :status", nativeQuery = true)
     List<Promotion> getPromotionByStatus(@Param("status")Boolean status);
 }
