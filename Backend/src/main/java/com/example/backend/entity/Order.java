@@ -1,5 +1,6 @@
 package com.example.backend.entity;
 
+import lombok.Data;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -7,6 +8,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "orders")
+@Data
 public class Order extends IdBaseEntity{
     private boolean takeout;
     @ManyToOne(fetch = FetchType.LAZY,optional = false)
