@@ -7,6 +7,10 @@ import Event from "./components/event/Event";
 import AboutUs from "./components/about/AboutUs";
 import EventDetails from "./components/event/EventDetails";
 import UserDashboard from "./components/userDashboard/UserDashboard";
+import AdminDashboard from "./components/adminDashboard/AdminDashboard";
+import ShoppingCart from "./components/shoppingCart/ShoppingCart";
+import Reservation from "./components/reservation/Reservation";
+import Menu from "./components/menu/Menu";
 
 
 function App() {
