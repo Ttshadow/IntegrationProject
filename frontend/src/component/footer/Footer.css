@@ -6,6 +6,16 @@
     color: #d8d8d8;
 }
 
+.footer hr{
+    color: #d8d8d8;
+}
+
+.footer span{
+    color: #d8d8d8;
+    font-size: 0.8rem;
+    margin-bottom: -25px;
+}
+
 .footer h5{
     color: #d8d8d8;
     font-weight: 500;

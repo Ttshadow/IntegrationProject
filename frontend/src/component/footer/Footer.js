@@ -50,6 +50,7 @@ export default function Footer() {
       </Row>
 
       <Row>
+        <hr className='mt-4'></hr>
       <span>CopyRight ©2022 All Rights Reserved | Make with <i className="bi bi-heart-fill"></i> by YUKI Restaurant</span>
       </Row>
       
