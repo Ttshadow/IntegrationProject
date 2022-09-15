@@ -10,27 +10,17 @@ import AdminDashboard from "./component/adminDashboard/AdminDashboard";
 
 
 function App() {
-
-
-
-  function handleClick(){
-    fetch('diningtable', {
-      method: 'GET',
-    })
-    .then((data) => data.json())
-    .then((json) => {console.log(json);})
-    }
   return (
         <Routes>
           <Route path="/" element={<MainLayout />}>
             <Route index element={<Home />}></Route>
-            <Route path="/menu" element={<Menu />}></Route>
+            {/* <Route path="/menu" element={<Menu />}></Route>
             <Route path="/reservation" element={<Reservation />}></Route>
-            <Route path="/shoppingcart" element={<ShoppingCart />}></Route>
+            <Route path="/shoppingcart" element={<ShoppingCart />}></Route> */}
           </Route>
-          <Route path="/admindashboard" element={<AdminDashboard />}></Route>
+          {/* <Route path="/admindashboard" element={<AdminDashboard />}></Route>
           <Route path="/userdashboard" element={<UserDashboard />}></Route>
-          <Route path="*" element={<Navigate to="/" />} />
+          <Route path="*" element={<Navigate to="/" />} /> */}
         </Routes>
   );
 }
