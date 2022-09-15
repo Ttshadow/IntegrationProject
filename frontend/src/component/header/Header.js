@@ -8,7 +8,9 @@ export default function Header() {
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <Container>
         <Col className="text-start">
-          <Link>Logo</Link>
+          <Link to="/">
+            <img src="/images/YUKI.png" style={{width: "20%", height:"20%"}} alt="" />
+          </Link>
         </Col>
 
         <Col className="collapse navbar-collapse " id="navbarSupportedContent">
