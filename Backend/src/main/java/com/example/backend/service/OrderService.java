@@ -1,9 +1,11 @@
 package com.example.backend.service;
 
 import com.example.backend.entity.Order;
+import com.example.backend.entity.OrderItems;
 import com.example.backend.exception.RecordNotFoundException;
+import com.example.backend.repository.OrderItemRepository;
 import com.example.backend.repository.OrderRepository;
-import org.aspectj.weaver.ast.Or;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,13 +13,13 @@ import java.util.Optional;
 
 @Service
 public class OrderService {
-    private final OrderRepository orderRepository;
+    @Autowired
+    private OrderRepository orderRepository;
 
-    public OrderService(OrderRepository orderRepository) {
-        this.orderRepository = orderRepository;
-    }
     public List<Order> getAllOrder(){
-        return orderRepository.findAll();
+        List<Order> orders = orderRepository.findAll();
+        System.out.println(orders);
+        return orders;
     }
     public Order getOrderById(Long id) throws RecordNotFoundException {
         Optional<Order> order = orderRepository.findById(id);
