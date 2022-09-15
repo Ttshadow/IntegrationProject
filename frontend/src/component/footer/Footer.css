@@ -1,0 +1,41 @@
+.footer{
+    background-color: #222222;
+}
+
+.footer h6{
+    color: #d8d8d8;
+}
+
+.footer hr{
+    color: #d8d8d8;
+}
+
+.footer span{
+    color: #d8d8d8;
+    font-size: 0.8rem;
+    margin-bottom: -25px;
+}
+
+.footer h5{
+    color: #d8d8d8;
+    font-weight: 500;
+    font-size: 1.2rem;
+}
+
+.footer li{
+    padding-bottom: 4px;
+}
+
+.footer li a{
+    font-size: 0.8rem;
+    color: #999;
+}
+
+.footer li a:hover{
+    color: #d8d8d8;
+}
+
+.footer p{
+    color: #999;
+    font-size: 0.8rem;
+}

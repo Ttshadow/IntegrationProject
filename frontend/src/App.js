@@ -3,13 +3,21 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import MainLayout from "./component/MainLayout";
 import HomePage from "./pages/HomePage";
 import AdminTable from "./pages/AdminTable";
+import Home from "./component/home/Home";
+
+import UserDashboard from "./component/userDashboard/UserDashboard";
+import AdminDashboard from "./component/adminDashboard/AdminDashboard";
+import ShoppingCart from "./component/shoppingCart/ShoppingCart";
+import Reservation from "./component/reservation/Reservation";
+import Menu from "./component/menu/Menu";
 
 
 function App() {
   return (
     
         <Routes>
-          <Route path="/" element={<HomePage />}>
+          <Route path="/" element={<MainLayout />}>
+            <Route index element={<Home />}></Route>
           {/*  <Route path="/menu" element={<Menu />}></Route>
             <Route path="/reservation" element={<Reservation />}></Route>
             <Route path="/shoppingcart" element={<ShoppingCart />}></Route>*/}
