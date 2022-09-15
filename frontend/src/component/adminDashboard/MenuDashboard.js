@@ -7,6 +7,8 @@ import {useNavigate} from 'react-router-dom';
 export function MenuDashboard(){
 
     const [categories, setCategories] = useState([]);
+    const [selectCategory, setSelectCategory] = useState(0);
+    const [refresh, setRefresh] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() =>{
@@ -15,21 +17,48 @@ export function MenuDashboard(){
         })
         .then((data) => data.json())
         .then((json) => {setCategories(json)})
-    }, [])
+    }, [refresh])
 
     function navigateToNewCategory(){
-        navigate('/newCategory')
+        navigate('../newCategory')
+    }
+    function navigateToEditCategory(event){ 
+        navigate(`../editCategory/${selectCategory}`);
+    }
+    function handleChange(e){
+        setSelectCategory(e.target.value);
+    }
+    function deleteCategory(){
+        fetch(`category/${selectCategory}`, 
+        {
+            method: 'DELETE',
+        })
+        .then((data)=>{
+            if(data.status == 200){
+                alert("Category Delete Successfully!");
+            }
+        })
+        .then(()=>{
+            setRefresh(true);
+        })
     }
 
     return (
         <div>
-            <Form.Select>
+            <Form.Select onChange={handleChange}>
+                <option key={0} >Select a Category</option>
                 {categories?.map((category)=>{
                     return <option key={category.id} value={category.id}>{category.name}</option>
                 })}
             </Form.Select>
-            <Button variant="primary" onClick={navigateToNewCategory}>
+            <Button className='mx-2' variant="primary" onClick={navigateToNewCategory}>
                 New Category
+            </Button>
+            <Button className='mx-2' variant="secondary" onClick={navigateToEditCategory}>
+                Edit Category
+            </Button>
+            <Button className='mx-2' variant="danger" onClick={deleteCategory}>
+                Delete Category
             </Button>
         
         </div>

@@ -1,8 +1,9 @@
+import { Outlet } from "react-router-dom";
 import { MenuDashboard } from "./MenuDashboard";
 
 function AdminDashboard(){
     return (
-        <MenuDashboard />
+        <Outlet />
     )
 }
 export default AdminDashboard;

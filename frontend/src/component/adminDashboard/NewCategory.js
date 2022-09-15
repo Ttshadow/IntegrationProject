@@ -18,21 +18,12 @@ function NewCategory(){
                 'Content-Type': 'application/json'            }, 
         })
         .then((data) => {
-            data.ok = true? navigate('/menuDashboard'):'';
-        })
-        .then((json) => {
-            
-            // if(json.success){
-            //     navigate('/menuDashboard')
-            // }
-            
-        })
-            
+            if(data.status == 200){
+                navigate('../menuDashboard');
+            } 
+        })        
     }
-    
-// useEffect(()=>{
-//     console.log(nameRef.current.value)
-// },[nameRef])
+
     return(
         <div>
             <Form>

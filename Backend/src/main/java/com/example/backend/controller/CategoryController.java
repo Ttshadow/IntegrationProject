@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/category")
+@RequestMapping("/admindashboard/category")
 //@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class CategoryController {
     private final CategoryService categoryService;
@@ -29,6 +29,20 @@ public class CategoryController {
         categoryService.saveOrUpdateCategory(category);
         return ResponseEntity.ok(category);
     }
+    @GetMapping("/{id}")
+    public Category getCategoryById(@PathVariable Long id) throws RecordNotFoundException {
+        return categoryService.getCategoryById(id);
+    }
 
+    @PutMapping("/edit_category")
+    public Category updateCategory(@RequestBody Category category) throws RecordNotFoundException {
+        categoryService.saveOrUpdateCategory(category);
+        return category;
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteCategory(@PathVariable Long id){
+        categoryService.deleteCategoryById(id);
+    }
 }
 
