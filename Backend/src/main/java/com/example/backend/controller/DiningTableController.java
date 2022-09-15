@@ -23,11 +23,14 @@ public class DiningTableController {
     public List<DiningTable> getAllDiningTables(){
         return diningTableService.getAllDiningTables();
     }
-    @PostMapping("/save_dining_table")
-    public List<DiningTable> saveDiningTable(@Valid @ModelAttribute("diningTable") DiningTable newDiningtable, BindingResult result) throws RecordNotFoundException {
-        if(result.hasErrors()){
-            //TODO:
-        }
+    @PutMapping("/updatetable")
+    public List<DiningTable> saveDiningTable(@RequestBody DiningTable newDiningtable) throws RecordNotFoundException {
+        diningTableService.saveOrUpdateDiningTable(newDiningtable);
+        return diningTableService.getAllDiningTables();
+    }
+
+    @PostMapping("/addtable")
+    public List<DiningTable> addDiningTable(@RequestBody DiningTable newDiningtable) throws RecordNotFoundException {
         diningTableService.saveOrUpdateDiningTable(newDiningtable);
         return diningTableService.getAllDiningTables();
     }

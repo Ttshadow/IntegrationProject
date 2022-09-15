@@ -31,8 +31,8 @@ function Table() {
     const saveTable = (event) => {
         event.preventDefault();
         const table = {tableId, tableCapacity, tableStatus, tableName}
-        fetch('save_dining_table', {
-            method: 'POST',
+        fetch('updatetable', {
+            method: 'PUT',
             body: JSON.stringify(table),
             headers: {
                 "Content-type": "application/json; charset=UTF-8", 
