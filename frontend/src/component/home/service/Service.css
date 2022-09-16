@@ -1,0 +1,16 @@
+/* .container-service{
+    height: 250px;
+} */
+
+.happyHourCard{
+    margin-top: 100px;
+}
+
+.coupon{
+    font-size: 1.5rem;
+}
+
+#happyHourImgContainer{
+    background-image: url("../../../../public/images/happyHours.jpeg");
+    background-size: cover;
+}
