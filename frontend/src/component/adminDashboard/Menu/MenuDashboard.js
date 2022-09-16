@@ -9,8 +9,10 @@ export function MenuDashboard(){
     const [selectCategory, setSelectCategory] = useState(0);
     const [refresh, setRefresh] = useState(false);
     const [menus, setMenus] = useState([]);
+    const [status, setStatus] = useState('');
     const navigate = useNavigate();
 
+    //fetch to get all the catogires from the db.
     useEffect(() =>{
         fetch('category', {
             method: 'GET',
@@ -19,13 +21,21 @@ export function MenuDashboard(){
         .then((json) => {setCategories(json)})
     }, [refresh])
 
+    //fetch menu depending on the category, or fetch all menus.
     useEffect(()=>{
-        fetch('menu', {
+        let url = '';
+        if (selectCategory == 0){
+            url = 'menu'
+        }
+        else{
+            url = `menu/category/${selectCategory}`
+        }
+        fetch(url, {
             method: 'GET',
         })
         .then((data) => data.json())
         .then((json) => {setMenus(json)})
-    },[refresh])
+    },[refresh, selectCategory])
 
     function navigateToNewCategory(){
         navigate('../newCategory')
@@ -33,10 +43,12 @@ export function MenuDashboard(){
     function navigateToEditCategory(event){ 
         navigate(`../editCategory/${selectCategory}`);
     }
+
+    // user select different category.
     function handleChange(e){
-        console.log(e.target.value)
         setSelectCategory(e.target.value);
     }
+
     function deleteCategory(){
         fetch(`category/${selectCategory}`, 
         {
@@ -75,19 +87,36 @@ export function MenuDashboard(){
         navigate(`../editMenu/${menu.id}`)
     }
 
+
     useEffect(()=>{
         setRefresh(false)
     },[menus, categories])
 
-    function changeStatus(){
-        
+    // handle on change for menu status.
+    function selectStatus(e){
+        setStatus(e.target.value);
+    }
+    // change menu status
+    function changeStatus(id){
+        fetch(`menu/status/${id}`, {
+            method: 'PUT',
+            body: status,
+            headers: {
+            "Content-type": "application/json; charset=UTF-8",
+            },
+        })
+        .then((data)=>{
+            if(data.status == 200){
+                alert("Dish Status Update Successfully!");
+            }
+        })
     }
     
     return (
         <>
         <div>
             <Form.Select onChange={handleChange}>
-                <option key={0} >Select a Category</option>
+                <option value={0} >Select a Category</option>
                 {categories?.map((category)=>{
                     return <option key={category.id} value={category.id}>{category.name}</option>
                 })}
@@ -128,22 +157,26 @@ export function MenuDashboard(){
                             <td>{menu.description}</td>
                             <td>{menu.price}</td>
                             <td>
-                            <Form.Select size='sm' defaultValue={menu.status}>
-                                <option>Available</option>     
-                                <option>SoldOut</option>              
-                            </Form.Select>
-                            <Button variant='outline-primary' className='btn-sm ms-auto mt-1' onClick={changeStatus}>Change Status</Button></td>
+                                <div className='row'>
+                                    <div className='col-6'>
+                                        <Form.Select size='sm' defaultValue={menu.status} onChange={selectStatus} >
+                                            <option>Available</option>     
+                                            <option>SoldOut</option>              
+                                        </Form.Select>
+                                    </div>
+                                    <div className='col-6'>
+                                        <Button variant='outline-primary' className='btn-sm' onClick={()=>changeStatus(menu.id)}>Change Status</Button>
+                                    </div>
+                                </div>
+                                </td>
                             <td>{menu.category.name}</td>
-                            <td><Button onClick={()=>handleShow(menu)} className='mx-2'>Edit</Button>
-                            <Button className='mx-2' onClick={()=>deleteMenu(menu.id)}>Delete</Button></td>
+                            <td><Button variant='outline-secondary' onClick={()=>handleShow(menu)} className='mx-2 btn-sm'>Edit</Button>
+                            <Button className='mx-2 btn-sm' variant='outline-danger' onClick={()=>deleteMenu(menu.id)}>Delete</Button></td>
                         </tr>
                     })
                 }
             </tbody>
         </Table>
-        <div>
-            {/* <EditMenuModal show={showModal} onHide={() => setShowModal(false)} selectMenu={selectMenu} ></EditMenuModal> */}
-        </div>
         </div>
         </>
         

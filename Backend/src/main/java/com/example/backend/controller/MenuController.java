@@ -43,4 +43,14 @@ public class MenuController {
     public void deleteMenuById(@PathVariable Long id){
         menuService.deleteMenuById(id);
     }
+
+    @PutMapping("/status/{id}")
+    public void updateMenuStatus(@PathVariable Long id, @RequestBody String newStatus) throws RecordNotFoundException {
+        menuService.changeMenuStatus(id, newStatus);
+    }
+
+    @GetMapping("/category/{id}")
+    public List<Menu> getMenuByCategoryId(@PathVariable Long id){
+        return menuService.getMenuByCategory(id);
+    }
 }
