@@ -1,13 +1,13 @@
 package com.example.backend.service;
 
 import com.example.backend.entity.Order;
-import com.example.backend.entity.OrderItems;
 import com.example.backend.exception.RecordNotFoundException;
 import com.example.backend.repository.OrderItemRepository;
 import com.example.backend.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,10 +15,11 @@ import java.util.Optional;
 public class OrderService {
     @Autowired
     private OrderRepository orderRepository;
+    @Autowired
+    private OrderItemRepository orderItemRepository;
 
     public List<Order> getAllOrder(){
         List<Order> orders = orderRepository.findAll();
-        System.out.println(orders);
         return orders;
     }
     public Order getOrderById(Long id) throws RecordNotFoundException {

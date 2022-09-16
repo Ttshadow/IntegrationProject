@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/order")
+@RequestMapping("/dashboard")
 public class OrderController {
     @Autowired
     private OrderService orderService;
 
-    @GetMapping
+    @GetMapping("/orders")
     public ResponseEntity<List<Order>> getAllOrders(){
         try {
             return new ResponseEntity<>(orderService.getAllOrder(), HttpStatus.OK);

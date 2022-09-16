@@ -17,8 +17,9 @@ public class User extends IdBaseEntity{
     private String lastName;
     private String image;
     private String password;
-    @ManyToOne(fetch = FetchType.LAZY,optional = false)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "role_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Role role;
+
 }

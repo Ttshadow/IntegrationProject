@@ -18,9 +18,9 @@ function App() {
             <Route path="/reservation" element={<Reservation />}></Route>
             <Route path="/shoppingcart" element={<ShoppingCart />}></Route> */}
           </Route>
-          {/* <Route path="/admindashboard" element={<AdminDashboard />}></Route>
-          <Route path="/userdashboard" element={<UserDashboard />}></Route>
+          {/* <Route path="/userdashboard" element={<UserDashboard />}></Route>
           <Route path="*" element={<Navigate to="/" />} /> */}
+          <Route path="/admindashboard" element={<AdminDashboard />}></Route>
         </Routes>
   );
 }
