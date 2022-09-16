@@ -16,7 +16,7 @@ public class Menu extends IdBaseEntity{
     private String image;
     private String status;
     private Double price;
-    @ManyToOne(fetch = FetchType.LAZY,optional = false)
+    @ManyToOne
     @JoinColumn(name = "category_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Category category;

@@ -4,6 +4,7 @@ import AdminDashboard from "./component/adminDashboard/AdminDashboard";
 import NewCategory from "./component/adminDashboard/NewCategory";
 import { MenuDashboard } from "./component/adminDashboard/MenuDashboard";
 import { EditCategory } from "./component/adminDashboard/EditCategory";
+import { EditMenu } from "./component/adminDashboard/EditMenu";
 
 
 // import UserDashboard from "./component/userDashboard/UserDashboard";
@@ -32,7 +33,7 @@ function App() {
             <Route path="menuDashboard" element={<MenuDashboard />}/>
             <Route path="newCategory" element={<NewCategory />}/>
             <Route path="editCategory/:id" element={<EditCategory />}/>
-
+            <Route path="editMenu/:id" element={<EditMenu />}/>
           </Route>
           {/* <Route path="/userdashboard" element={<UserDashboard />}></Route> */}
           {/* <Route path="*" element={<Navigate to="/" />} /> */}
