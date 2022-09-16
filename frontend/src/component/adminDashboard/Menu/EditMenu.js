@@ -2,12 +2,13 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
+import { options, UseFetchCategories } from './UseFetchCategories';
 
 export function EditMenu(){
     const {id} = useParams();
     const [menu, setMenu] = useState({});
-    const [categories, setCategories] = useState([]);
-    const [categoryId, setCategoryId] = useState();
+    // const [categories, setCategories] = useState([]);
+    const [categoryId, setCategoryId] = useState(menu.category?.id);
     const nameRef = useRef();
     const descriptionRef = useRef();
     const imageRef = useRef();
@@ -23,6 +24,7 @@ export function EditMenu(){
                 name: nameRef.current.value,
                 description: descriptionRef.current.value,
                 price: priceRef.current.value,
+                status: menu.status,
                 category: 
                 {
                     id: categoryId,
@@ -46,20 +48,25 @@ export function EditMenu(){
       .then((json) => {setMenu(json)})
     }, [])
 
-    useEffect(() =>{
-        fetch('../category', {
-            method: 'GET',
-        })
-        .then((data) => data.json())
-        .then((json) => {setCategories(json)})
-    }, [])
+    // useEffect(() =>{
+    //     fetch('../category', {
+    //         method: 'GET',
+    //     })
+    //     .then((data) => data.json())
+    //     .then((json) => {setCategories(json)})
+    // }, [])
+    const categories = UseFetchCategories('../category', options);
+    
+    useEffect(()=>{
+        setCategoryId(menu.category?.id);
+    },[menu])
 
     return (
         <div>
             <Form onSubmit={saveMenu}>
                 <Form.Group className="mb-3" >
                     <Form.Label >ID</Form.Label>
-                    <Form.Control type="text" value={menu.id} disabled/>
+                    <Form.Control type="text" defaultValue={menu.id} disabled/>
                 </Form.Group>
                 <Form.Group className="mb-3" >
                 <Form.Label >Name</Form.Label>
@@ -74,10 +81,10 @@ export function EditMenu(){
                 <Form.Control type="text" defaultValue={menu.price} ref={priceRef}/>
                 </Form.Group>
                 <Form.Select onChange={handleChange}>
-                {categories?.map((category)=>{
-                    return <option key={category.id} value={category.id}>{category.name}</option>
-                })}
-            </Form.Select>
+                    {categories?.map((category)=>{
+                        return <option key={category.id} selected={category.id === menu.category?.id} value={category.id} >{category.name}</option>
+                    })}
+                </Form.Select>
                 <Button type="submit" variant="warning" className="mt-3 mb-3">Save</Button>
             </Form>
         </div>

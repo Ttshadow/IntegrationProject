@@ -1,10 +1,11 @@
 import React, { useContext, useState } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import AdminDashboard from "./component/adminDashboard/AdminDashboard";
-import NewCategory from "./component/adminDashboard/NewCategory";
-import { MenuDashboard } from "./component/adminDashboard/MenuDashboard";
-import { EditCategory } from "./component/adminDashboard/EditCategory";
-import { EditMenu } from "./component/adminDashboard/EditMenu";
+import NewCategory from "./component/adminDashboard/Menu/NewCategory";
+import { MenuDashboard } from "./component/adminDashboard/Menu/MenuDashboard";
+import { EditCategory } from "./component/adminDashboard/Menu/EditCategory";
+import { EditMenu } from "./component/adminDashboard/Menu/EditMenu";
+import NewMenu from "./component/adminDashboard/Menu/NewMenu";
 
 
 // import UserDashboard from "./component/userDashboard/UserDashboard";
@@ -34,6 +35,7 @@ function App() {
             <Route path="newCategory" element={<NewCategory />}/>
             <Route path="editCategory/:id" element={<EditCategory />}/>
             <Route path="editMenu/:id" element={<EditMenu />}/>
+            <Route path="newMenu" element={<NewMenu />}/>
           </Route>
           {/* <Route path="/userdashboard" element={<UserDashboard />}></Route> */}
           {/* <Route path="*" element={<Navigate to="/" />} /> */}

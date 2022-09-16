@@ -8,10 +8,8 @@ export function MenuDashboard(){
     const [categories, setCategories] = useState([]);
     const [selectCategory, setSelectCategory] = useState(0);
     const [refresh, setRefresh] = useState(false);
-    const [selectMenu, setSelectMenu] = useState();
     const [menus, setMenus] = useState([]);
     const navigate = useNavigate();
-    const [showModal, setShowModal] = useState(false);
 
     useEffect(() =>{
         fetch('category', {
@@ -27,7 +25,7 @@ export function MenuDashboard(){
         })
         .then((data) => data.json())
         .then((json) => {setMenus(json)})
-    },[])
+    },[refresh])
 
     function navigateToNewCategory(){
         navigate('../newCategory')
@@ -53,12 +51,38 @@ export function MenuDashboard(){
             setRefresh(true);
         })
     }
+
+    function deleteMenu(id){
+        fetch(`menu/${id}`, {
+            method: 'DELETE',
+        })
+        .then((data)=>{
+            if(data.status == 200){
+                alert("Dish Delete Successfully!");
+            }
+        })
+        .then(()=>{
+            setRefresh(true);
+        })
+        
+    }
+
+    function navigateToNewMenu(){
+        navigate('../newMenu');
+    }
+
     function handleShow(menu){
-        setSelectMenu(menu);
-        setShowModal(true);
         navigate(`../editMenu/${menu.id}`)
     }
 
+    useEffect(()=>{
+        setRefresh(false)
+    },[menus, categories])
+
+    function changeStatus(){
+        
+    }
+    
     return (
         <>
         <div>
@@ -69,16 +93,19 @@ export function MenuDashboard(){
                 })}
             </Form.Select>
             <div className='my-3'>
-            <Button className='mx-2' variant="primary" onClick={navigateToNewCategory}>
-                New Category
-            </Button>
-            <Button className='mx-2' variant="secondary" onClick={navigateToEditCategory}>
-                Edit Category
-            </Button>
-            <Button className='mx-2' variant="danger" onClick={deleteCategory}>
-                Delete Category
-            </Button>
-        </div>
+                <Button className='mx-2' variant="primary" onClick={navigateToNewCategory}>
+                    New Category
+                </Button>
+                <Button className='mx-2' variant="secondary" onClick={navigateToEditCategory}>
+                    Edit Category
+                </Button>
+                <Button className='mx-2' variant="danger" onClick={deleteCategory}>
+                    Delete Category
+                </Button>
+                <Button className='mx-2' variant="info text-light" onClick={navigateToNewMenu}>
+                    New Dish
+                </Button>
+            </div>
             
         </div>
         <div>
@@ -100,9 +127,15 @@ export function MenuDashboard(){
                             <td>{menu.name}</td>
                             <td>{menu.description}</td>
                             <td>{menu.price}</td>
-                            <td>{menu.status}</td>
+                            <td>
+                            <Form.Select size='sm' defaultValue={menu.status}>
+                                <option>Available</option>     
+                                <option>SoldOut</option>              
+                            </Form.Select>
+                            <Button variant='outline-primary' className='btn-sm ms-auto mt-1' onClick={changeStatus}>Change Status</Button></td>
                             <td>{menu.category.name}</td>
-                            <td><Button onClick={()=>handleShow(menu)} className='mx-2'>Edit</Button><Button className='mx-2'>Delete</Button></td>
+                            <td><Button onClick={()=>handleShow(menu)} className='mx-2'>Edit</Button>
+                            <Button className='mx-2' onClick={()=>deleteMenu(menu.id)}>Delete</Button></td>
                         </tr>
                     })
                 }

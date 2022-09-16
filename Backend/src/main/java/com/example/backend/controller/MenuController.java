@@ -3,6 +3,7 @@ package com.example.backend.controller;
 import com.example.backend.entity.Menu;
 import com.example.backend.exception.RecordNotFoundException;
 import com.example.backend.service.MenuService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,10 +26,21 @@ public class MenuController {
         return menuService.getMenuById(id);
     }
 
+    @PostMapping("/add_menu")
+    public ResponseEntity addMenu(@RequestBody Menu menu) throws RecordNotFoundException {
+        menuService.saveOrUpdateMenu(menu);
+        return ResponseEntity.ok(menu);
+    }
+
     @PutMapping("/edit_menu")
     public Menu updateMenu(@RequestBody Menu menu) throws RecordNotFoundException {
 
-        menuService.saveOrUpdateMenu(menu, menu.getCategory());
+        menuService.saveOrUpdateMenu(menu);
         return menu;
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteMenuById(@PathVariable Long id){
+        menuService.deleteMenuById(id);
     }
 }
