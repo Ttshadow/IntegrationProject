@@ -87,7 +87,7 @@ function NewMenu(){
                 </Form.Group>
                 <Form.Group className="mb-3" >
                     <Form.Label >Image</Form.Label>
-                    <Form.Control type="file" ref={imageRef}/>
+                    <Form.Control type="file" onChange={(event)=>{}}/>
                 </Form.Group>
                 <Button type="submit" variant="warning" className="mt-3 mb-3" onClick={saveMenu}>Save</Button>
             </Form>

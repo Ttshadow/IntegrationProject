@@ -25,6 +25,7 @@ export function EditMenu(){
                 description: descriptionRef.current.value,
                 price: priceRef.current.value,
                 status: menu.status,
+                image: imageRef.current.value,
                 category: 
                 {
                     id: categoryId,
@@ -65,26 +66,31 @@ export function EditMenu(){
         <div>
             <Form onSubmit={saveMenu}>
                 <Form.Group className="mb-3" >
-                    <Form.Label >ID</Form.Label>
+                    <Form.Label >ID:</Form.Label>
                     <Form.Control type="text" defaultValue={menu.id} disabled/>
                 </Form.Group>
                 <Form.Group className="mb-3" >
-                <Form.Label >Name</Form.Label>
+                <Form.Label >Name:</Form.Label>
                 <Form.Control type="text" defaultValue={menu.name} ref={nameRef}/>
                 </Form.Group>
                 <Form.Group className="mb-3" >
-                <Form.Label >Description</Form.Label>
+                <Form.Label >Description:</Form.Label>
                 <Form.Control type="text" defaultValue={menu.description} ref={descriptionRef}/>
                 </Form.Group>
                 <Form.Group className="mb-3" >
-                <Form.Label >Price</Form.Label>
+                <Form.Label >Price:</Form.Label>
                 <Form.Control type="text" defaultValue={menu.price} ref={priceRef}/>
                 </Form.Group>
+                <Form.Label >Category:</Form.Label>
                 <Form.Select onChange={handleChange}>
                     {categories?.map((category)=>{
                         return <option key={category.id} selected={category.id === menu.category?.id} value={category.id} >{category.name}</option>
                     })}
                 </Form.Select>
+                <Form.Group className="mb-3" >
+                    <Form.Label >Image</Form.Label>
+                    <Form.Control type="file" ref={imageRef}/>
+                </Form.Group>
                 <Button type="submit" variant="warning" className="mt-3 mb-3">Save</Button>
             </Form>
         </div>
