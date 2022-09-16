@@ -1,15 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Modal from "react-bootstrap/Modal";
 import { Button } from "react-bootstrap";
 
-function OrderModal({ order }) {
+function OrderModal({ order, setOrderStatus }) {
     const [show, setShow] = useState(false);
     const handleShow = () => setShow(true);
     const handleClose = () => setShow(false);
+    const orderNumberRef = useRef();
+    const orderStatusRef = useRef();
     const submitHandler = (e) => {
         e.preventDefault()
+        fetch(`/dashboard/orders/${orderNumberRef.current.value}/${orderStatusRef.current.value}`,{
+            method:'PATCH',
+        }).then(data => data.json()).then(order => { 
+            setShow(false)
+            setOrderStatus(order.status)
+        })
     }
-    const statusArr = ['Preparing', 'Served', 'Paid']
+    const statusArr = ['Placed', 'Served', 'Paid']
     return (
         <div>
             <Button onClick={() => { handleShow() }}>Edit Status</Button>
@@ -17,11 +25,11 @@ function OrderModal({ order }) {
                 <Modal.Body>
                     <form>
                         <label htmlFor="orderNumber" className="form-label">Order Number</label>
-                        <input type="text" value={order.id} disabled id="orderNumber" className="form-control"></input>
+                        <input type="text" value={order.id} disabled id="orderNumber" className="form-control" ref={orderNumberRef}></input>
                         <label htmlFor="orderStatus" className="form-label">Order Status</label>
-                        <select name="OrderStatus" id="orderStatus" className="form-select" defaultValue={order.status}>
+                        <select id="orderStatus" className="form-select" defaultValue={order.status} ref={orderStatusRef}>
                             {statusArr.map((status, key) => {
-                                return <option valuealue={status} key={key}>{status}</option>
+                                return <option value={status} key={key}>{status}</option>
                             })}
                         </select>
                         <label htmlFor="orderDetails" className="form-label">Order Details</label>

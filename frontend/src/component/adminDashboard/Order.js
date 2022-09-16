@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import OrderModal from "./OrderModal";
+import './Order.css'
 
 export default function Order() {
     const [orders, setOrders] = useState([]);
+    const [orderStatus,setOrderStatus] = useState('');
     useEffect(() => {
         fetch('dashboard/orders', {
             method: "GET"
         }).then(data => data.json()).then(json => { 
+            json.reverse()
             console.log(json)
             json.map((order)=>{
                 let arr = order.date.split("T")
@@ -17,15 +20,15 @@ export default function Order() {
             })
             setOrders(json)
         })
-    }, [])
+    }, [orderStatus])
 
     return (
         <div>
-            <table className="table table-striped">
+            <table className="content-table">
                 <thead>
                     <tr>
-                        <th>Order Number</th>
-                        <th>Table Number</th>
+                        <th>Order</th>
+                        <th>Table</th>
                         <th>Order Details</th>
                         <th>Order at</th>
                         <th>Status</th>
@@ -46,7 +49,7 @@ export default function Order() {
                             <td>{order.status}</td>
                             <td>{order.promotion.code}</td>
                             <td>
-                                <OrderModal order={order}></OrderModal>
+                                <OrderModal order={order} setOrderStatus={setOrderStatus}></OrderModal>
                             </td>
                         </tr>)
                     })}

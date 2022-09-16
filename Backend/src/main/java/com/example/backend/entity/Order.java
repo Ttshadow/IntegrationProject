@@ -14,6 +14,10 @@ import java.util.List;
 @Data
 public class Order extends IdBaseEntity{
     private boolean takeout;
+    private String status;
+    private Double totalPrice;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date date;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "dining_table_id")
@@ -25,17 +29,10 @@ public class Order extends IdBaseEntity{
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 
-    private String status;
-
     @ManyToOne(optional = false)
     @JoinColumn(name = "promotion_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Promotion promotion;
-
-    private Double totalPrice;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date date;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL,mappedBy = "order")
     @JsonManagedReference
