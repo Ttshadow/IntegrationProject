@@ -9,17 +9,18 @@ function NewMenu(){
 
     const nameRef = useRef();
     const descriptionRef = useRef();
-    const imageRef = useRef();
+    const [selectImage, setSelectImage] = useState('');
     const priceRef = useRef();
     const statusRef = useRef();
     const [categoryId, setCategoryId] = useState(0);
+    let imageSrc = '';
+    
     const navigate = useNavigate();
 
-    function saveMenu(e){
+    const saveMenu = async (e) => {
         e.preventDefault();
-        // console.log(categoryRef.current.value);
-
-        fetch('menu/add_menu',{
+        await uploadImage();
+        await fetch('menu/add_menu',{
             method: 'POST',
             body: JSON.stringify({    
                 name: nameRef.current.value,
@@ -29,7 +30,7 @@ function NewMenu(){
                 {
                     id: categoryId,
                 },
-                image: imageRef.current.value,
+                image: imageSrc,
                 status: statusRef.current.value
 
            }),
@@ -49,13 +50,25 @@ function NewMenu(){
         setCategoryId(e.target.value);
     }
 
-
+    async function uploadImage(){
+        const formData = new FormData();
+        formData.append("file", selectImage);
+        formData.append("upload_preset", "ql5cmmn8")
+        await fetch('https://api.cloudinary.com/v1_1/ddz01pm2r/image/upload',{
+            method: 'POST',
+            body: formData
+        })
+        .then(response=>response.json())
+        .then((json)=>{
+            imageSrc = json.secure_url;
+        })
+    }
     return (
         <div>
             <Form>
-                <Form.Group className="mb-3" >
+                <Form.Group className="mb-3" hidden>
                     <Form.Label >ID</Form.Label>
-                    <Form.Control type="text"  disabled/>
+                    <Form.Control type="text" />
                 </Form.Group>
                 <Form.Group className="mb-3" >
                     <Form.Label >Name</Form.Label>
@@ -87,7 +100,7 @@ function NewMenu(){
                 </Form.Group>
                 <Form.Group className="mb-3" >
                     <Form.Label >Image</Form.Label>
-                    <Form.Control type="file" onChange={(event)=>{}}/>
+                    <Form.Control type="file" onChange={(event)=>{setSelectImage(event.target.files[0])}}/>
                 </Form.Group>
                 <Button type="submit" variant="warning" className="mt-3 mb-3" onClick={saveMenu}>Save</Button>
             </Form>

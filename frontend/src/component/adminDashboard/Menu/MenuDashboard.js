@@ -3,6 +3,7 @@ import { Button, Table } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import {useNavigate} from 'react-router-dom';
 
+export const cloudName = "ddz01pm2r";
 export function MenuDashboard(){
 
     const [categories, setCategories] = useState([]);
@@ -141,6 +142,7 @@ export function MenuDashboard(){
         <Table striped bordered hover>
             <thead>
                 <tr>
+                    <th>Image</th>
                     <th>Dish</th>
                     <th>Description</th>
                     <th>Price</th>
@@ -153,6 +155,7 @@ export function MenuDashboard(){
                 {
                     menus?.map((menu)=>{
                         return <tr key={menu.id}>
+                            <td><img alt='' src={menu.image} width="100"></img></td>
                             <td>{menu.name}</td>
                             <td>{menu.description}</td>
                             <td>{menu.price}</td>
