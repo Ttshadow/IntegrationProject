@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Button, Form } from "react-bootstrap"
 import { useNavigate } from "react-router-dom";
 import { options, UseFetchCategories } from "./UseFetchCategories";
@@ -65,6 +65,8 @@ function NewMenu(){
     }
     return (
         <div>
+            <h2>Add A New Dish</h2>
+            <hr/>
             <Form>
                 <Form.Group className="mb-3" hidden>
                     <Form.Label >ID</Form.Label>

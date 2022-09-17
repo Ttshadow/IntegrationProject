@@ -35,18 +35,19 @@ export function EditCategory(){
       .then((json) => {setCategory(json)})
     }, [])
 
-    
 
     return (
-        <div>
+        <div className='col-6'>
+          <h2>Edit A Category</h2>
+          <hr></hr>
             <Form onSubmit={saveCategory}>
                 <Form.Group className="mb-3" >
                     <Form.Label >ID</Form.Label>
                     <Form.Control type="text" value={category.id} disabled/>
                 </Form.Group>
                 <Form.Group className="mb-3" >
-                <Form.Label >Name</Form.Label>
-                <Form.Control type="text" defaultValue={category.name} ref={categoryNameRef}/>
+                  <Form.Label >Name</Form.Label>
+                  <Form.Control type="text" defaultValue={category.name} ref={categoryNameRef}/>
                 </Form.Group>
                 <Button type="submit" variant="warning" className="mt-3 mb-3">Save</Button>
             </Form>

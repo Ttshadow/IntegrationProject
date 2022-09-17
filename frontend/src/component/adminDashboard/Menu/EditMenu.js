@@ -11,13 +11,18 @@ export function EditMenu(){
     const [categoryId, setCategoryId] = useState(menu.category?.id);
     const nameRef = useRef();
     const descriptionRef = useRef();
-    const imageRef = useRef();
+    const [selectImage, setSelectImage] = useState('');
     const priceRef = useRef();
+    const [imageChange, setImageChange] = useState(false);
     const navigate = useNavigate();
+    let imageSrc = menu.image;
 
-    function saveMenu(e){
+    async function saveMenu(e){
         e.preventDefault();
-        fetch('../menu/edit_menu',{
+        if (imageChange){
+            await uploadImage();
+        }
+        await fetch('../menu/edit_menu',{
             method:'PUT',
             body: JSON.stringify({
                 id : id,
@@ -25,7 +30,7 @@ export function EditMenu(){
                 description: descriptionRef.current.value,
                 price: priceRef.current.value,
                 status: menu.status,
-                image: imageRef.current.value,
+                image: imageSrc,
                 category: 
                 {
                     id: categoryId,
@@ -38,6 +43,21 @@ export function EditMenu(){
               .then((data) => data.json())
               .then(navigate('../menuDashboard'))
     }
+
+    async function uploadImage(e){
+        const formData = new FormData();
+        formData.append("file", selectImage);
+        formData.append("upload_preset", "ql5cmmn8")
+        await fetch('https://api.cloudinary.com/v1_1/ddz01pm2r/image/upload',{
+            method: 'POST',
+            body: formData
+        })
+        .then(response=>response.json())
+        .then((json)=>{
+            imageSrc = json.secure_url;
+        })
+    }
+
     function handleChange(e){
         setCategoryId(e.target.value);
     }
@@ -46,7 +66,9 @@ export function EditMenu(){
         method:'GET'
       })
       .then((data) => data.json())
-      .then((json) => {setMenu(json)})
+      .then((json) => {
+        setMenu(json);
+    })
     }, [])
 
     // useEffect(() =>{
@@ -64,6 +86,8 @@ export function EditMenu(){
 
     return (
         <div>
+            <h2>Edit A Dish</h2>
+            <hr />
             <Form onSubmit={saveMenu}>
                 <Form.Group className="mb-3" >
                     <Form.Label >ID:</Form.Label>
@@ -89,7 +113,10 @@ export function EditMenu(){
                 </Form.Select>
                 <Form.Group className="mb-3" >
                     <Form.Label >Image</Form.Label>
-                    <Form.Control type="file" ref={imageRef}/>
+                    <div>
+                    <img src={menu.image} width="100" alt='' />
+                    </div>
+                    <Form.Control type="file" defaultValue={menu.image} onChange={(e)=>{setSelectImage(e.target.files[0]); setImageChange(true)}}/>
                 </Form.Group>
                 <Button type="submit" variant="warning" className="mt-3 mb-3">Save</Button>
             </Form>

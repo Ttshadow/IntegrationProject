@@ -25,7 +25,11 @@ function NewCategory(){
     }
 
     return(
-        <div>
+        <div className='col-6'>
+            <div >
+            <h2>Add A New Category</h2>
+            <hr/>
+            </div>
             <Form>
             <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Category Name</Form.Label>
@@ -33,7 +37,7 @@ function NewCategory(){
                 <Form.Text className="text-muted">
                 </Form.Text>
             </Form.Group>
-            <Button variant="primary" type="submit" onClick={addCategory}>
+            <Button variant="warning" type="submit" onClick={addCategory}>
                 Submit
             </Button>
             </Form>

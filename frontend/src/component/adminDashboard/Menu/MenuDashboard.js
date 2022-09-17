@@ -122,18 +122,18 @@ export function MenuDashboard(){
                     return <option key={category.id} value={category.id}>{category.name}</option>
                 })}
             </Form.Select>
-            <div className='my-3'>
-                <Button className='mx-2' variant="primary" onClick={navigateToNewCategory}>
+            <div className='my-3 d-flex'>
+                <Button className='mx-2' variant="outline-primary" onClick={navigateToNewCategory}>
                     New Category
                 </Button>
-                <Button className='mx-2' variant="secondary" onClick={navigateToEditCategory}>
+                <Button className='mx-2' variant="outline-secondary" onClick={navigateToEditCategory}>
                     Edit Category
                 </Button>
-                <Button className='mx-2' variant="danger" onClick={deleteCategory}>
+                <Button className='mx-2' variant="outline-danger" onClick={deleteCategory}>
                     Delete Category
                 </Button>
-                <Button className='mx-2' variant="info text-light" onClick={navigateToNewMenu}>
-                    New Dish
+                <Button className='mx-2' variant="info text-light ms-auto" onClick={navigateToNewMenu}>
+                    Add A New Dish
                 </Button>
             </div>
             
@@ -155,26 +155,26 @@ export function MenuDashboard(){
                 {
                     menus?.map((menu)=>{
                         return <tr key={menu.id}>
-                            <td><img alt='' src={menu.image} width="100"></img></td>
+                            <td><img alt='' src={menu.image} width="90"></img></td>
                             <td>{menu.name}</td>
                             <td>{menu.description}</td>
                             <td>{menu.price}</td>
                             <td>
                                 <div className='row'>
-                                    <div className='col-6'>
+                                    <div className='col-7'>
                                         <Form.Select size='sm' defaultValue={menu.status} onChange={selectStatus} >
                                             <option>Available</option>     
                                             <option>SoldOut</option>              
                                         </Form.Select>
                                     </div>
-                                    <div className='col-6'>
-                                        <Button variant='outline-primary' className='btn-sm' onClick={()=>changeStatus(menu.id)}>Change Status</Button>
+                                    <div className='col-5'>
+                                        <Button variant='outline-primary' className='btn-sm' onClick={()=>changeStatus(menu.id)}>Update</Button>
                                     </div>
                                 </div>
                                 </td>
                             <td>{menu.category.name}</td>
-                            <td><Button variant='outline-secondary' onClick={()=>handleShow(menu)} className='mx-2 btn-sm'>Edit</Button>
-                            <Button className='mx-2 btn-sm' variant='outline-danger' onClick={()=>deleteMenu(menu.id)}>Delete</Button></td>
+                            <td><Button variant='outline-secondary' onClick={()=>handleShow(menu)} className='me-1 btn-sm'>Edit</Button>
+                            <Button className='btn-sm' variant='outline-danger' onClick={()=>deleteMenu(menu.id)}>Delete</Button></td>
                         </tr>
                     })
                 }
