@@ -5,7 +5,6 @@ import { MenuCardGroup } from "./MenuCardGroup";
 
 export function UserMenu(){
     const categories = UseFetchCategories('../admindashboard/category', options);
-
     const [key, setKey] = useState();
     return (
         <div>
@@ -20,7 +19,7 @@ export function UserMenu(){
                     </Tab>
                     {categories?.map((category)=>{
                     return (
-                    <Tab eventKey={category.id} title={category.name}>
+                    <Tab eventKey={category.id} title={category.name} key={category.id}>
                         <MenuCardGroup selectCategory = {category.id} />
                     </Tab>
                     )

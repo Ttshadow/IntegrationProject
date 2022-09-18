@@ -1,3 +1,4 @@
+import React from "react";
 import { useEffect, useRef, useState } from "react";
 import { Button, Card, CardGroup, Col, Form, Row } from "react-bootstrap";
 
@@ -19,29 +20,32 @@ export function MenuCardGroup(props){
             method: 'GET',
         })
         .then((data) => data.json())
-        .then((json) => {console.log(json);setMenus(json)})
+        .then((json) => {setMenus(json)})
     },[])
 
+    function addToCart(){
+
+    }
     return (
-        <Row xs={1} md={5} className="g-4">
-                
-            {
-                menus?.map((menu)=>{
-                    return <Col>
-                    <Card key={menu.id} className="h-100">
-                    <Card.Img src={menu.image} width="100"/>
-                    <Card.Body>
-                        <Card.Title>{menu.name}</Card.Title>
-                    </Card.Body>
-                    <Card.Footer className="d-flex">
-                        <Form.Control className="ms-auto me-1" type="number" defaultValue={0} ref={quantityRef}></Form.Control>
-                        <Button className="btn-sm" variant="outline-primary">Add</Button>
-                    </Card.Footer>
-                    </Card>
-                    </Col>     
-                })
-            }
-        </Row>
-    )
+    <Row xs={1} md={3} className="g-4">
+    {
+        menus?.map((menu)=>{
+            return <Col key={menu.id} >
+            <Card className= "h-100 w-75">
+            <Card.Body>
+                <Card.Title>{menu.name}</Card.Title>
+                <Card.Img src={menu.image} className=""/>
+            </Card.Body>
+            <Card.Footer className="d-flex">
+                <Form.Control size="sm" className="ms-auto me-1" type="number" defaultValue={1} ref={quantityRef}></Form.Control>
+                {sessionStorage.getItem("isTakeout") == 'true'? <Card.Text className="mx-2">${menu.price}</Card.Text>: ``}
+                <Button className="btn-sm" variant="outline-primary" onClick={addToCart}>Add</Button>
+            </Card.Footer>
+            </Card>
+            </Col>     
+        })
+    }
     
-}
+        </Row>
+        )}
+ 
