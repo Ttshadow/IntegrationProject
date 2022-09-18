@@ -31,7 +31,7 @@ export function TakeoutOrDinein(){
                     <Button className="btn btn-dark btn-lg col-5" onClick={selectTakeout}>TAKE-OUT</Button>
                 </div>
             
-                <Modal
+                {/* <Modal
                     size="md"
                     aria-labelledby="contained-modal-title-vcenter"
                     centered
@@ -54,7 +54,7 @@ export function TakeoutOrDinein(){
                     <Button variant="warning" onClick={handleClose}>Yes</Button>
                     <Button variant="warning" onClick={handleClose}>No</Button>
                     </Modal.Footer>
-                </Modal>
+                </Modal> */}
         </div>
         
     )
