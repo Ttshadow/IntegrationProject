@@ -1,31 +1,83 @@
 import React from 'react'
 import "./Testimonials.css"
+import Slider from 'react-slick'
+import 'slick-carousel/slick/slick.css'; 
+import 'slick-carousel/slick/slick-theme.css';
+
 
 function Testimonials() {
+  const settings = {
+    dots: true,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 3,
+    initialSlide: 0,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          infinite: true,
+          dots: true
+        }
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          initialSlide: 2
+        }
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1
+        }
+      }
+    ]
+  };
+
+
   return (
     <>
-      <section className="section-testimonials mt-0">
-        <div className='pt-5'><h2 className='pt-4'>Our customers can't live without us</h2></div>
-        <div className="flexbox-3">
+    <div className="section-testimonials mt-0">
+    <div className='pt-5'><h2 className='pt-4'>Our customers can't live without us</h2></div>
+    <Slider {...settings} >
+    <section>
             <div className="testimonials">
                 <blockquote>YUKI is just awesome! I just launched a startup which leaves me with no time for cooking, so YUKI is a life-saver. Now that I got used to it, I couldn't live without my daily meals!
-                    <cite><img src=""/> &mdash; Alberto Duncan</cite>
+                    <cite> &mdash; Alberto Duncan</cite>
                 </blockquote>
             </div>
             
-            <div className="testimonials">
-                <blockquote>Inexpensive, healthy and great-tasting meals. We have lots of food delivery here in Montreal, but no one comes even close to YUKI. Me and my family are so in love!
-                    <cite><img src=""/>&mdash; Joana Silva</cite>
-                </blockquote>
-            </div>
-            
-            <div className="testimonials">
-                <blockquote>Best Restaurant in Montreal. All ingredients are fresh. Keep up the great work!
-                    <cite><img src=""/>&mdash; Milton Chapman</cite>
-                </blockquote>
-            </div> 
-        </div>
     </section>
+    <section>
+            <div className="testimonials">
+                <blockquote>YUKI is just awesome! I just launched a startup which leaves me with no time for cooking, so YUKI is a life-saver. Now that I got used to it, I couldn't live without my daily meals!
+                    <cite> &mdash; Alberto Duncan</cite>
+                </blockquote>
+            </div>
+    </section>
+    <section >
+            <div className="testimonials">
+                <blockquote>YUKI is just awesome! I just launched a startup which leaves me with no time for cooking, so YUKI is a life-saver. Now that I got used to it, I couldn't live without my daily meals!
+                    <cite> &mdash; Alberto Duncan</cite>
+                </blockquote>
+            </div>
+    </section>
+    <section >
+            <div className="testimonials">
+                <blockquote>YUKI is just awesome! I just launched a startup which leaves me with no time for cooking, so YUKI is a life-saver. Now that I got used to it, I couldn't live without my daily meals!
+                    <cite> &mdash; Alberto Duncan</cite>
+                </blockquote>
+            </div>
+    </section>
+    </Slider>
+    </div>
     </>
   )
 }
