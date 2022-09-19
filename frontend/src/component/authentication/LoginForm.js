@@ -4,6 +4,7 @@ import useLocalStorage from "../../util/useLocalStorage";
 
 export default function LoginForm() {
     const [jwt, setJwt] = useLocalStorage("", "jwt");
+    const [authority,setAuthority] = useLocalStorage('','authority');
     const [message, setMessage] = useState("");
     const usernameRef = useRef();
     const passwordRef = useRef();
@@ -29,6 +30,7 @@ export default function LoginForm() {
             })
             .then(([body, headers]) => {
                 setJwt(headers.get('authorization'))
+                setAuthority(body.authority.authority)
                 window.location.href = '/'
             });
     };

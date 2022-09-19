@@ -27,7 +27,7 @@ public class UserService {
         User newUser = new User();
         newUser.setUsername(request.getUsername());
         newUser.setPassword(passwordEncoder.encode(request.getPassword()));
-        newUser.setAuthority(authorityRepo.findById(2L).get());
+        newUser.setAuthority(authorityRepo.findByAuthority("ROLE_USER").get());
         userRepo.save(newUser);
         return newUser;
     }

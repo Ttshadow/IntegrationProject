@@ -1,6 +1,6 @@
 package com.example.backend.entity;
 
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.security.core.GrantedAuthority;
@@ -12,9 +12,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@Data
 @Entity
 @Table(name = "users")
+@Setter
+@Getter
+@ToString
+@NoArgsConstructor
 public class User extends IdBaseEntity implements UserDetails {
     private String username;
     private String email;
@@ -26,6 +29,12 @@ public class User extends IdBaseEntity implements UserDetails {
     @JoinColumn(name = "authority_id")
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     private Authority authority;
+
+    public User(String username, String password, Authority authority) {
+        this.username = username;
+        this.password = password;
+        this.authority = authority;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
