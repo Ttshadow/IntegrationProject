@@ -9,16 +9,17 @@ export function TakeoutOrDinein(){
     const [fetchTable, setFetchTable] = useState(false);
 
     function selectDinein(){
+        sessionStorage.setItem("isTakeout", false);
         setShowModal(true);
         setFetchTable(true? false: true)
-        sessionStorage.setItem("isTakeout", false);
     }
     function selectTakeout(){
         sessionStorage.setItem("isTakeout", true);
         navigate(`menu`);
     }
     function handleSelectChange(e){
-        sessionStorage.setItem('table', e.targe.value)
+        console.log(e)
+        sessionStorage.setItem('table', e.target.value)
     }
 
     useEffect(()=>{
@@ -26,15 +27,22 @@ export function TakeoutOrDinein(){
             method: 'GET',
         })
         .then((data) => data.json())
-        .then((json) => {setTables(JSON.parse(JSON.stringify(json)))
-        },[fetchTable])});
+        .then((json) => {setTables(JSON.parse(JSON.stringify(json)))},[fetchTable])}
+        , [fetchTable]);
 
     function handleYes(){
         navigate(`menu`);
     }
 
     function handleCancel(){
+        sessionStorage.removeItem("takeout")
         sessionStorage.removeItem("table");
+        setShowModal(false);
+    }
+    function handleShow(){
+        setShowModal(true);
+    }
+    function handleClose(){
         setShowModal(false);
     }
     return (
@@ -45,30 +53,30 @@ export function TakeoutOrDinein(){
                     <Button className="btn btn-dark btn-lg col-5" onClick={selectTakeout}>TAKE-OUT</Button>
                 </div>
             
-                {/* <Modal
+                <Modal
                     size="md"
                     aria-labelledby="contained-modal-title-vcenter"
                     centered
-                    show={handleShow} onHide={handleClose}
+                    show={showModal} onHide={showModal}
                 >
-                    <Modal.Header closeButton>
+                    <Modal.Header>
                     <Modal.Title id="contained-modal-title-vcenter">
                         Please select your table
                     </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                    <Form.Select onChange={(e)=>handleSelectChange(e)}>
-                        <option value={0} >Select a Table</option>
-                        {tables?.map((table)=>{
-                            return <option key={table.id} value={table.id}>{table.name}</option>
-                        })}
-                    </Form.Select>
+                        <Form.Select onChange={handleSelectChange}>
+                            <option value={0} >Select a Table</option>
+                            {tables?.map((table)=>{
+                                return <option key={table.id} value={table.id}>{table.name}</option>
+                            })}
+                        </Form.Select>
                     </Modal.Body>
                     <Modal.Footer>
                     <Button variant="warning" onClick={handleYes}>Yes</Button>
                     <Button variant="warning" onClick={handleCancel}>Cancel</Button>
                     </Modal.Footer>
-                </Modal> */}
+                </Modal>
         </div>
         
     )
