@@ -11,8 +11,8 @@ function LoginWrapper({ children }) {
     })
         .then(response => response.json())
         .then(isValid => {
-            setIsLoading(false)
             setIsValid(isValid)
+            setIsLoading(false)
         })
     return isLoading ? "Loading..." : isValid ? children : <Navigate to={"/login"} />
 }

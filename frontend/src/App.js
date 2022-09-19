@@ -28,7 +28,11 @@ function App() {
       </Route>
       {/* <Route path="/userdashboard" element={<UserDashboard />}></Route>
           <Route path="*" element={<Navigate to="/" />} /> */}
-      <Route path="/admindashboard" element={<AdminDashboard />}></Route>
+      <Route path="/admindashboard" element={
+        <LoginWrapper>
+          <AdminDashboard />
+        </LoginWrapper>
+      }></Route>
       <Route path="/login" element={<LoginForm />}></Route>
       <Route path="/register" element={<RegisterForm />}></Route>
     </Routes>

@@ -5,6 +5,7 @@ import com.example.backend.entity.pojo.AuthCredentialsRequest;
 import com.example.backend.repository.UserRepository;
 import com.example.backend.service.UserService;
 import com.example.backend.util.JwtTokenUtil;
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -64,16 +65,20 @@ public class AuthenticationController {
             return ResponseEntity.ok(user);
         } catch (RuntimeException ex) {
             System.out.println(ex.getMessage());
-            return new ResponseEntity<>(ex.getMessage(),HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
     @GetMapping("/validate")
-    public ResponseEntity<?> validateToken(@RequestParam String token){
-        if(token.trim().length() == 0) return ResponseEntity.ok(false);
-        Optional<User> user = userRepository.findByUsername(jwtTokenUtil.getUsernameFromToken(token));
-        Boolean isTokenValid = jwtTokenUtil.validateToken(token, user.get());
-        return ResponseEntity.ok(isTokenValid);
+    public ResponseEntity<?> validateToken(@RequestParam String token) {
+        if (token.trim().length() == 0) return ResponseEntity.ok(false);
+        try {
+            Optional<User> user = userRepository.findByUsername(jwtTokenUtil.getUsernameFromToken(token));
+            Boolean isTokenValid = jwtTokenUtil.validateToken(token, user.get());
+            return ResponseEntity.ok(isTokenValid);
+        } catch (ExpiredJwtException ex) {
+            return ResponseEntity.ok(false);
+        }
     }
 }
 

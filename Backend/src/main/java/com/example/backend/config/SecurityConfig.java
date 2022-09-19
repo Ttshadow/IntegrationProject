@@ -46,7 +46,6 @@ public class SecurityConfig {
         http.authorizeRequests()
                 // Our public endpoints
                 .antMatchers("/user/**").permitAll()
-                .antMatchers("/admindashboard/**").permitAll()
                 .anyRequest().authenticated();
 
         // Add JWT token filter
