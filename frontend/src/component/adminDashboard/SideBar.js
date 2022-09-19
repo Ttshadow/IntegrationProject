@@ -3,7 +3,7 @@ import { ImPriceTag } from "react-icons/im";
 import { BsCartFill, BsCalendarCheckFill } from "react-icons/bs";
 import { SiAirtable } from "react-icons/si";
 import { FiArrowLeftCircle, FiArrowRightCircle, FiLogOut } from "react-icons/fi";
-import {Link} from "react-router-dom";
+import {NavLink, Link} from "react-router-dom";
 import React, { useState } from "react";
 import {
     ProSidebar,
@@ -61,7 +61,7 @@ return(
                     <MenuItem icon={<BsCalendarCheckFill />}>Reservations</MenuItem>
                     <MenuItem icon={<BiCommentDots />}>
                         Reviews
-                        <Link to={`/admindashboard/review`} onClick={handleClick}/>
+                        <NavLink to='/review' onClick={handleClick}/>
                     </MenuItem>
                 </Menu>
             </SidebarContent>

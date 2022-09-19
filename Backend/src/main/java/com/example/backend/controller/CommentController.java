@@ -3,7 +3,7 @@ package com.example.backend.controller;
 import com.example.backend.entity.*;
 import com.example.backend.exception.*;
 import com.example.backend.service.*;
-import org.springframework.beans.factory.annotation.*;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -22,8 +22,8 @@ public class CommentController {
     }
 
     @PostMapping("/userdashboard/review")
-    public List<Comment> addComment(@RequestBody Comment newComment, User user) throws RecordNotFoundException {
+    public ResponseEntity<Comment> addComment(@RequestBody Comment newComment) throws RecordNotFoundException {
         commentService.saveComment(newComment);
-        return commentService.getCommentByUserId(user.getId());
+        return ResponseEntity.ok(newComment);
     }
 }
