@@ -32,7 +32,6 @@ function NewMenu(){
                 },
                 image: imageSrc,
                 status: statusRef.current.value
-
            }),
             headers: {
                 'Accept': 'application/json',

@@ -14,7 +14,6 @@ function AdminDashboard() {
                     <Outlet />
                 </Col>
             </Row>
-            
         </Container>
         
     )
