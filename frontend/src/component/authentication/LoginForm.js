@@ -5,6 +5,7 @@ import useLocalStorage from "../../util/useLocalStorage";
 export default function LoginForm() {
     const [jwt, setJwt] = useLocalStorage("", "jwt");
     const [authority,setAuthority] = useLocalStorage('','authority');
+    const [userId,setUserId] = useLocalStorage('','userId');
     const [message, setMessage] = useState("");
     const usernameRef = useRef();
     const passwordRef = useRef();

@@ -54,6 +54,7 @@ export function MenuDashboard(){
 
     // user select different category.
     function handleChange(e){
+        console.log(e.target.value);
         setSelectCategory(e.target.value);
     }
 
@@ -83,7 +84,7 @@ export function MenuDashboard(){
               }
         })
         .then((data)=>{
-            if(data.status == 200){
+            if(data.status === 200){
                 alert("Dish Delete Successfully!");
             }
         })
@@ -121,7 +122,7 @@ export function MenuDashboard(){
             },
         })
         .then((data)=>{
-            if(data.status == 200){
+            if(data.status === 200){
                 alert("Dish Status Update Successfully!");
             }
         })
@@ -130,10 +131,10 @@ export function MenuDashboard(){
     return (
         <>
         <div>
-            <Form.Select onChange={handleChange}>
+            <Form.Select onChange={handleChange} >
                 <option value={0} >Select a Category</option>
                 {categories?.map((category)=>{
-                    return <option key={category.id} value={category.id}>{category.name}</option>
+                    return <option key={category.id} defaultValue={category.id} value={category.id}>{category.name}</option>
                 })}
             </Form.Select>
             <div className='my-3 d-flex'>

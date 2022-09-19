@@ -35,12 +35,14 @@ public class CartItemController {
     }
 
     @DeleteMapping("/remove_item/{id}")
-    public void deleteItem(@PathVariable Long id){
+    public ResponseEntity deleteItem(@PathVariable Long id){
         cartItemService.deleteCartItemById(id);
+        return ResponseEntity.ok("Delete Success");
     }
 
     @DeleteMapping("/remove_all_items/{id}")
-    public void removeAllItemsByUserId(@PathVariable Long id){
+    public ResponseEntity removeAllItemsByUserId(@PathVariable Long id){
         cartItemService.deleteCartItemByUserId(id);
+        return ResponseEntity.ok("Delete Success");
     }
 }

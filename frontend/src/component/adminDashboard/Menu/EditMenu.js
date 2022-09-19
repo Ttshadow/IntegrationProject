@@ -54,9 +54,6 @@ export function EditMenu(){
         await fetch('https://api.cloudinary.com/v1_1/ddz01pm2r/image/upload',{
             method: 'POST',
             body: formData,
-            headers: {
-                Authorization: `Bearer ${jwt}`
-              }
         })
         .then(response=>response.json())
         .then((json)=>{
@@ -117,7 +114,11 @@ export function EditMenu(){
                 <Form.Label >Category:</Form.Label>
                 <Form.Select onChange={handleChange}>
                     {categories?.map((category)=>{
-                        return <option key={category.id} selected={category.id === menu.category?.id} value={category.id} >{category.name}</option>
+                        // return category.id === menu.category.id ?
+                        // <option key={category.id} defaultValue={category.id}>{category.name}</option>
+                        // :
+                        // <option key={category.id} value={menu.category.id}>{category.name}</option>
+                        return <option key={category.id} selected={category.id === menu.category?.id} value={category.id}>{category.name}</option>
                     })}
                 </Form.Select>
                 <Form.Group className="mb-3" >

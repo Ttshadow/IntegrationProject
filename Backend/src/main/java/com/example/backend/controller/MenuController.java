@@ -40,13 +40,16 @@ public class MenuController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteMenuById(@PathVariable Long id){
+    public ResponseEntity deleteMenuById(@PathVariable Long id){
         menuService.deleteMenuById(id);
+        return ResponseEntity.ok("Delete Success");
     }
 
     @PutMapping("/status/{id}")
-    public void updateMenuStatus(@PathVariable Long id, @RequestBody String newStatus) throws RecordNotFoundException {
+    public ResponseEntity updateMenuStatus(@PathVariable Long id, @RequestBody String newStatus) throws RecordNotFoundException {
         menuService.changeMenuStatus(id, newStatus);
+        return ResponseEntity.ok("Status Update Success");
+
     }
 
     @GetMapping("/category/{id}")
