@@ -1,121 +1,69 @@
-import { Button, Form, Tab, Tabs } from 'react-bootstrap';
-import React, { useContext, useEffect, useState } from 'react';
-import {useNavigate} from 'react-router-dom';
+import { Form, Tab, Tabs } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import EditTable from './EditTable';
+import EditAllStatus from './EditAllStatus';
 
 function Table() {
     const [table, setTable] = useState([]);
-    const [tableId, setTableId] = useState(table.id);
-    const [tableName, setTableName] = useState(table.name);
-    const [tableCapacity, setTableCapacity] = useState(table.capacity);
-    const [tableStatus, setTableStatus] = useState(table.status);
-    const [validated, setValidated] = useState(false);
+    const [id, setTableId] = useState(null);
+    const [name, setTableName] = useState('');
+    const [capacity, setTableCapacity] = useState(0);
+    const [status, setTableStatus] = useState('');
+    
     const allTable = () => {
         fetch('diningtable', {
           method: 'GET',
         })
         .then((data) => data.json())
-        .then((json) => {setTable(JSON.parse(JSON.stringify(json)))
-        });
+        .then((json) => {setTable(JSON.parse(JSON.stringify(json)))})
     };
 
-    const handleSubmit = (event) => {
-        const form = event.currentTarget;
-        if (form.checkValidity() === false) {
-          event.preventDefault();
-          event.stopPropagation();
-        }
-        setValidated(true);
-        saveTable(event);
-    };
-
-    const saveTable = (event) => {
-        event.preventDefault();
-        const table = {tableId, tableCapacity, tableStatus, tableName}
-        fetch('updatetable', {
-            method: 'PUT',
-            body: JSON.stringify(table),
-            headers: {
-                "Content-type": "application/json; charset=UTF-8", 
-            }
-        })
-
-    };
-
-    const statusOptions = [
-        {value: 'available', label: 'Available'},
-        {value: 'reserved', label: 'Reserved'},
-        {value: 'unavailable', label: 'Unavailable'},
-    ];
     useEffect(() =>{
         allTable();
     }, []);
 
     return (
+        <>
         <Tabs
-            defaultActiveKey="home"
             transition={false}
             className="mb-3"
         >
-            {table.map((table) => {
-                return <Tab eventKey={table.id} title={table.name}>
-                    <Form noValidate validated={validated} onSubmit={handleSubmit}>
+        {table.map((table, index) => {
+            return (
+                <Tab key={index} eventKey={index} title={table.name}>
+                    <Form noValidate>
                         <Form.Group className="mb-3">
                             <Form.Label>Name</Form.Label>
                             <Form.Control
-                                required 
+                                disabled 
                                 type="text" 
-                                placeholder="Name of the table"
                                 defaultValue={table.name}
-                                onChange={(e)=> setTableName(e.target.value)}
                             />
                         </Form.Group>
                         <Form.Group className="mb-3">
                             <Form.Label>Capacity</Form.Label>
                             <Form.Control  
-                                required
+                                disabled
                                 type="number"
-                                placeholder="Number of seats"
                                 defaultValue={table.capacity}
-                                onChange={(e)=> setTableCapacity(e.target.value)}
                             />
                         </Form.Group>
-                        <Form.Label>Availability</Form.Label>
-                        <Form.Select onChange={(e) => setTableStatus(e.target.value)}>
-                            {statusOptions.map((status) => {
-                                return status.value === table.status ? 
-                                    <option selected value={status.value}>{status.label}</option>
-                                :
-                                    <option value={status.value}>{status.label}</option>
-                            })}
-                        </Form.Select>
-                        <Button type="submit">Save</Button>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Current Status</Form.Label>
+                            <Form.Control  
+                                disabled
+                                type="text"
+                                defaultValue={table.status}
+                            />
+                        </Form.Group>
+                        <EditTable tableName={table.name} table={table} ></EditTable>
                     </Form>
+                    
                 </Tab>
-            })}
-        {/*<div>
-        <p>hello</p>
-        <table>
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Table name</th>
-                    <th>Capacity</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                {table.map((table) => {
-                    return <tr key={table.id}>
-                        <td>{table.id}</td>
-                        <td>{table.name}</td>
-                        <td>{table.capacity}</td>
-                        <td>{table.status}</td>
-                    </tr>
-                })}
-            </tbody>
-        </table>
-            </div>*/}
+            )})}
         </Tabs>
+        <EditAllStatus></EditAllStatus>
+        </>
     )
 }
 export default Table;

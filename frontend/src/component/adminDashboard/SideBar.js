@@ -1,4 +1,4 @@
-import { BiFoodMenu, BiCommentDots } from "react-icons/bi";
+import { BiFoodMenu, BiCommentDots, BiUserPin } from "react-icons/bi";
 import { ImPriceTag } from "react-icons/im";
 import { BsCartFill, BsCalendarCheckFill } from "react-icons/bs";
 import { SiAirtable } from "react-icons/si";
@@ -36,7 +36,7 @@ return(
                 <Menu iconShape="circle">
                     <MenuItem icon={<SiAirtable />}>
                         Tables
-                        <Link to="/" />
+                        <Link to="/admindashboard/table" />
                     </MenuItem>
                     <MenuItem icon={<BiFoodMenu />}>
                         Menu
@@ -47,8 +47,16 @@ return(
                         <Link to="/" />
                     </MenuItem>
                     <MenuItem icon={<ImPriceTag />}>Promotions</MenuItem>
-                    <MenuItem icon={<BsCalendarCheckFill />}>Reservations</MenuItem>
+                    <MenuItem icon={<BsCalendarCheckFill />}>
+                        Reservations
+                        <Link to="/admindashboard/reservation" />
+                    </MenuItem>
                     <MenuItem icon={<BiCommentDots />}>Reviews</MenuItem>
+                    {/*TEMP FOR USERDASHBOARD*/}
+                    <MenuItem icon={<BiUserPin />}>
+                        User reservation
+                        <Link to="/userdashboard/reservation" />
+                    </MenuItem>
                 </Menu>
             </SidebarContent>
             <SidebarFooter>
