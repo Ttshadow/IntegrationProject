@@ -1,14 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 export function TakeoutOrDinein(){
     const navigate = useNavigate();
-    const [showModal, setShowModal] = useState();
+    const [showModal, setShowModal] = useState(false);
+    const [tables, setTables] = useState([]);
+    const [fetchTable, setFetchTable] = useState(false);
+
     function selectDinein(){
         setShowModal(true);
+        setFetchTable(true? false: true)
         sessionStorage.setItem("isTakeout", false);
-        navigate(`menu`);
     }
     function selectTakeout(){
         sessionStorage.setItem("isTakeout", true);
@@ -17,10 +20,21 @@ export function TakeoutOrDinein(){
     function handleSelectChange(e){
         sessionStorage.setItem('table', e.targe.value)
     }
-    function handleShow(){
-        setShowModal(true);
+
+    useEffect(()=>{
+        fetch('diningtable', {
+            method: 'GET',
+        })
+        .then((data) => data.json())
+        .then((json) => {setTables(JSON.parse(JSON.stringify(json)))
+        },[fetchTable])});
+
+    function handleYes(){
+        navigate(`menu`);
     }
-    function handleClose(){
+
+    function handleCancel(){
+        sessionStorage.removeItem("table");
         setShowModal(false);
     }
     return (
@@ -51,8 +65,8 @@ export function TakeoutOrDinein(){
                     </Form.Select>
                     </Modal.Body>
                     <Modal.Footer>
-                    <Button variant="warning" onClick={handleClose}>Yes</Button>
-                    <Button variant="warning" onClick={handleClose}>No</Button>
+                    <Button variant="warning" onClick={handleYes}>Yes</Button>
+                    <Button variant="warning" onClick={handleCancel}>Cancel</Button>
                     </Modal.Footer>
                 </Modal> */}
         </div>
