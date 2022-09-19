@@ -1,6 +1,7 @@
 package com.example.backend.controller;
 
 import com.example.backend.entity.Order;
+import com.example.backend.entity.pojo.EditOrderPojo;
 import com.example.backend.entity.pojo.OrderPojo;
 import com.example.backend.exception.RecordNotFoundException;
 import com.example.backend.service.OrderService;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/dashboard")
+@RequestMapping("/admindashboard")
 public class OrderController {
     @Autowired
     private OrderService orderService;
@@ -34,13 +35,13 @@ public class OrderController {
             throw new RuntimeException(e);
         }
     }
-    @PatchMapping ("/orders/{orderId}/{orderStatus}")
-    public ResponseEntity<Order> updateOrder(@PathVariable Long orderId,@PathVariable String orderStatus){
+    @PatchMapping ("/orders")
+    public ResponseEntity<Order> updateOrderStatus(@RequestBody EditOrderPojo orderPojo){
         try {
-            Order order = orderService.getOrderById(orderId);
-            order.setStatus(orderStatus);
+            Order order = orderService.getOrderById(orderPojo.getOrderId());
+            order.setStatus(orderPojo.getOrderStatus());
             orderService.saveOrUpdateOrder(order);
-            return new ResponseEntity<>(orderService.getOrderById(orderId), HttpStatus.OK);
+            return new ResponseEntity<>(orderService.getOrderById(orderPojo.getOrderId()), HttpStatus.OK);
         } catch (RecordNotFoundException e) {
             throw new RuntimeException(e);
         }

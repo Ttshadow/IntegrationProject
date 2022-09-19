@@ -1,8 +1,10 @@
 import React, { useState, useRef } from 'react';
 import Modal from "react-bootstrap/Modal";
 import { Button } from "react-bootstrap";
+import useLocalStorage from "../../util/useLocalStorage";
 
 function OrderModal({ order, setOrderStatus }) {
+    const [jwt,setJwt] = useLocalStorage("","jwt")
     const [show, setShow] = useState(false);
     const handleShow = () => setShow(true);
     const handleClose = () => setShow(false);
@@ -10,8 +12,16 @@ function OrderModal({ order, setOrderStatus }) {
     const orderStatusRef = useRef();
     const submitHandler = (e) => {
         e.preventDefault()
-        fetch(`/dashboard/orders/${orderNumberRef.current.value}/${orderStatusRef.current.value}`,{
+        fetch('admindashboard/orders',{
             method:'PATCH',
+            headers: {
+                Authorization: `Bearer ${jwt}`,
+                "Content-type": "application/json; charset=UTF-8",
+              },
+            body:JSON.stringify({
+                "orderId":`${orderNumberRef.current.value}`,
+                "orderStatus":`${orderStatusRef.current.value}`
+            })
         }).then(data => data.json()).then(order => { 
             setShow(false)
             setOrderStatus(order.status)

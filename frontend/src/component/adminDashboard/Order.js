@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from "react";
 import OrderModal from "./OrderModal";
 import './Order.css'
+import useLocalStorage from "../../util/useLocalStorage";
 
 export default function Order() {
+    const [jwt,setJwt] = useLocalStorage("","jwt")
     const [orders, setOrders] = useState([]);
     const [orderStatus,setOrderStatus] = useState('');
     useEffect(() => {
-        fetch('dashboard/orders', {
-            method: "GET"
+        fetch('admindashboard/orders', {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${jwt}`
+              }
         }).then(data => data.json()).then(json => { 
             json.reverse()
-            console.log(json)
             json.map((order)=>{
                 let arr = order.date.split("T")
                 let date = arr[0]
