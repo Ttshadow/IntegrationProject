@@ -2,10 +2,11 @@ import React, {useEffect, useState} from 'react';
 import { Button, Table } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import {useNavigate} from 'react-router-dom';
+import useLocalStorage from '../../../util/useLocalStorage';
 
 export const cloudName = "ddz01pm2r";
 export function MenuDashboard(){
-
+    const [jwt, setJwt] = useLocalStorage('', 'jwt');
     const [categories, setCategories] = useState([]);
     const [selectCategory, setSelectCategory] = useState(0);
     const [refresh, setRefresh] = useState(false);
@@ -17,6 +18,9 @@ export function MenuDashboard(){
     useEffect(() =>{
         fetch('category', {
             method: 'GET',
+            headers: {
+                Authorization: `Bearer ${jwt}`
+              }
         })
         .then((data) => data.json())
         .then((json) => {setCategories(json)})
@@ -33,6 +37,9 @@ export function MenuDashboard(){
         }
         fetch(url, {
             method: 'GET',
+            headers: {
+                Authorization: `Bearer ${jwt}`
+              }
         })
         .then((data) => data.json())
         .then((json) => {setMenus(json)})
@@ -54,6 +61,9 @@ export function MenuDashboard(){
         fetch(`category/${selectCategory}`, 
         {
             method: 'DELETE',
+            headers: {
+                Authorization: `Bearer ${jwt}`
+            }
         })
         .then((data)=>{
             if(data.status === 200){
@@ -68,6 +78,9 @@ export function MenuDashboard(){
     function deleteMenu(id){
         fetch(`menu/${id}`, {
             method: 'DELETE',
+            headers: {
+                Authorization: `Bearer ${jwt}`
+              }
         })
         .then((data)=>{
             if(data.status == 200){
@@ -104,6 +117,7 @@ export function MenuDashboard(){
             body: status,
             headers: {
             "Content-type": "application/json; charset=UTF-8",
+                Authorization: `Bearer ${jwt}`
             },
         })
         .then((data)=>{

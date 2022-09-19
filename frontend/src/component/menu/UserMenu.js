@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Tab, Tabs } from "react-bootstrap";
-import { options, UseFetchCategories } from "../adminDashboard/Menu/UseFetchCategories";
+import { UseFetchCategories } from "../adminDashboard/Menu/UseFetchCategories";
 import { MenuCardGroup } from "./MenuCardGroup";
 
 export function UserMenu(){
-    const categories = UseFetchCategories('../admindashboard/category', options);
+    const categories = UseFetchCategories('../admindashboard/category');
     const [key, setKey] = useState();
     return (
         <div>

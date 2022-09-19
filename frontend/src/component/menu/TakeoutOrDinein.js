@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import useLocalStorage from "../../util/useLocalStorage";
 
 export function TakeoutOrDinein(){
+    const [jwt, setJwt] = useLocalStorage('', 'jwt');
+
     const navigate = useNavigate();
     const [showModal, setShowModal] = useState(false);
     const [tables, setTables] = useState([]);
@@ -25,6 +28,9 @@ export function TakeoutOrDinein(){
     useEffect(()=>{
         fetch('diningtable', {
             method: 'GET',
+            headers: {
+                Authorization: `Bearer ${jwt}`
+              }
         })
         .then((data) => data.json())
         .then((json) => {setTables(JSON.parse(JSON.stringify(json)))},[fetchTable])}

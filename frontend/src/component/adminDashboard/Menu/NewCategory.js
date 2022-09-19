@@ -1,8 +1,10 @@
 import React, {useEffect, useRef} from 'react';
 import {Form , Button} from 'react-bootstrap';
 import {useNavigate} from 'react-router-dom';
+import useLocalStorage from '../../../util/useLocalStorage';
 
 function NewCategory(){
+    const [jwt, setJwt] = useLocalStorage('', 'jwt');
     const nameRef = useRef();
     const navigate = useNavigate();
 
@@ -15,7 +17,9 @@ function NewCategory(){
            }),
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'            }, 
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${jwt}`
+            }, 
         })
         .then((data) => {
             if(data.status == 200){

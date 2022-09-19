@@ -2,9 +2,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
-import { options, UseFetchCategories } from './UseFetchCategories';
+import { UseFetchCategories } from './UseFetchCategories';
+import useLocalStorage from '../../../util/useLocalStorage';
 
 export function EditMenu(){
+    const [jwt, setJwt] = useLocalStorage('', 'jwt');
     const {id} = useParams();
     const [menu, setMenu] = useState({});
     // const [categories, setCategories] = useState([]);
@@ -38,6 +40,7 @@ export function EditMenu(){
               }),
               headers: {
                 "Content-type": "application/json; charset=UTF-8",
+                Authorization: `Bearer ${jwt}`
               },
             })
               .then((data) => data.json())
@@ -50,7 +53,10 @@ export function EditMenu(){
         formData.append("upload_preset", "ql5cmmn8")
         await fetch('https://api.cloudinary.com/v1_1/ddz01pm2r/image/upload',{
             method: 'POST',
-            body: formData
+            body: formData,
+            headers: {
+                Authorization: `Bearer ${jwt}`
+              }
         })
         .then(response=>response.json())
         .then((json)=>{
@@ -63,7 +69,10 @@ export function EditMenu(){
     }
     useEffect(() => {
       fetch(`../menu/${id}`, {
-        method:'GET'
+        method:'GET',
+        headers: {
+            Authorization: `Bearer ${jwt}`
+          }
       })
       .then((data) => data.json())
       .then((json) => {
@@ -78,7 +87,7 @@ export function EditMenu(){
     //     .then((data) => data.json())
     //     .then((json) => {setCategories(json)})
     // }, [])
-    const categories = UseFetchCategories('../category', options);
+    const categories = UseFetchCategories('../category');
     
     useEffect(()=>{
         setCategoryId(menu.category?.id);

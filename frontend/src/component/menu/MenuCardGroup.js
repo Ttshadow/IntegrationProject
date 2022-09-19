@@ -1,9 +1,10 @@
 import React from "react";
 import { useEffect, useRef, useState } from "react";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
+import useLocalStorage from "../../util/useLocalStorage";
 
 export function MenuCardGroup(props){
-
+    const [jwt, setJwt] = useLocalStorage('', 'jwt');
     const selectCategory = props.selectCategory;
     const [menus, setMenus] = useState();
     const [quantity, setQuantity] = useState(1);
@@ -17,6 +18,9 @@ export function MenuCardGroup(props){
         }
         fetch(url, {
             method: 'GET',
+            headers: {
+                Authorization: `Bearer ${jwt}`
+              }
         })
         .then((data) => data.json())
         .then((json) => {setMenus(json)})
@@ -27,7 +31,7 @@ export function MenuCardGroup(props){
             method: 'POST',
             body: JSON.stringify({
                 user: {
-                    id: 1
+                    id: 2
                 },
                 table: {
                     id: Number(sessionStorage.getItem('table'))
@@ -40,7 +44,8 @@ export function MenuCardGroup(props){
             }),
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'            
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${jwt}`            
             }, 
         })
     }

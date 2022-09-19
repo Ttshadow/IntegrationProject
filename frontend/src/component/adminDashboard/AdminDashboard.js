@@ -3,7 +3,6 @@ import { Col, Container,Row } from 'react-bootstrap';
 import useLocalStorage from '../../util/useLocalStorage';
 import Order from './Order';
 import SideBar from './SideBar';
-import { Col, Container, Row } from "react-bootstrap";
 import Unauthorized from './Unauthorized';
 
 function AdminDashboard() {

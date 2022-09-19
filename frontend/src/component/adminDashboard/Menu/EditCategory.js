@@ -2,10 +2,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
+import useLocalStorage from '../../../util/useLocalStorage';
 
 
 export function EditCategory(){
-
+    const [jwt, setJwt] = useLocalStorage('', 'jwt');
     const {id} = useParams();
     const [category, setCategory] = useState({id:'', name:''});
     const categoryNameRef = useRef();
@@ -21,6 +22,7 @@ export function EditCategory(){
               }),
               headers: {
                 "Content-type": "application/json; charset=UTF-8",
+                Authorization: `Bearer ${jwt}`
               },
             })
               .then((data) => data.json())
@@ -29,7 +31,10 @@ export function EditCategory(){
 
     useEffect(() => {
       fetch(`../category/${id}`, {
-        method:'GET'
+        method:'GET',
+        headers: {
+          Authorization: `Bearer ${jwt}`
+        }
       })
       .then((data) => data.json())
       .then((json) => {setCategory(json)})

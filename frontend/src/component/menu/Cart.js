@@ -1,27 +1,39 @@
 import { useEffect, useState } from "react"
 import { Button, Form, Table } from "react-bootstrap"
+import useLocalStorage from "../../util/useLocalStorage";
 
 export function Cart(){
-
+    const [jwt, setJwt] = useLocalStorage('', 'jwt');
     const [carts, setCarts] = useState([]);
     const [refresh, setRefresh] = useState(false);
+
     useEffect(() => {
-      fetch(`../cart/1`, { // 1 for userid for now.
-        method: 'GET'
+      fetch(`../cart/2`, { // 1 for userid for now.
+        method: 'GET',
+        headers: {
+            Authorization: `Bearer ${jwt}`
+          }
       })
       .then((data)=> data.json())
       .then((json)=>setCarts(json))
     }, [refresh])
     
+    useEffect(()=>{
+        setRefresh(false)
+    },[carts])
 
     function handleRemove(cart){
         fetch(`../cart/remove_item/${cart.id}`,{
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: {
+                Authorization: `Bearer ${jwt}`
+              }
         })
         .then(()=>{
             setRefresh(true);
         })
     }
+
     return <div>
         <Table striped bordered hover>
             <thead>

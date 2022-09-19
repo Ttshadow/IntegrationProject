@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
 import MainLayout from "./component/MainLayout";
 import Home from "./component/home/Home";
-import Menu from "./component/menu/Menu";
 import Reservation from "./component/reservation/Reservation";
 import ShoppingCart from "./component/shoppingCart/ShoppingCart";
-import UserDashboard from "./component/userDashboard/UserDashboard";
-import React, { useContext, useState } from "react";
 import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import AdminDashboard from "./component/adminDashboard/AdminDashboard";
 import LoginForm from "./component/authentication/LoginForm";

@@ -1,12 +1,13 @@
 import { useRef, useState } from "react";
 import { Button, Form } from "react-bootstrap"
 import { useNavigate } from "react-router-dom";
-import { options, UseFetchCategories } from "./UseFetchCategories";
+import useLocalStorage from "../../../util/useLocalStorage";
+import { UseFetchCategories } from "./UseFetchCategories";
 
 function NewMenu(){
 
-    const categories = UseFetchCategories('category', options);
-
+    const categories = UseFetchCategories('category');
+    const [jwt, setJwt] = useLocalStorage('', 'jwt');
     const nameRef = useRef();
     const descriptionRef = useRef();
     const [selectImage, setSelectImage] = useState('');
@@ -35,7 +36,9 @@ function NewMenu(){
            }),
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'  
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${jwt}`
+  
             }
         })
         .then((data) => {
@@ -55,7 +58,10 @@ function NewMenu(){
         formData.append("upload_preset", "ql5cmmn8")
         await fetch('https://api.cloudinary.com/v1_1/ddz01pm2r/image/upload',{
             method: 'POST',
-            body: formData
+            body: formData,
+            headers: {
+                Authorization: `Bearer ${jwt}`
+              }
         })
         .then(response=>response.json())
         .then((json)=>{
