@@ -56,7 +56,7 @@ export function MenuDashboard(){
             method: 'DELETE',
         })
         .then((data)=>{
-            if(data.status == 200){
+            if(data.status === 200){
                 alert("Category Delete Successfully!");
             }
         })

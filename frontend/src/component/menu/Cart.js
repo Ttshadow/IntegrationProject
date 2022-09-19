@@ -1,12 +1,26 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button, Form, Table } from "react-bootstrap"
 
 export function Cart(){
 
-    const [carts, useCarts] = useState([]);
+    const [carts, setCarts] = useState([]);
+    const [refresh, setRefresh] = useState(false);
+    useEffect(() => {
+      fetch(`../cart/1`, { // 1 for userid for now.
+        method: 'GET'
+      })
+      .then((data)=> data.json())
+      .then((json)=>setCarts(json))
+    }, [refresh])
+    
 
-    function handleRemove(){
-        
+    function handleRemove(cart){
+        fetch(`../cart/remove_item/${cart.id}`,{
+            method: 'DELETE'
+        })
+        .then(()=>{
+            setRefresh(true);
+        })
     }
     return <div>
         <Table striped bordered hover>

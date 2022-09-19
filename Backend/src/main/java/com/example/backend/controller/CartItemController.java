@@ -17,8 +17,8 @@ public class CartItemController {
         this.cartItemService = cartItemService;
     }
 
-    @GetMapping
-    public List<CartItem> getAllCartItemsByUserId(Long userId){
+    @GetMapping("/{userId}")
+    public List<CartItem> getAllCartItemsByUserId(@PathVariable Long userId){
         return cartItemService.getAllCartItemByUserId(userId);
     }
 
