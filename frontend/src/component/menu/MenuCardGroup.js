@@ -1,13 +1,12 @@
 import React from "react";
 import { useEffect, useRef, useState } from "react";
-import { Button, Card, CardGroup, Col, Form, Row } from "react-bootstrap";
+import { Button, Card, Col, Form, Row } from "react-bootstrap";
 
 export function MenuCardGroup(props){
 
     const selectCategory = props.selectCategory;
     const [menus, setMenus] = useState();
-    const quantityRef = useRef();
-
+    const [quantity, setQuantity] = useState(1);
     useEffect(()=>{
         let url = '';
         if (selectCategory === 0){
@@ -23,8 +22,27 @@ export function MenuCardGroup(props){
         .then((json) => {setMenus(json)})
     },[])
 
-    function addToCart(){
-
+    function addToCart(menu){
+        fetch('../cart/add_to_cart', {
+            method: 'POST',
+            body: JSON.stringify({
+                user: {
+                    id: 1
+                },
+                table: {
+                    id: Number(sessionStorage.getItem('table'))
+                },
+                takeout: sessionStorage.getItem('isTakeout') === 'true'? true: false,
+                menu: {
+                    id: menu.id
+                },
+                quantity: quantity
+            }),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'            
+            }, 
+        })
     }
     return (
     <Row xs={1} md={3} className="g-4">
@@ -37,9 +55,9 @@ export function MenuCardGroup(props){
                 <Card.Img src={menu.image} className=""/>
             </Card.Body>
             <Card.Footer className="d-flex">
-                <Form.Control size="sm" className="ms-auto me-1" type="number" defaultValue={1} ref={quantityRef}></Form.Control>
-                {sessionStorage.getItem("isTakeout") == 'true'? <Card.Text className="mx-2">${menu.price}</Card.Text>: ``}
-                <Button className="btn-sm" variant="outline-primary" onClick={addToCart}>Add</Button>
+                quantity: <Form.Control size="sm" className="ms-auto me-1" type="number" defaultValue={1} onChange={(e)=>{setQuantity(e.target.value)}}></Form.Control>
+                {sessionStorage.getItem("isTakeout") === 'true'? <Card.Text className="mx-2">${menu.price}</Card.Text>: ``}
+                <Button className="btn-sm" variant="outline-primary" onClick={()=>addToCart(menu)}>Add</Button>
             </Card.Footer>
             </Card>
             </Col>     

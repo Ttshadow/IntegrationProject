@@ -10,6 +10,7 @@ import { TakeoutOrDinein } from "./component/menu/TakeoutOrDinein";
 import { UserDashboard } from "./component/userDashboard/UserDashboard";
 import { Menu } from "./component/menu/Menu";
 import { UserMenu } from "./component/menu/UserMenu";
+import { Cart } from "./component/menu/Cart";
 
 // import UserDashboard from "./component/userDashboard/UserDashboard";
 
@@ -44,6 +45,7 @@ function App() {
           <Route path="/dine/" element={<Outlet />}>
             <Route path="" element={<TakeoutOrDinein/>}/>
             <Route path="menu" element={<UserMenu />}/>
+            <Route path="cart" element={<Cart />}/>
           </Route>
 
           {/* <Route path="/userDashboard/" element={<UserDashboard />}>

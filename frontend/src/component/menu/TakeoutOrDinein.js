@@ -39,12 +39,7 @@ export function TakeoutOrDinein(){
         sessionStorage.removeItem("table");
         setShowModal(false);
     }
-    function handleShow(){
-        setShowModal(true);
-    }
-    function handleClose(){
-        setShowModal(false);
-    }
+
     return (
         <div className="row">
                 <h2 className="text-center">Start Your Order</h2>
