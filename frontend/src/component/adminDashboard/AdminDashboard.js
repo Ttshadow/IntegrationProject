@@ -1,25 +1,20 @@
+import { Col, Container,Row } from 'react-bootstrap';
+import useLocalStorage from '../../util/useLocalStorage';
+import Order from './Order';
 import SideBar from './SideBar';
-import Header from '../header/Header';
-import {Container, Col, Row }from 'react-bootstrap';
-import Comment from './Comment';
+import Unauthorized from './Unauthorized';
 
 function AdminDashboard() {
+    const [authority,setAuthority] = useLocalStorage('','authority');
 
     return(
-        <>
-        <Header />
-        <Container>
+        authority === 'ROLE_ADMIN' ? 
+        (<Container>
             <Row>
-                <Col>
-                    <SideBar />
-                </Col>
-                <Col>
-                    <Comment />
-                </Col>
+                <Col className='col-3'><SideBar /></Col>
+                <Col className='col-9'><Order/></Col>
             </Row>
-        </Container>
-        
-        </>
+        </Container>) : <Unauthorized></Unauthorized>
         
     )
 }

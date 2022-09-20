@@ -1,28 +1,41 @@
-import React, { useContext, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import MainLayout from "./component/MainLayout";
 import Home from "./component/home/Home";
-
+import Menu from "./component/menu/Menu";
+import Reservation from "./component/reservation/Reservation";
+import ShoppingCart from "./component/shoppingCart/ShoppingCart";
 import UserDashboard from "./component/userDashboard/UserDashboard";
 import AdminDashboard from "./component/adminDashboard/AdminDashboard";
-import ShoppingCart from "./component/shoppingCart/ShoppingCart";
-import Reservation from "./component/reservation/Reservation";
-import Menu from "./component/menu/Menu";
+import LoginForm from "./component/authentication/LoginForm";
+import LoginWrapper from "./component/authentication/LoginWrapper";
+import RegisterForm from "./component/authentication/RegisterForm";
 
 
 function App() {
+
   return (
-        <Routes>
-          <Route path="/" element={<MainLayout />}>
-            <Route index element={<Home />}></Route>
-            <Route path="/menu" element={<Menu />}></Route>
+    <Routes>
+      <Route path="/" element={<MainLayout />}>
+        <Route index element={
+          <LoginWrapper>
+            <Home />
+          </LoginWrapper>
+        }></Route>
+        {/* <Route path="/menu" element={<Menu />}></Route>
             <Route path="/reservation" element={<Reservation />}></Route>
-            <Route path="/shoppingcart" element={<ShoppingCart />}></Route>
-          </Route>
-          <Route path="/admindashboard" element={<AdminDashboard />}></Route>
-          <Route path="/userdashboard" element={<UserDashboard />}></Route>
-          <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
+            <Route path="/shoppingcart" element={<ShoppingCart />}></Route> */}
+      </Route>
+      {/* <Route path="/userdashboard" element={<UserDashboard />}></Route>
+          <Route path="*" element={<Navigate to="/" />} /> */}
+      <Route path="/admindashboard" element={
+        <LoginWrapper>
+          <AdminDashboard />
+        </LoginWrapper>
+      }></Route>
+      <Route path="/login" element={<LoginForm />}></Route>
+      <Route path="/register" element={<RegisterForm />}></Route>
+    </Routes>
   );
 }
 
