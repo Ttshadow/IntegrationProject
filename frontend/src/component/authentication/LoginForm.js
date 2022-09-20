@@ -32,6 +32,7 @@ export default function LoginForm() {
             .then(([body, headers]) => {
                 setJwt(headers.get('authorization'))
                 setAuthority(body.authority.authority)
+                setUserId(body.id)
                 window.location.href = '/'
             });
     };
