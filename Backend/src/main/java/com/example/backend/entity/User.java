@@ -26,10 +26,6 @@ public class User extends IdBaseEntity implements UserDetails {
     private String lastName;
     private String image;
     private String password;
-    @ManyToOne(/*fetch = FetchType.LAZY,*/optional = false)
-    @JoinColumn(name = "role_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private Role role;
     @JoinColumn(name = "authority_id")
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     private Authority authority;
