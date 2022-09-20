@@ -32,7 +32,9 @@ export default function Header() {
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <Container>
         <Col className="text-start">
-          <Link to="/">Logo</Link>
+          <Link to="/">
+            <div id="logo"></div>
+          </Link>
         </Col>
 
         <Col className="collapse navbar-collapse " id="navbarSupportedContent">
