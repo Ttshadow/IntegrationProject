@@ -1,0 +1,41 @@
+.section-testimonials{
+    background-image: -webkit-gradient(linear,left top, left bottom,from(rgba(0, 0, 0, 0.8)),to(rgba(0, 0, 0, 0.8))), url("../../../../public/images/testimonials.jpeg");
+    background-image: linear-gradient(rgba(0, 0, 0, 0.8),rgba(0, 0, 0, 0.8)), url("../../../../public/images/testimonials.jpeg");
+    margin-top: 75px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: #fff;
+}
+
+.testimonials{
+    margin-top: 50px;
+    font-size: 110%;
+    line-height: 150%;
+}
+
+blockquote:before{
+    content:"\201c";
+    font-size: 400%;
+}
+
+blockquote{
+    padding: 20px 0;
+    font-style: italic;
+}
+
+cite{
+    display: block;
+    margin-top: 75px;
+    /* margin-bottom: 150px; */
+    font-style: normal;
+}
+
+cite img{
+    height: 150px;
+    width: auto;
+    border-radius: 50%;
+    vertical-align: middle;
+    margin-right: 30px;
+}

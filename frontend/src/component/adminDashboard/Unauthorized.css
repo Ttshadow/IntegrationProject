@@ -1,0 +1,22 @@
+#redirect-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #594C4B;
+}
+
+#redirect-logo{
+    font-size: 8rem;
+    color: #D8B532;
+}
+
+#redirecting{
+    font-size: 2rem;
+    color: #A0B23A;
+}
+
+#redirect-time{
+    color: white;
+    font-size: 1.5rem;
+}
