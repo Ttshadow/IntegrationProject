@@ -1,15 +1,39 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./Header.css";
-import { Col, Container, Row } from "react-bootstrap";
+import { Button, Col, Container } from "react-bootstrap";
+import { BsCartDash } from "react-icons/bs";
+import { FaUserCircle } from "react-icons/fa";
+import useLocalStorage from "../../util/useLocalStorage";
 
 export default function Header() {
+  const [jwt, setJwt] = useLocalStorage("", "jwt");
+  const [authority, setAuthority] = useLocalStorage("", "authority");
+  const handleLogin = () => {
+    if (jwt) {
+      setJwt("");
+      setAuthority("");
+    } else {
+      window.location.href = "/";
+    }
+  };
+
+  const jumpToDashboard = () => {
+    if(authority === "ROLE_ADMIN") {
+      window.location.href = "/adminDashboard";
+    }else if(authority === "ROLE_USER") {
+      window.location.href = "/userDashboard";
+    }else{
+      window.location.href = "/";
+    }
+  };
+
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <Container>
         <Col className="text-start">
           <Link to="/">
-            <img src="/images/YUKI.png" style={{width: "20%", height:"20%"}} alt="" />
+            <div id="logo"></div>
           </Link>
         </Col>
 
@@ -38,17 +62,19 @@ export default function Header() {
         <Col>
           <ul className="navbar-nav navbar float-end">
             <li className="nav-item">
-              <Link to="">
-                <i className="bi bi-bag"></i>
-              </Link>
+              <button className="btn btn-light">
+                <BsCartDash />
+              </button>
               <span
                 className="position-absolute badge rounded-pill bg-danger"
                 id="cart-number"
               ></span>
-              <Link to="">
-                <i className="bi bi-person-circle"></i>
-              </Link>
-              <Link>Login</Link>
+              <button className="me-2 btn btn-light" onClick={jumpToDashboard}>
+                <FaUserCircle />
+              </button>
+              <button onClick={handleLogin} className='btn btn-light'>
+                {jwt ? "Log Out" : "Log In"}
+              </button>
             </li>
           </ul>
         </Col>

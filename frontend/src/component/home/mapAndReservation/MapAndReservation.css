@@ -1,0 +1,20 @@
+.googleMap{
+    height: 30vw;
+}
+
+.containerBox{
+    margin-bottom: -50px;
+}
+
+#restaurantReservation{
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7),rgba(0, 0, 0, 0.6)), url("../../../../public/images/restaurantReservation.jpeg");
+    background-size: cover;
+}
+
+.reservationTitle{
+    color: #B69359;
+}
+.reservationText{
+    color:white;
+    font-weight: bold;
+}
