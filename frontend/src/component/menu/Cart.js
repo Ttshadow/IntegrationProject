@@ -8,11 +8,12 @@ export function Cart(){
     const [carts, setCarts] = useState([]);
     const [refresh, setRefresh] = useState(false);
     const [quantity, setQuantity] = useState();
+    const userId = localStorage.getItem('userId');
     let total = 0;
     const [totalPrice, setTotalPrice] = useState(total);
 
     useEffect(() => {
-      fetch(`../cart/2`, { // 1 for userid for now.
+      fetch(`../cart/${userId}`, { // 1 for userid for now.
         method: 'GET',
         headers: {
             Authorization: `Bearer ${jwt}`

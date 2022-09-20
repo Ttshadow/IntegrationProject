@@ -8,6 +8,8 @@ export function MenuCardGroup(props){
     const selectCategory = props.selectCategory;
     const [menus, setMenus] = useState();
     const [quantity, setQuantity] = useState(1);
+    const userId = localStorage.getItem('userId');
+
     useEffect(()=>{
         let url = '';
         if (selectCategory === 0){
@@ -31,7 +33,7 @@ export function MenuCardGroup(props){
             method: 'POST',
             body: JSON.stringify({
                 user: {
-                    id: 2
+                    id: userId,
                 },
                 table: {
                     id: Number(sessionStorage.getItem('table'))
