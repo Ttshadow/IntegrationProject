@@ -117,7 +117,7 @@ export function Cart(){
                             <td><img alt='' src={cart.menu.image} width="90"></img></td>
                             <td>{cart.menu.name}</td>
                             <td><Button onClick={()=>handleMinus(cart)} variant="outline-primary" size="sm" className="me-1">-</Button>{cart.quantity}<Button onClick={()=>handlePlus(cart)} className="ms-1" size="sm" variant="outline-primary">+</Button></td>
-                            <td>${isTakeout === 'true' ? cart.menu.price * cart.quantity : 0}</td>
+                            <td>${isTakeout === 'true' ? (cart.menu.price * cart.quantity).toFixed(2) : 0}</td>
                             <td><Button variant='outline-danger' onClick={()=>handleRemove(cart)} className='me-1 btn-sm'>Remove</Button>
                             </td>
                         </tr>
@@ -125,7 +125,7 @@ export function Cart(){
                 }
             </tbody>
         </Table>
-        <h3>${totalPrice}</h3>
+        <h3>${totalPrice.toFixed(2)}</h3>
         <Button className="float-end" /*onClick={handlePlaceOrder}*/>Place Order</Button>
     </div>
 }
