@@ -2,13 +2,19 @@ import { Form, Button, Alert } from 'react-bootstrap';
 import React, { useState, useRef} from "react";
 import {useNavigate} from 'react-router-dom';
 import useLocalStorage from "../../util/useLocalStorage";
+import moment from 'moment';
+
+
 
 function LeaveComment() {
-    const [jwt,setJwt] = useLocalStorage("","jwt")
-    const [comment, setComment] = useState({
-        user_id: "",
-        content: "",
-    });
+    const [jwt,setJwt] = useLocalStorage("","jwt");
+    const [userId,setUserId] = useLocalStorage('','userId');
+    const dateCreate = Date.now(); 
+    // const [comment, setComment] = useState({
+    //     user_id: "",
+    //     content: "",
+    //     dateCreated: "",
+    // });
     const inputComment = useRef("");
     const navigate = useNavigate();
 
@@ -23,7 +29,7 @@ function LeaveComment() {
     //     setValidate(true);
     // }
 
-    const addComment = async() => {
+    const addComment = () => {
         
         fetch('/userdashboard/review', {
             method: 'POST',
@@ -33,25 +39,24 @@ function LeaveComment() {
                 Authorization: `Bearer ${jwt}`
             },
             body: JSON.stringify({
-                user_id: 2,
+                user: {id: localStorage.getItem('userId')},
                 content: inputComment.current.value,
+                createDate: moment(dateCreate).toDate(),
             })
+        }).then(()=>{
+            alert('success');
         })     
-        if(Response.status !== 200){
-            throw new Error(`Request failed`);
-        }
     }
 
-    const onSubmit = async(event) => {
+    const onSubmit = (event) => {
         event.preventDefault();
-        try{
-            await addComment();
-            console.log(comment.content);
-            <Alert variant="success">Comment added successfully!</Alert>
-            setComment(comment);
-        }catch(e){
-            alert(`Failed to add comment$(e.message)`);
-        }
+        
+            addComment();
+            console.log(moment(dateCreate).toDate());
+            console.log(inputComment);
+            //<Alert variant="success">Comment added successfully!</Alert>
+            
+        
     }
     return (
         <>

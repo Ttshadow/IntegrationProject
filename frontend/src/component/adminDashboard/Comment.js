@@ -8,7 +8,7 @@ function Comment(){
     const [comments, setComments] = useState([])
 
     useEffect(() =>{
-        fetch('admindashboard/review', {
+        fetch('../admindashboard/review', {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${jwt}`

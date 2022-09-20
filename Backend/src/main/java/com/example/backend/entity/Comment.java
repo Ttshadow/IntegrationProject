@@ -16,7 +16,7 @@ import java.util.*;
 public class Comment extends IdBaseEntity{
     @NotEmpty(message = ErrorMessage.COMMENT_IS_REQUIRED_ERROR_MESSAGE)
     private String content;
-    @Temporal(TemporalType.TIMESTAMP)
+    //@Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id")
