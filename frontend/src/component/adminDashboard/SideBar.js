@@ -51,7 +51,7 @@ return(
                     </MenuItem>
                     <MenuItem icon={<BiFoodMenu />}>
                         Menu
-                        <Link to="/" />
+                        <Link to="menuDashboard" />
                     </MenuItem>
                     <MenuItem icon={<BsCartFill />}>
                         Orders

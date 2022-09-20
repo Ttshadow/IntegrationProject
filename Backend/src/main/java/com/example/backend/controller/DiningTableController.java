@@ -12,20 +12,18 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@RequestMapping("/diningtable")
 public class DiningTableController {
     private final DiningTableService diningTableService;
 
     public DiningTableController(DiningTableService diningTableService) {
         this.diningTableService = diningTableService;
     }
-    @GetMapping("/diningtable")
+    @GetMapping
     public List<DiningTable> getAllDiningTables(){
         return diningTableService.getAllDiningTables();
     }
-    @GetMapping("/add_dining_table")
-    public void addDiningTable(){
-        //TODO:
-    }
+
     @PostMapping("/save_dining_table")
     public List<DiningTable> saveDiningTable(@Valid @ModelAttribute("diningTable") DiningTable newDiningtable, BindingResult result) throws RecordNotFoundException {
         if(result.hasErrors()){
