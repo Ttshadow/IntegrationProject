@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Table } from 'react-bootstrap';
 import useLocalStorage from "../../util/useLocalStorage";
+import moment from 'moment';
 
 function Comment(){
 
@@ -37,7 +38,7 @@ function Comment(){
                         return <tr key={comment.id}>
                             <td>{comment.user.firstName} {comment.user.lastName}</td>
                             <td>{comment.content}</td>
-                            <td>{comment.createDate}</td>
+                            <td>{moment(comment.createDate).format("YYYY-MM-DD HH:mm")}</td>
                             </tr>
                     })}
                     

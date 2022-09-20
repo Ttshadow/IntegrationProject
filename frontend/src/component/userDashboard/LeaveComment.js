@@ -1,6 +1,5 @@
 import { Form, Button, Alert } from 'react-bootstrap';
 import React, { useState, useRef} from "react";
-import {useNavigate} from 'react-router-dom';
 import useLocalStorage from "../../util/useLocalStorage";
 import moment from 'moment';
 
@@ -8,15 +7,10 @@ import moment from 'moment';
 
 function LeaveComment() {
     const [jwt,setJwt] = useLocalStorage("","jwt");
-    const [userId,setUserId] = useLocalStorage('','userId');
+    //const [userId,setUserId] = useLocalStorage('','userId');
     const dateCreate = Date.now(); 
-    // const [comment, setComment] = useState({
-    //     user_id: "",
-    //     content: "",
-    //     dateCreated: "",
-    // });
-    const inputComment = useRef("");
-    const navigate = useNavigate();
+    const commentRef = useRef("");
+    
 
     
     // const[validate, setValidate] = useState();
@@ -40,7 +34,7 @@ function LeaveComment() {
             },
             body: JSON.stringify({
                 user: {id: localStorage.getItem('userId')},
-                content: inputComment.current.value,
+                content: commentRef.current.value,
                 createDate: moment(dateCreate).toDate(),
             })
         }).then(()=>{
@@ -53,7 +47,7 @@ function LeaveComment() {
         
             addComment();
             console.log(moment(dateCreate).toDate());
-            console.log(inputComment);
+            console.log(commentRef);
             //<Alert variant="success">Comment added successfully!</Alert>
             
         
@@ -66,7 +60,7 @@ function LeaveComment() {
                 
                 <Form.Group className="mb-3" controlId="validateText">
                     <Form.Label><h4>Please leave your comments:</h4></Form.Label>
-                    <Form.Control as="textarea" rows={5} ref={inputComment} required />
+                    <Form.Control as="textarea" rows={5} ref={commentRef} required />
                     {/* <Form.Control.Feedback type="invalid">
                         Empty Comment! Please leave your comments.
                     </Form.Control.Feedback> */}
