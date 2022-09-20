@@ -28,8 +28,8 @@ public class CartItemController {
         return ResponseEntity.ok(cartItem);
     }
 
-    @PutMapping("/update_quantity{id}")
-    public CartItem updateQuantity(@PathVariable Long id, Integer qty) throws RecordNotFoundException {
+    @PutMapping("/update_quantity/{id}")
+    public CartItem updateQuantity(@PathVariable Long id, @RequestBody Integer qty) throws RecordNotFoundException {
         cartItemService.updateCartItemQuantity(id, qty);
         return cartItemService.getCartItemById(id);
     }

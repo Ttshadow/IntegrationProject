@@ -6,6 +6,7 @@ import useLocalStorage from '../../../util/useLocalStorage';
 
 
 export function EditCategory(){
+    // const [validated, setValidated] = useState(false);
     const [jwt, setJwt] = useLocalStorage('', 'jwt');
     const {id} = useParams();
     const [category, setCategory] = useState({id:'', name:''});
@@ -13,6 +14,12 @@ export function EditCategory(){
     const navigate = useNavigate();
 
     function saveCategory(e){
+        // const form = e.currentTarget;
+        //   if (form.checkValidity() === false) {
+        //     e.preventDefault();
+        //     e.stopPropagation();
+        //  }
+        // setValidated(true);
         e.preventDefault();
         fetch('../category/edit_category',{
             method:'PUT',
@@ -52,7 +59,10 @@ export function EditCategory(){
                 </Form.Group>
                 <Form.Group className="mb-3" >
                   <Form.Label >Name</Form.Label>
-                  <Form.Control type="text" defaultValue={category.name} ref={categoryNameRef}/>
+                  <Form.Control maxLength={30} required type="text" defaultValue={category.name} ref={categoryNameRef}/>
+                  <Form.Control.Feedback type="invalid">
+                    Please enter a category name.
+                  </Form.Control.Feedback>
                 </Form.Group>
                 <Button type="submit" variant="warning" className="mt-3 mb-3">Save</Button>
             </Form>
