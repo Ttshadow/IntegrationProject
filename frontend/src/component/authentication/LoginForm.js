@@ -37,18 +37,38 @@ export default function LoginForm() {
             });
     };
 
-    return (
-        <div>
-            <p>{message}</p>
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="username">Username</label>
-                <input id="username" type="text" ref={usernameRef} required />
-
-                <label htmlFor="password">Password</label>
-                <input id="password" type="password" ref={passwordRef} required />
-                <button type="submit">Log in</button>
-            </form>
-            <Link to="/register">Go to Register</Link>
-        </div>
-    );
+  return (
+    <div className="login-container">
+      <div className="login-form">
+        <h1>Login</h1>
+        <p>{message}</p>
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="username">Username</label>
+          <input
+            id="username"
+            type="text"
+            ref={usernameRef}
+            className="input"
+            placeholder="Username"
+            required
+          />
+          <label htmlFor="password">Password</label>
+          <input
+            id="password"
+            type="password"
+            ref={passwordRef}
+            placeholder="Password"
+            className="input"
+            required
+          />
+          <button type="submit" id="button">
+            Log in
+          </button>
+        </form>
+        <Link to="/register" id="goToRegister">
+          Go to Register
+        </Link>
+      </div>
+    </div>
+  );
 }
