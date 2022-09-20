@@ -18,6 +18,8 @@ import { UserDashboard } from "./component/userDashboard/UserDashboard";
 import { Menu } from "./component/menu/Menu";
 import { UserMenu } from "./component/menu/UserMenu";
 import { Cart } from "./component/menu/Cart";
+import Order from "./component/adminDashboard/Order";
+import CustomerOrder from "./component/order/CustomerOrder";
 
 // import UserDashboard from "./component/userDashboard/UserDashboard";
 
@@ -26,11 +28,8 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<MainLayout />}>
-        <Route index element={
-          <LoginWrapper>
-            <Home />
-          </LoginWrapper>
-        }></Route>
+        <Route index element={<Home />}></Route>
+        <Route path="/order" element={<CustomerOrder />}></Route>
         {/* <Route path="/menu" element={<Menu />}></Route>
             <Route path="/reservation" element={<Reservation />}></Route>
             <Route path="/shoppingcart" element={<ShoppingCart />}></Route> */}
@@ -47,6 +46,7 @@ function App() {
         <Route path="editCategory/:id" element={<EditCategory />}/>
         <Route path="editMenu/:id" element={<EditMenu />}/>
         <Route path="newMenu" element={<NewMenu />}/>
+        <Route path="order" element={<Order />}/>
       </Route>
 
       <Route path="/dine/" element={<Outlet />}>
