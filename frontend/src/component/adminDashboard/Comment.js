@@ -1,13 +1,18 @@
 import React, {useEffect, useState} from 'react';
 import {Table } from 'react-bootstrap';
+import useLocalStorage from "../../util/useLocalStorage";
 
 function Comment(){
 
+    const [jwt,setJwt] = useLocalStorage("","jwt")
     const [comments, setComments] = useState([])
 
     useEffect(() =>{
         fetch('admindashboard/review', {
             method: 'GET',
+            headers: {
+                Authorization: `Bearer ${jwt}`
+              }
         })
         .then((data)=> data.json())
         .then((json)=> {
@@ -18,6 +23,7 @@ function Comment(){
 
     return(
         <>
+            <br/>
             <Table striped bordered hover>
                 <thead>
                     <tr>

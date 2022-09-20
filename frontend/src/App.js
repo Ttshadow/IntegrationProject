@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import MainLayout from "./component/MainLayout";
 import Home from "./component/home/Home";
-import Reservation from "./component/reservation/Reservation";
-import ShoppingCart from "./component/shoppingCart/ShoppingCart";
+//import Reservation from "./component/reservation/Reservation";
+//import ShoppingCart from "./component/shoppingCart/ShoppingCart";
 import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import AdminDashboard from "./component/adminDashboard/AdminDashboard";
 import LoginForm from "./component/authentication/LoginForm";
@@ -14,10 +14,12 @@ import { EditCategory } from "./component/adminDashboard/Menu/EditCategory";
 import { EditMenu } from "./component/adminDashboard/Menu/EditMenu";
 import NewMenu from "./component/adminDashboard/Menu/NewMenu";
 import { TakeoutOrDinein } from "./component/menu/TakeoutOrDinein";
-import { UserDashboard } from "./component/userDashboard/UserDashboard";
-import { Menu } from "./component/menu/Menu";
+import UserDashboard from "./component/userDashboard/UserDashboard";
+//import { Menu } from "./component/menu/Menu";
 import { UserMenu } from "./component/menu/UserMenu";
 import { Cart } from "./component/menu/Cart";
+import Comment from "./component/adminDashboard/Comment";
+import LeaveComment from "./component/userDashboard/LeaveComment";
 
 // import UserDashboard from "./component/userDashboard/UserDashboard";
 
@@ -47,6 +49,7 @@ function App() {
         <Route path="editCategory/:id" element={<EditCategory />}/>
         <Route path="editMenu/:id" element={<EditMenu />}/>
         <Route path="newMenu" element={<NewMenu />}/>
+        <Route path="comment" element={<Comment />}/>
       </Route>
 
       <Route path="/dine/" element={<Outlet />}>
@@ -55,8 +58,9 @@ function App() {
         <Route path="cart" element={<Cart />}/>
       </Route>
 
-      {/* <Route path="/userDashboard/" element={<UserDashboard />}>
-      </Route> */}
+      <Route path="/userDashboard/" element={<UserDashboard />}>
+        <Route path="leavecomment" element={<LeaveComment />}/>
+      </Route>
       {/* <Route path="/userdashboard" element={<UserDashboard />}></Route> */}
       {/* <Route path="*" element={<Navigate to="/" />} /> */}
     </Routes>

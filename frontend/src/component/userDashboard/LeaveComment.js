@@ -1,36 +1,44 @@
 import { Form, Button, Alert } from 'react-bootstrap';
-import React, { useState, useRef, useNavigate } from "react";
+import React, { useState, useRef} from "react";
+import {useNavigate} from 'react-router-dom';
+import useLocalStorage from "../../util/useLocalStorage";
 
 function LeaveComment() {
+    const [jwt,setJwt] = useLocalStorage("","jwt")
     const [comment, setComment] = useState({
-        content: ""
+        user_id: "",
+        content: "",
     });
-    //const review = useRef("");
-    //const navigate = useNavigate();
+    const inputComment = useRef("");
+    const navigate = useNavigate();
 
     
-    const[validate, setValidate] = useState();
-    const handleSubmit = (event) => {
-        const form = event.currentTarget;
-        if(form.checkValidity() === false) {
-            event.preventDefault();
-            event.stopPropagation();
-        }
-        setValidate(true);
-    }
+    // const[validate, setValidate] = useState();
+    // const handleSubmit = (event) => {
+    //     const form = event.currentTarget;
+    //     if(form.checkValidity() === false) {
+    //         event.preventDefault();
+    //         event.stopPropagation();
+    //     }
+    //     setValidate(true);
+    // }
 
     const addComment = async() => {
         
         fetch('/userdashboard/review', {
-            method: 'post',
+            method: 'POST',
             headers: { 
                 'Accept': 'application/json', 
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${jwt}`
             },
-            body: JSON.stringify({content: comment.content})
-        });
+            body: JSON.stringify({
+                user_id: 2,
+                content: inputComment.current.value,
+            })
+        })     
         if(Response.status !== 200){
-            throw new Error(`Request failed: ${Response.status}`);
+            throw new Error(`Request failed`);
         }
     }
 
@@ -38,7 +46,7 @@ function LeaveComment() {
         event.preventDefault();
         try{
             await addComment();
-            console.log(comment);
+            console.log(comment.content);
             <Alert variant="success">Comment added successfully!</Alert>
             setComment(comment);
         }catch(e){
@@ -48,14 +56,15 @@ function LeaveComment() {
     return (
         <>
         <br/>
-            <Form noValidate validated={validate} onSubmit={handleSubmit} style={{border: "ridge", padding:"20px"}}>
+        {/* noValidate validated={validate} onSubmit={handleSubmit} */}
+            <Form style={{border: "ridge", padding:"20px"}}>
                 
                 <Form.Group className="mb-3" controlId="validateText">
                     <Form.Label><h4>Please leave your comments:</h4></Form.Label>
-                    <Form.Control as="textarea" rows={5} required />
-                    <Form.Control.Feedback type="invalid">
+                    <Form.Control as="textarea" rows={5} ref={inputComment} required />
+                    {/* <Form.Control.Feedback type="invalid">
                         Empty Comment! Please leave your comments.
-                    </Form.Control.Feedback>
+                    </Form.Control.Feedback> */}
                 </Form.Group>
                 <Button type="submit" variant='primary' onClick={onSubmit}>Submit</Button>
             </Form>

@@ -6,6 +6,7 @@ import com.example.backend.service.*;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.*;
 import java.util.*;
 
 @RestController
@@ -22,7 +23,7 @@ public class CommentController {
     }
 
     @PostMapping("/userdashboard/review")
-    public ResponseEntity<Comment> addComment(@RequestBody Comment newComment) throws RecordNotFoundException {
+    public ResponseEntity<Comment> addComment(@Valid @RequestBody Comment newComment) throws RecordNotFoundException {
         commentService.saveComment(newComment);
         return ResponseEntity.ok(newComment);
     }

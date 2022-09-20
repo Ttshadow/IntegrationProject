@@ -1,7 +1,7 @@
 import SideBar from './SideBar';
+import { Outlet } from "react-router-dom";
 import Header from '../header/Header';
 import {Container, Col, Row }from 'react-bootstrap';
-import LeaveComment from './LeaveComment';
 
 function UserDashboard() {
     
@@ -11,11 +11,11 @@ function UserDashboard() {
         <Header />
         <Container>
             <Row>
-                <Col>
+                <Col className="col-3">
                     <SideBar />
                 </Col>
-                <Col>
-                    <LeaveComment />
+                <Col className="col-9">
+                    <Outlet />
                 </Col>
             </Row>
         </Container>

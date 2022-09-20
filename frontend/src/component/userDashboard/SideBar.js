@@ -59,7 +59,7 @@ return(
                     </MenuItem>
                     <MenuItem icon={<MdRateReview />}>
                         Leave a Review
-                        <Link to="/" />
+                        <Link to="leavecomment" />
                     </MenuItem>
                 </Menu>
             </SidebarContent>

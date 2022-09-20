@@ -3,7 +3,7 @@ import { ImPriceTag } from "react-icons/im";
 import { BsCartFill, BsCalendarCheckFill } from "react-icons/bs";
 import { SiAirtable } from "react-icons/si";
 import { FiArrowLeftCircle, FiArrowRightCircle, FiLogOut } from "react-icons/fi";
-import {NavLink, Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import React, { useState } from "react";
 import {
     ProSidebar,
@@ -21,16 +21,7 @@ function SideBar(){
     const toggle = () => {isOpen ? setIsOpen(false) : setIsOpen(true);};
 
     const [activePage, setActivePage] = useState(false) ;
-    const handleClick = (event) => {
-        event.preventDefault();
-        if (!event.target.classList.value.includes("active")) {
-            event.target.classList.add('active') ;
-            if (activePage)
-              activePage.classList.remove("active") ;
-            setActivePage(event.target) ;
-          }
-        console.log("clicked");
-    }
+    
 return(
 <>
     <div id="side_bar">
@@ -61,7 +52,7 @@ return(
                     <MenuItem icon={<BsCalendarCheckFill />}>Reservations</MenuItem>
                     <MenuItem icon={<BiCommentDots />}>
                         Reviews
-                        <NavLink to='/review' onClick={handleClick}/>
+                        <Link to="comment" />
                     </MenuItem>
                 </Menu>
             </SidebarContent>

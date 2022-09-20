@@ -1,7 +1,6 @@
 import { Outlet } from "react-router-dom";
 import { Col, Container,Row } from 'react-bootstrap';
 import useLocalStorage from '../../util/useLocalStorage';
-import Order from './Order';
 import SideBar from './SideBar';
 import Unauthorized from './Unauthorized';
 
