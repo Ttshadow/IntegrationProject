@@ -1,8 +1,11 @@
 import { Form, Button, Alert } from 'react-bootstrap';
-import React, { useState, useNavigate } from "react";
+import React, { useState, useRef, useNavigate } from "react";
 
 function LeaveComment() {
-    const [comment, setComment] = useState(null);
+    const [comment, setComment] = useState({
+        content: ""
+    });
+    //const review = useRef("");
     //const navigate = useNavigate();
 
     
@@ -17,13 +20,14 @@ function LeaveComment() {
     }
 
     const addComment = async() => {
+        
         fetch('/userdashboard/review', {
             method: 'post',
             headers: { 
                 'Accept': 'application/json', 
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(comment)
+            body: JSON.stringify({content: comment.content})
         });
         if(Response.status !== 200){
             throw new Error(`Request failed: ${Response.status}`);
@@ -34,10 +38,11 @@ function LeaveComment() {
         event.preventDefault();
         try{
             await addComment();
-            Alert.success('Comment added successfully');
+            console.log(comment);
+            <Alert variant="success">Comment added successfully!</Alert>
             setComment(comment);
         }catch(e){
-            Alert.error('Failed to add comment');
+            alert(`Failed to add comment$(e.message)`);
         }
     }
     return (
