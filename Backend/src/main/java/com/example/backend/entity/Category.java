@@ -14,6 +14,6 @@ import javax.validation.constraints.Size;
 @Table(name = "categories")
 public class Category extends IdBaseEntity{
     @NotEmpty(message = ErrorMessage.NAME_IS_REQUIRED_ERROR_MESSAGE)
-    @Size(max = 30, message = ErrorMessage.CATEGORYNAME_SIZE_LIMIT_ERROR_MESSAGE)
+    @Size(max = 30, message = ErrorMessage.NAME_SIZE_LIMIT_ERROR_MESSAGE)
     private String name;
 }
