@@ -9,10 +9,12 @@ import useLocalStorage from "../../util/useLocalStorage";
 export default function Header() {
   const [jwt, setJwt] = useLocalStorage("", "jwt");
   const [authority, setAuthority] = useLocalStorage("", "authority");
+  const [userId, setUserId] = useLocalStorage("", "userId");
   const handleLogin = () => {
     if (jwt) {
       setJwt("");
       setAuthority("");
+      setUserId("");
     } else {
       window.location.href = "/";
     }

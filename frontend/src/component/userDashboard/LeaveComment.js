@@ -2,15 +2,16 @@ import { Form, Button, Alert } from 'react-bootstrap';
 import React, { useState, useRef} from "react";
 import useLocalStorage from "../../util/useLocalStorage";
 import moment from 'moment';
-
+import { useNavigate } from "react-router-dom";
 
 
 function LeaveComment() {
     const [jwt,setJwt] = useLocalStorage("","jwt");
-    //const [userId,setUserId] = useLocalStorage('','userId');
     const dateCreate = Date.now(); 
     const commentRef = useRef("");
-    
+    const navigate = useNavigate();
+    const [show, setShow] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
 
     
     // const[validate, setValidate] = useState();
@@ -37,9 +38,19 @@ function LeaveComment() {
                 content: commentRef.current.value,
                 createDate: moment(dateCreate).toDate(),
             })
-        }).then(()=>{
-            alert('success');
-        })     
+        }).then((data)=>{
+            if(data.status === 200){
+                setShow(true);
+            }else{
+                return data.text();
+            }            
+        })
+        .then((text) =>{
+            setErrorMessage(text);
+        })
+        // .then(()=>{
+        //     navigate("/");
+        // })
     }
 
     const onSubmit = (event) => {
@@ -48,14 +59,18 @@ function LeaveComment() {
             addComment();
             console.log(moment(dateCreate).toDate());
             console.log(commentRef);
-            //<Alert variant="success">Comment added successfully!</Alert>
-            
-        
+    }
+
+    const backClick = (event) => {
+        event.preventDefault();
+        navigate("/");
     }
     return (
         <>
         <br/>
+
         {/* noValidate validated={validate} onSubmit={handleSubmit} */}
+            <Alert show={show} variant="success">Comment added successfully!</Alert>
             <Form style={{border: "ridge", padding:"20px"}}>
                 
                 <Form.Group className="mb-3" controlId="validateText">
@@ -64,8 +79,11 @@ function LeaveComment() {
                     {/* <Form.Control.Feedback type="invalid">
                         Empty Comment! Please leave your comments.
                     </Form.Control.Feedback> */}
+                    <p className='text-danger' defaultValue={''}>{errorMessage}</p>
                 </Form.Group>
-                <Button type="submit" variant='primary' onClick={onSubmit}>Submit</Button>
+                <Button type="submit" variant='warning' onClick={onSubmit}>Submit</Button>
+                &nbsp;&nbsp;&nbsp;
+                <Button variant='success' onClick={backClick}>Back to Home</Button>
             </Form>
         </>
     )

@@ -57,7 +57,7 @@ return(
                         Reservations
                         <Link to="/" />
                     </MenuItem>
-                    <MenuItem icon={<MdRateReview />}>
+                    <MenuItem active={window.location.pathname === "/admindashboard/leavecomment"} icon={<MdRateReview />}>
                         Leave a Review
                         <Link to="leavecomment" />
                     </MenuItem>
