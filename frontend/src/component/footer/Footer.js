@@ -1,5 +1,6 @@
 import React from 'react'
-import { Container,Row,Col } from 'react-bootstrap'
+import { Container,Row,Col, Button } from 'react-bootstrap'
+import { BsFacebook, BsInstagram, BsTwitter } from 'react-icons/bs'
 import { Link } from 'react-router-dom'
 import "./Footer.css"
 
@@ -38,13 +39,11 @@ export default function Footer() {
                 </div>
         </Col>
         <Col className="col-2">
-        <h5 className="pb-2">Instagram</h5>
-                <div className="row">
-                    <img className="img-fluid w-25 h-50 m-2" src="images/footer_image1.jpeg" alt=""/>
-                    <img className="img-fluid w-25 h-50 m-2" src="images/footer_image2.jpeg"  alt=""/>
-                    <img className="img-fluid w-25 h-50 m-2" src="images/footer_image3.jpeg"  alt=""/>
-                    <img className="img-fluid w-25 h-50 m-2" src="images/footer_image4.jpeg"  alt=""/>
-                    <img className="img-fluid w-25 h-50 m-2" src="images/footer_image5.jpeg"  alt=""/>
+        <h5 className="pb-2">Social Media</h5>
+                <div className="">
+                    <Link className='mx-3'><BsInstagram /></Link>
+                    <Link className='mx-3'><BsFacebook /></Link>
+                    <Link className='mx-3'><BsTwitter /></Link>
                 </div>
         </Col>
       </Row>
