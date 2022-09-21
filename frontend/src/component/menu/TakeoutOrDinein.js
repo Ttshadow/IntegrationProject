@@ -18,7 +18,7 @@ export function TakeoutOrDinein(){
     }
     function selectTakeout(){
         sessionStorage.setItem("isTakeout", true);
-        sessionStorage.setItem("table", 7);
+        sessionStorage.setItem("table", 1);
         navigate(`menu`);
     }
     function handleSelectChange(e){
