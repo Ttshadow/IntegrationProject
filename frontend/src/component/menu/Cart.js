@@ -13,7 +13,7 @@ export function Cart(){
     const [totalPrice, setTotalPrice] = useState(total);
 
     useEffect(() => {
-      fetch(`../cart/${userId}`, { // 1 for userid for now.
+      fetch(`/cart/${userId}`, { // 1 for userid for now.
         method: 'GET',
         headers: {
             Authorization: `Bearer ${jwt}`
@@ -35,7 +35,7 @@ export function Cart(){
     },[carts])
 
     function handleRemove(cart){
-        fetch(`../cart/remove_item/${cart.id}`,{
+        fetch(`/cart/remove_item/${cart.id}`,{
             method: 'DELETE',
             headers: {
                 Authorization: `Bearer ${jwt}`
@@ -50,7 +50,7 @@ export function Cart(){
             handleRemove(cart);
         }
         else{
-            fetch(`../cart/update_quantity/${cart.id}`, {
+            fetch(`/cart/update_quantity/${cart.id}`, {
                 method: 'PUT',
                 body: cart.quantity - 1,
                 headers: {
@@ -63,7 +63,7 @@ export function Cart(){
         
     }
     function handlePlus(cart){
-        fetch(`../cart/update_quantity/${cart.id}`, {
+        fetch(`/cart/update_quantity/${cart.id}`, {
             method: 'PUT',
             body: cart.quantity + 1,
             headers: {
@@ -100,7 +100,8 @@ export function Cart(){
     //     })
     // }
     return <div className="container">
-        <Table striped bordered hover>
+        <h3 className="mt-5">Your Cart</h3>
+        <Table striped bordered hover >
             <thead>
                 <tr>
                     <th>Image</th>
@@ -125,7 +126,7 @@ export function Cart(){
                 }
             </tbody>
         </Table>
-        <h3>${totalPrice.toFixed(2)}</h3>
+        <h3>${isTakeout === 'true' ? totalPrice.toFixed(2): 0}</h3>
         <Button className="float-end" /*onClick={handlePlaceOrder}*/>Place Order</Button>
     </div>
 }

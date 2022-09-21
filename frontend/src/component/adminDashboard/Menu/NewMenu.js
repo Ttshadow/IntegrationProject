@@ -6,7 +6,7 @@ import { UseFetchCategories } from "./UseFetchCategories";
 
 function NewMenu(){
 
-    const categories = UseFetchCategories('category');
+    const categories = UseFetchCategories('/admindashboard/category');
     const [jwt, setJwt] = useLocalStorage('', 'jwt');
     const nameRef = useRef();
     const descriptionRef = useRef();
@@ -21,7 +21,7 @@ function NewMenu(){
     const saveMenu = async (e) => {
         e.preventDefault();
         await uploadImage();
-        await fetch('menu/add_menu',{
+        await fetch('/admindashboard/menu/add_menu',{
             method: 'POST',
             body: JSON.stringify({    
                 name: nameRef.current.value,
@@ -59,9 +59,6 @@ function NewMenu(){
         await fetch('https://api.cloudinary.com/v1_1/ddz01pm2r/image/upload',{
             method: 'POST',
             body: formData,
-            headers: {
-                Authorization: `Bearer ${jwt}`
-              }
         })
         .then(response=>response.json())
         .then((json)=>{

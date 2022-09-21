@@ -27,6 +27,12 @@ function App() {
     <Routes>
       <Route path="/" element={<MainLayout />}>
         <Route index element={<Home />}></Route>
+        <Route path="/dine/" element={<LoginWrapper><Outlet /></LoginWrapper>}>
+          <Route path="" element={<TakeoutOrDinein/>}/>
+          <Route path="menu" element={<UserMenu />}/>
+          <Route path="cart" element={<Cart />}/>
+        </Route>
+
       </Route>
 
       <Route path="/login" element={<LoginForm />}></Route>
@@ -39,11 +45,7 @@ function App() {
         <Route path="editMenu/:id" element={<EditMenu />}/>
         <Route path="newMenu" element={<NewMenu />}/>
       </Route>
-      <Route path="/dine/" element={<LoginWrapper><Outlet /></LoginWrapper>}>
-        <Route path="" element={<TakeoutOrDinein/>}/>
-        <Route path="menu" element={<LoginWrapper><UserMenu /></LoginWrapper>}/>
-        <Route path="cart" element={<Cart />}/>
-      </Route>
+      
       {/* <Route path="/userDashboard/" element={<UserDashboard />}>
       </Route> */}
       {/* <Route path="/userdashboard" element={<UserDashboard />}></Route> */}

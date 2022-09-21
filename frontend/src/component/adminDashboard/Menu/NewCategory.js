@@ -18,7 +18,7 @@ function NewCategory(){
 
     function addCategory(event){
         event.preventDefault();
-        fetch('category/add_category', {
+        fetch('/admindashboard/category/add_category', {
             method:"POST",
             body: JSON.stringify({    
                 name: nameRef.current.value,
@@ -34,7 +34,6 @@ function NewCategory(){
             navigate('../menuDashboard');}
             else{
                 return data.text();
-                // alert(data.text());
             }
         })
         .then((text)=>{

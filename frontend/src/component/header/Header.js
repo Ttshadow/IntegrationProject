@@ -16,8 +16,10 @@ export default function Header() {
       setJwt("");
       setAuthority("");
       setUserId("");
-    } else {
       window.location.href = "/";
+
+    } else {
+      window.location.href = "/login";
     }
   };
 
@@ -65,7 +67,7 @@ export default function Header() {
         <Col>
           <ul className="navbar-nav navbar float-end">
             <li className="nav-item">
-              <button className="btn btn-light">
+              <button className="btn btn-light"onClick={()=>{window.location.href = "/dine/cart";}}>
                 <BsCartDash />
               </button>
               <span

@@ -21,7 +21,7 @@ export function EditCategory(){
         //  }
         // setValidated(true);
         e.preventDefault();
-        fetch('../category/edit_category',{
+        fetch('/admindashboard/category/edit_category',{
             method:'PUT',
             body: JSON.stringify({
                 id : id,
@@ -37,7 +37,7 @@ export function EditCategory(){
     }
 
     useEffect(() => {
-      fetch(`../category/${id}`, {
+      fetch(`/admindashboard/category/${id}`, {
         method:'GET',
         headers: {
           Authorization: `Bearer ${jwt}`
