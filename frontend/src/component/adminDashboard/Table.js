@@ -31,7 +31,7 @@ function Table() {
         <Tabs
             transition={false}
         >
-        {table.filter(t => t.id !== 1).map((table, index) => {
+        {table.filter(t => t.id !== 1 && t.id !== 2).map((table, index) => {
             return (
                 <Tab key={index} eventKey={index} title={table.name}>
                     <Form id="tab-content" noValidate>
