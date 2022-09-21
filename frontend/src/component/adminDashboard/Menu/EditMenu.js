@@ -18,6 +18,7 @@ export function EditMenu(){
     const [imageChange, setImageChange] = useState(false);
     const navigate = useNavigate();
     let imageSrc = menu.image;
+    const [errorMessage, setErrorMessage] = useState('');
 
     async function saveMenu(e){
         e.preventDefault();
@@ -39,12 +40,21 @@ export function EditMenu(){
                 }
               }),
               headers: {
+                'Accept': 'application/json',
                 "Content-type": "application/json; charset=UTF-8",
                 Authorization: `Bearer ${jwt}`
               },
             })
-              .then((data) => data.json())
-              .then(navigate('../menuDashboard'))
+            .then((data) => {
+                if(data.status === 200){
+                navigate('../menuDashboard');}
+                else{
+                    return data.text();
+                }
+            })
+            .then((text)=>{
+                setErrorMessage(text);
+            })
     }
 
     async function uploadImage(e){
@@ -101,7 +111,8 @@ export function EditMenu(){
                 </Form.Group>
                 <Form.Group className="mb-3" >
                 <Form.Label >Name:</Form.Label>
-                <Form.Control type="text" defaultValue={menu.name} ref={nameRef}/>
+                <Form.Control type="text" required defaultValue={menu.name} ref={nameRef}/>
+                <p className='text-danger' defaultValue={''}>{errorMessage}</p>
                 </Form.Group>
                 <Form.Group className="mb-3" >
                 <Form.Label >Description:</Form.Label>
