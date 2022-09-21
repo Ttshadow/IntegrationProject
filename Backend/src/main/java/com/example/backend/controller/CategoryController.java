@@ -1,5 +1,6 @@
 package com.example.backend.controller;
 
+import com.example.backend.constant.ErrorMessage;
 import com.example.backend.entity.Category;
 import com.example.backend.exception.RecordNotFoundException;
 import com.example.backend.repository.CategoryRepository;
@@ -8,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.ConstraintViolationException;
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -26,8 +29,14 @@ public class CategoryController {
     }
     @PostMapping("/add_category")
     public ResponseEntity addCategory(@RequestBody Category category) throws RecordNotFoundException {
-        categoryService.saveOrUpdateCategory(category);
-        return ResponseEntity.ok(category);
+//        System.out.println(category);
+        try{
+            categoryService.saveOrUpdateCategory(category);
+            return ResponseEntity.ok(category);
+        }
+        catch(ConstraintViolationException e){
+            return ResponseEntity.badRequest().body(ErrorMessage.NAME_IS_REQUIRED_ERROR_MESSAGE);
+        }
     }
     @GetMapping("/{id}")
     public Category getCategoryById(@PathVariable Long id) throws RecordNotFoundException {

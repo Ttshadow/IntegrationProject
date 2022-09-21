@@ -8,7 +8,7 @@ function RegisterForm() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    fetch("user/register", {
+    fetch("/user/register", {
       method: "POST",
       body: JSON.stringify({
         username: usernameRef.current.value,
@@ -19,20 +19,22 @@ function RegisterForm() {
       },
     }).then((response) => {
       if (response.status === 200) {
-        setMessage("Registration success");
+        // setMessage("Registration success");
+        alert("Registration Successful");
       } else {
-        setMessage("Username already exists, Please choose another one!");
+        alert("Username already exists, Please choose another one!");
+        // setMessage("Username already exists, Please choose another one!");
       }
-    });
+    })
   };
 
   return (
     <div className="login-container">
       <div className="login-form">
         <h1>Register</h1>
-        <p>{message}</p>
+        {/* <p>{message}</p> */}
         <form onSubmit={handleSubmit}>
-          <p>{message}</p>
+          {/* <p>{message}</p> */}
           <label htmlFor="username">Username</label>
           <input
             id="username"
@@ -49,14 +51,17 @@ function RegisterForm() {
             ref={passwordRef}
             required
             className="input"
-            placeholder="Username"
+            placeholder="Password"
           />
           <button type="submit" id="button">
             Create User
           </button>
         </form>
         <Link to="/login" id="goToLogin">
-          Go to Login Form
+          Go to Login
+        </Link>
+        <Link to="/" id="goToRegister">
+          Go to Home Page
         </Link>
       </div>
     </div>
