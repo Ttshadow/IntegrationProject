@@ -29,11 +29,28 @@ public class MenuAndDiningTableDataLoader implements CommandLineRunner {
     private void loadDiningTableData(){
         if(diningTableRepository.count() == 0){
             DiningTable diningTable1 = new DiningTable();
-            diningTable1.setId(1L);
             diningTable1.setName("Takeout");
             diningTable1.setCapacity(1);
             diningTable1.setStatus("unavailable");
             diningTableRepository.save(diningTable1);
+
+            DiningTable diningTable2 = new DiningTable();
+            diningTable2.setName("Table 0");
+            diningTable2.setCapacity(20);
+            diningTable2.setStatus("available");
+            diningTableRepository.save(diningTable2);
+
+            DiningTable diningTable3 = new DiningTable();
+            diningTable3.setName("Table 1");
+            diningTable3.setCapacity(4);
+            diningTable3.setStatus("available");
+            diningTableRepository.save(diningTable3);
+
+            DiningTable diningTable4 = new DiningTable();
+            diningTable4.setName("Table 2");
+            diningTable4.setCapacity(6);
+            diningTable4.setStatus("available");
+            diningTableRepository.save(diningTable4);
         }
     }
     private void loadCategoryAndMenuData(){
@@ -74,8 +91,5 @@ public class MenuAndDiningTableDataLoader implements CommandLineRunner {
 
             }
         }
-    }
-    private void loadMenuData(){
-
     }
 }
