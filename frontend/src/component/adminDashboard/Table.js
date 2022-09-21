@@ -1,7 +1,6 @@
 import { Form, Tab, Tabs } from 'react-bootstrap';
 import React, { useEffect, useState } from 'react';
 import EditTable from './EditTable';
-import EditAllStatus from './EditAllStatus';
 import useLocalStorage from "../../util/useLocalStorage";
 
 function Table() {

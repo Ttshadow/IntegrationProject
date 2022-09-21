@@ -1,4 +1,4 @@
-import { Button, Form, Tab, Tabs, Modal, Container, Row, Col, Table } from 'react-bootstrap';
+import { Button, Table } from 'react-bootstrap';
 import React, { useState, useEffect } from 'react';
 import useLocalStorage from "../../util/useLocalStorage";
 import moment from 'moment';
@@ -53,7 +53,8 @@ function ReservationTable() {
                         <td>{reservation.status}</td>
                         <td>
                             <Button className="ml-auto mx-2" onClick={editReservation}>Edit</Button>
-                            <Button variant='danger' className="ml-auto" onClick={deleteReservation}>Delete</Button>
+                            <Button variant='danger
+                            ' className="ml-auto" onClick={deleteReservation}>Delete</Button>
                         </td>
                     </tr>
                     )

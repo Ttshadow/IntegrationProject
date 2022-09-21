@@ -1,5 +1,5 @@
-import { Button, Form, Tab, Tabs, Modal } from 'react-bootstrap';
-import React, { useContext, useEffect, useState } from 'react';
+import { Button, Form, Modal } from 'react-bootstrap';
+import React, { useState } from 'react';
 import useLocalStorage from "../../util/useLocalStorage";
 
 function AddTable() {
