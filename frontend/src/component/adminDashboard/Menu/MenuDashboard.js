@@ -50,7 +50,7 @@ export function MenuDashboard(){
     }
     function navigateToEditCategory(event){ 
         if(selectCategory == 0){
-            alert("Please select a category that you want to edit.")
+            alert("Please select a category to edit.")
         }
         else{
             navigate(`../editCategory/${selectCategory}`);
@@ -65,7 +65,7 @@ export function MenuDashboard(){
 
     function deleteCategory(){
         if(selectCategory == 0){
-            alert("Please select a category that you want to delete.")
+            alert("Please select a category to delete.")
         }
         else{
             fetch(`/admindashboard/category/${selectCategory}`, 

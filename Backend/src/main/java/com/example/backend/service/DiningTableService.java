@@ -64,8 +64,8 @@ public class DiningTableService {
         }
     }
 
-    public List<DiningTable> getDiningTableByAvailability(String status) {
-        return diningTableRepository.findDiningTableByStatus(status);
+    public List<DiningTable> getAvailableDiningTable() {
+        return diningTableRepository.findAvailableDiningTable();
     }
 
     public List<DiningTable> getDiningTablWithoutStatus(String status, int capacity) {

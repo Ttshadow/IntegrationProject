@@ -4,6 +4,7 @@ import com.example.backend.constant.ErrorMessage;
 import lombok.Data;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -19,7 +20,6 @@ public class CartItem extends IdBaseEntity{
 
     @ManyToOne
     @JoinColumn(name = "dining_table_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private DiningTable table;
 
     private boolean takeout;

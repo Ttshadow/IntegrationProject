@@ -1,10 +1,11 @@
 import React, { useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function RegisterForm() {
   const [message, setMessage] = useState("");
   const usernameRef = useRef();
   const passwordRef = useRef();
+  const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -21,6 +22,7 @@ function RegisterForm() {
       if (response.status === 200) {
         // setMessage("Registration success");
         alert("Registration Successful");
+        navigate("/login");
       } else {
         alert("Username already exists, Please choose another one!");
         // setMessage("Username already exists, Please choose another one!");

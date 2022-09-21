@@ -21,12 +21,11 @@ export function TakeoutOrDinein(){
         navigate(`menu`);
     }
     function handleSelectChange(e){
-        console.log(e)
         sessionStorage.setItem('table', e.target.value)
     }
 
     useEffect(()=>{
-        fetch('/admindashboard/diningtable', {
+        fetch('/admindashboard/getavailabletable', {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${jwt}`
