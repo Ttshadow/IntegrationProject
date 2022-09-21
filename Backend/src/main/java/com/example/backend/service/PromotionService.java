@@ -1,6 +1,7 @@
 package com.example.backend.service;
 
 import com.example.backend.entity.Promotion;
+import com.example.backend.entity.pojo.PromotionPojo;
 import com.example.backend.exception.RecordNotFoundException;
 import com.example.backend.repository.PromotionRepository;
 import org.springframework.stereotype.Service;
@@ -55,5 +56,16 @@ public class PromotionService {
 
     public void deletePromotionById(Long id) {
         promotionRepository.deleteById(id);
+    }
+
+    public PromotionPojo validatePromotionByCode(String code){
+        Optional<Promotion> promotion = promotionRepository.getPromotionByPromotionCode(code);
+        PromotionPojo promotionPojo = new PromotionPojo();
+        if(promotion.isPresent() && promotion.get().isStatus()){
+            promotionPojo.setIsValid(true);
+            promotionPojo.setDiscount(promotion.get().getDiscount());
+            promotionPojo.setDescription(promotion.get().getDescription());
+        }
+        return promotionPojo;
     }
 }

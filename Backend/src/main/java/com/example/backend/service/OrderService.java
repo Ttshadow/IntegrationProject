@@ -1,6 +1,7 @@
 package com.example.backend.service;
 
 import com.example.backend.entity.Order;
+import com.example.backend.entity.OrderItems;
 import com.example.backend.entity.pojo.OrderPojo;
 import com.example.backend.exception.RecordNotFoundException;
 import com.example.backend.repository.*;
@@ -22,22 +23,26 @@ public class OrderService {
     private PromotionRepository promotionRepository;
     @Autowired
     private DiningTableRepository diningTableRepository;
+    @Autowired
+    private OrderItemRepository orderItemRepository;
 
-    public List<Order> getAllOrder(){
+    public List<Order> getAllOrder() {
         List<Order> orders = orderRepository.findAll();
         return orders;
     }
+
     public Order getOrderById(Long id) throws RecordNotFoundException {
         Optional<Order> order = orderRepository.findById(id);
-        if(order.isPresent()){
+        if (order.isPresent()) {
             return order.get();
         }
         throw new RecordNotFoundException("Order Not Found.");
     }
+
     public void saveOrUpdateOrder(Order newOrder) throws RecordNotFoundException {
-        if(newOrder.getId() == null){
+        if (newOrder.getId() == null) {
             orderRepository.save(newOrder);
-        }else{
+        } else {
             Order orderFromDb = getOrderById(newOrder.getId());
             orderFromDb.setStatus(newOrder.getStatus());
             orderFromDb.setPromotion(newOrder.getPromotion());
@@ -46,14 +51,16 @@ public class OrderService {
             orderFromDb.setUser(newOrder.getUser());
             orderFromDb.setTotalPrice(newOrder.getTotalPrice());
             orderFromDb.setDate(newOrder.getDate());
-            orderFromDb.setOrderItemsList(newOrder.getOrderItemsList());
+//            orderFromDb.setOrderItemsList(newOrder.getOrderItemsList());
             orderRepository.save(orderFromDb);
         }
     }
-    public List<Order> getOrderByUserId(Long userId){
+
+    public List<Order> getOrderByUserId(Long userId) {
         return orderRepository.getOrderByUserId(userId);
     }
-    public List<Order> getOrderByTableId(Long tableId){
+
+    public List<Order> getOrderByTableId(Long tableId) {
         return orderRepository.getOrderByTableId(tableId);
     }
 
@@ -68,5 +75,18 @@ public class OrderService {
         order.setDiningTable(diningTableRepository.findById(orderPojo.getDiningTableId()).get());
 //        saveOrUpdateOrder(order);
         System.out.println(order);
+    }
+
+    public List<OrderItems> getAllOrderItems(Long userId) {
+        List<Order> orders = orderRepository.getOrderByUserId(userId);
+        Order order = new Order();
+        for (Order o : orders) {
+            if(o.getStatus() != "Paid"){
+                order = o;
+                break;
+            }
+        }
+        List<OrderItems> orderItemsList = orderItemRepository.getOrderItemsByOrderId(order.getId());
+        return orderItemsList;
     }
 }

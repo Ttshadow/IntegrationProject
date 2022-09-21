@@ -8,7 +8,7 @@ export default function Order() {
     const [orders, setOrders] = useState([]);
     const [orderStatus,setOrderStatus] = useState('');
     useEffect(() => {
-        fetch('orders', {
+        fetch('../admindashboard/orders', {
             method: "GET",
             headers: {
                 Authorization: `Bearer ${jwt}`
