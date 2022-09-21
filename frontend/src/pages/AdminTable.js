@@ -2,19 +2,19 @@ import {Container, Row, Col} from 'react-bootstrap'
 import Table from '../component/adminDashboard/Table';
 import SideBar from '../component/adminDashboard/SideBar';
 import AddTable from '../component/adminDashboard/AddTable';
+import EditAllStatus from '../component/adminDashboard/EditAllStatus';
 function AdminTable() {
-    return <Container>
-        <Row>
-            <Col className='col-3'>
-                <SideBar />
-            </Col>
-            <Col className='col-9'>
-            <h1>Table management</h1>
-            <AddTable />
+    return <Row>
+        <Col className="col-12">
+            <AddTable/>
+        </Col>
+        <Col className="col-12">
             <Table />
-            </Col>
-        </Row>
+        </Col>
+        <Col className="col-12">
+            <EditAllStatus/>
+        </Col>
         
-    </Container>
+    </Row>
 }
 export default AdminTable;

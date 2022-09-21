@@ -1,7 +1,8 @@
 package com.example.backend.controller;
 
+import com.example.backend.entity.DiningTable;
 import com.example.backend.entity.Reservation;
-import com.example.backend.entity.User;
+import com.example.backend.entity.pojo.ReservationPojo;
 import com.example.backend.exception.RecordNotFoundException;
 import com.example.backend.service.ReservationService;
 import org.springframework.web.bind.annotation.*;
@@ -38,5 +39,19 @@ public class ReservationController {
     public List<Reservation> addDiningTable(@RequestBody Reservation newReservation) throws RecordNotFoundException {
         reservationService.saveReservation(newReservation);
         return reservationService.getAllReservations();
+    }
+
+    @PostMapping("/userdashboard/reservation/statusrequest")
+    public String getNewReservationStatus(@RequestBody ReservationPojo reservation) {
+        //JSONObject jsonObject = new JSONObject();
+        if (reservationService.getTableReservationAvailability(reservation.getStartTime(), reservation.getEndTime(), reservation.getNumberOfParty())) {
+            return "pending";
+        }
+        return "rejected";
+    }
+
+    @GetMapping("/admindashboard/reservation/test")
+    public void test() throws RecordNotFoundException{
+
     }
 }

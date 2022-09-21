@@ -2,6 +2,7 @@ import { Form, Tab, Tabs } from 'react-bootstrap';
 import React, { useEffect, useState } from 'react';
 import EditTable from './EditTable';
 import EditAllStatus from './EditAllStatus';
+import useLocalStorage from "../../util/useLocalStorage";
 
 function Table() {
     const [table, setTable] = useState([]);
@@ -9,10 +10,14 @@ function Table() {
     const [name, setTableName] = useState('');
     const [capacity, setTableCapacity] = useState(0);
     const [status, setTableStatus] = useState('');
+    const [jwt,setJwt] = useLocalStorage("","jwt")
     
     const allTable = () => {
         fetch('diningtable', {
           method: 'GET',
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+        },
         })
         .then((data) => data.json())
         .then((json) => {setTable(JSON.parse(JSON.stringify(json)))})
@@ -23,15 +28,14 @@ function Table() {
     }, []);
 
     return (
-        <>
+        <div id="tab">
         <Tabs
             transition={false}
-            className="mb-3"
         >
-        {table.map((table, index) => {
+        {table.filter(t => t.id !== 1).map((table, index) => {
             return (
                 <Tab key={index} eventKey={index} title={table.name}>
-                    <Form noValidate>
+                    <Form id="tab-content" noValidate>
                         <Form.Group className="mb-3">
                             <Form.Label>Name</Form.Label>
                             <Form.Control
@@ -62,8 +66,8 @@ function Table() {
                 </Tab>
             )})}
         </Tabs>
-        <EditAllStatus></EditAllStatus>
-        </>
+        
+        </div>
     )
 }
 export default Table;

@@ -1,16 +1,29 @@
 import { Button, Form, Tab, Tabs, Modal } from 'react-bootstrap';
 import React, { useContext, useEffect, useState } from 'react';
+import useLocalStorage from "../../util/useLocalStorage";
+
 function AddTable() {
     const [showModal, setShowModal] = useState(false);
     const [name, setTableName] = useState('');
     const [capacity, setTableCapacity] = useState(0);
     const [status, setTableStatus] = useState('available');
-    const addTable = () => {
+    const [validated, setValidated] = useState(false);
+    const [jwt,setJwt] = useLocalStorage("","jwt");
+
+    const addTable = (event) => {
+        const form = event.currentTarget;
+        
+        if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        setValidated(true);
         const table = {name, capacity, status};
         fetch('addtable', {
             method: 'POST',
             headers: {
-                "Content-type": "application/json; charset=UTF-8", 
+                Authorization: `Bearer ${jwt}`,
+                "Content-type": "application/json; charset=UTF-8",
             },
             body: JSON.stringify(table)
         })
@@ -19,7 +32,7 @@ function AddTable() {
     const openModal = () => {setShowModal(true)}
     return (
     <div>
-    <Button onClick={openModal}>
+    <Button onClick={openModal} className="mb-3">
         New table
     </Button>
     <Modal show={showModal}>
@@ -29,7 +42,7 @@ function AddTable() {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form noValidate onSubmit={addTable}>
+          <Form noValidate validated={validated} onSubmit={addTable}>
             <Form.Group className="mb-3">
                 <Form.Label>Table Name</Form.Label>
                 <Form.Control
@@ -60,7 +73,6 @@ function AddTable() {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="warning" onClick={() => setShowModal(false)}>Close</Button>
-          
         </Modal.Footer>
     </Modal>
     </div>

@@ -53,6 +53,7 @@ function App() {
 
       <Route path="/login" element={<LoginForm />}></Route>
       <Route path="/register" element={<RegisterForm />}></Route>
+      
       {/*ADMIN DASHBOARD*/}
       <Route path="/adminDashboard/" element={<AdminDashboard />}>
         <Route path="menuDashboard" element={<MenuDashboard />}/>
@@ -64,6 +65,7 @@ function App() {
         <Route path="reservation" element={<AdminReservation />}/>
       </Route>
 
+      {/*LOGGED IN USER ACCESS*/}
       <Route path="/dine/" element={<Outlet />}>
         <Route path="" element={<TakeoutOrDinein/>}/>
         <Route path="menu" element={<UserMenu />}/>

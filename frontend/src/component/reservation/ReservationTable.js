@@ -1,12 +1,17 @@
 import { Button, Form, Tab, Tabs, Modal, Container, Row, Col, Table } from 'react-bootstrap';
 import React, { useState, useEffect } from 'react';
+import useLocalStorage from "../../util/useLocalStorage";
 
 function ReservationTable() {
     const [reservation, setReservation] = useState([]);
-    
+    const [jwt,setJwt] = useLocalStorage("","jwt")
+
     const allReservation = () => {
         fetch('reservation', {
           method: 'GET',
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+        },
         })
         .then((data) => data.json())
         .then((json) => {setReservation(JSON.parse(JSON.stringify(json)))})
@@ -42,7 +47,7 @@ function ReservationTable() {
                     return (
                     <tr key={index}>
                         <td>{reservation.id}</td>
-                        <td>{reservation.startTime.toString()}</td>
+                        <td>{reservation.startTime}</td>
                         <td>{reservation.endTime}</td>
                         <td>{reservation.numberOfParty}</td>
                         <td>{reservation.status}</td>

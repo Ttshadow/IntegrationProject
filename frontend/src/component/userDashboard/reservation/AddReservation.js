@@ -1,14 +1,19 @@
 import { Button, Form, Tab, Tabs, Modal, Container, Row, Col } from 'react-bootstrap';
 import React, { useContext, useEffect, useState } from 'react';
+import useLocalStorage from "../../../util/useLocalStorage";
+import moment from 'moment';
+
 function AddReservation() {
+    const [jwt,setJwt] = useLocalStorage("","jwt")
     const [showModal, setShowModal] = useState(false);
-    const [user, setUser] = useState(1);
+    const [user, setUser] = useState(2);
     const [numberOfParty, setNumberOfParty] = useState(1);
-    const [startTime, setStartTime] = useState(new Date());
-    const [endTime, setEndTime] = useState();
-    const [status, setStatus] = useState('pending');
-    const [diningTable, setDiningTable] = useState(8);
-    
+    const [startTime, setStartTime] = useState('');
+    const [endTime, setEndTime] = useState('');
+    const [status, setStatus] = useState('');
+    const [diningTable, setDiningTable] = useState(1);
+    var startdate = new Date();
+    var enddate = new Date();
     var optionArray = [];
     const partyLimit = 20;
     (() => {
@@ -20,17 +25,41 @@ function AddReservation() {
     const openModal = () => {setShowModal(true)}
 
     //function to determine the status
+    const reservationStatus = () => {
+        //alert(status);
+        const dto = {startTime: startTime, endTime: endTime, numberOfParty: numberOfParty};
+        fetch('reservation/statusrequest', {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${jwt}`,
+                "Content-type": "application/json; charset=UTF-8",
+            },
+            body: JSON.stringify(dto)
+        })
+        .then((response) => response.text())
+        //.then((text) => status1 = text)
+        .then((text) => {
+            console.log(text);
+            addReservation(text);
+        })
+        //.then((response) => status1 = response)
+        //.then(() => console.log(status1))
+        //.then(addReservation(status1))
+    };
 
-    const addReservation = () => {
-        const reservation = {dining_table_id: diningTable, user_id: user, start_time: startTime, end_time: endTime, number_of_party: numberOfParty, status: status};
+    const addReservation = (status2) => {
+        console.log(status2);
+        const reservation = {diningTable: {id: diningTable}, user: {id: user}, startTime: moment(startTime).toDate(), endTime: moment(endTime).toDate(), numberOfParty: numberOfParty, status: status2};
         fetch('reservation/new', {
             method: 'POST',
             headers: {
-                "Content-type": "application/json; charset=UTF-8", 
+                Authorization: `Bearer ${jwt}`,
+                "Content-type": "application/json; charset=UTF-8",
             },
             body: JSON.stringify(reservation)
         })
         .then((data) => data.json())
+        .then((json) => alert(JSON.parse(JSON.stringify(json))))
     }
 
     return <Container>
@@ -79,77 +108,22 @@ function AddReservation() {
                             onChange={(e) => setStartTime(e.target.value)}
                         />
                     </Form.Group>
+                    
                     <Form.Group className="mb-3">
                         <Form.Label>End time</Form.Label>
                         <Form.Control
                             required
                             type="datetime-local"
-                            value={startTime}
+                            value={endTime}
                             onChange={(e) => setEndTime(e.target.value)}
                         />
                     </Form.Group>
-                    {/*<Form.Group className="mb-3">
-                        <Form.Control hidden
-                            required
-                            type="number"
-                            value={1}
-                        />
-                    </Form.Group>
-                    <Form.Group className="mb-3">
-                        <Form.Control hidden
-                            required
-                            type="number"
-                            value={8}
-                        />
-                        </Form.Group>*/}
-                    <Button onClick={addReservation}>Confirm</Button>
+                    <Button onClick={reservationStatus}>Confirm</Button>
                 </Form>
+                {startTime}
+                {endTime}
             </Col>
         </Row>
-    {/*<Button onClick={openModal}>
-        New reservation
-    </Button>
-    <Modal show={showModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>
-            Add a new reservation
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form noValidate onSubmit={addTable}>
-            <Form.Group className="mb-3">
-                <Form.Label>Table Name</Form.Label>
-                <Form.Control
-                    required 
-                    type="text" 
-                    placeholder="Name of the table"
-                    onChange={(e)=> setTableName(e.target.value)}
-                />
-            </Form.Group>
-            <Form.Group className="mb-3">
-                <Form.Label>Capacity</Form.Label>
-                <Form.Control  
-                    required
-                    type="number"
-                    placeholder="Number of seats"
-                    onChange={(e)=> setTableCapacity(e.target.value)}
-                />
-            </Form.Group>
-            <Form.Group>
-                <Form.Control hidden
-                    required
-                    type="text"
-                    defaultValue="available"
-                />
-            </Form.Group>
-            <Button variant="primary" type="submit">Create</Button>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="warning" onClick={() => setShowModal(false)}>Close</Button>
-          
-        </Modal.Footer>
-    </Modal>*/}
     </Container>
 }
 

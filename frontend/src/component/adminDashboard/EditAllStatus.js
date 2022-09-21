@@ -1,13 +1,16 @@
 import { Button, Form, Tab, Tabs, Modal, Container, Row, Col, Table } from 'react-bootstrap';
 import React, { useState, useEffect } from 'react';
+import useLocalStorage from "../../util/useLocalStorage";
 
 function EditAllStatus() {
+    const [jwt,setJwt] = useLocalStorage("","jwt")
     const [showModal, setShowModal] = useState(false);
     const [status, setStatus] = useState('available');
     const editAll = () => {
         fetch('updatealltable/' + status, {
             method: 'PUT',
             headers: {
+                Authorization: `Bearer ${jwt}`,
                 "Content-type": "application/json; charset=UTF-8", 
             },
         })
@@ -23,7 +26,7 @@ function EditAllStatus() {
     ];
 
     return <>
-        <Button onClick={openModal}>
+        <Button className="mt-3" onClick={openModal}>
             Edit all table status
         </Button>
         <Modal show={showModal}>
@@ -41,7 +44,7 @@ function EditAllStatus() {
                         })}
                     </Form.Select>
                 </Form.Group>
-                <Button variant="primary" type="submit">Save</Button>
+                <Button className="mt-3" variant="primary" type="submit">Save</Button>
             </Form>
             </Modal.Body>
             <Modal.Footer>

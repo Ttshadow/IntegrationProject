@@ -51,4 +51,9 @@ public class DiningTableController {
         diningTableService.changeAllDiningTableStatus(status);
     }
 
+    @GetMapping("/getwithout/{status}/{capacity}")
+    public List<DiningTable> getNoUnavailableDiningTable(@PathVariable(value = "status")String status, @PathVariable(value = "capacity")int capacity) throws RecordNotFoundException {
+        return diningTableService.getDiningTablWithoutStatus(status, capacity);
+    }
+
 }

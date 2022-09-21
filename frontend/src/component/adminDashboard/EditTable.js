@@ -1,6 +1,8 @@
 import { Button, Form, Modal } from 'react-bootstrap';
 import React, { useState } from 'react';
 import TableStatusOption from './TableStatusOption';
+import useLocalStorage from "../../util/useLocalStorage";
+
 function EditTable(props) {
     const [showModal, setShowModal] = useState(false);
     const [id, setId] = useState(props.table.id)
@@ -8,6 +10,7 @@ function EditTable(props) {
     const [capacity, setTableCapacity] = useState(props.table.capacity);
     const [status, setTableStatus] = useState(props.table.status);
     const [validated, setValidated] = useState(false);
+    const [jwt,setJwt] = useLocalStorage("","jwt");
     
     const editTable = (event) => {
         const form = event.currentTarget;
@@ -20,7 +23,8 @@ function EditTable(props) {
         fetch('updatetable', {
             method: 'PUT',
             headers: {
-                "Content-type": "application/json; charset=UTF-8", 
+                Authorization: `Bearer ${jwt}`,
+                "Content-type": "application/json; charset=UTF-8",
             },
             body: JSON.stringify(updatetable)
         })
@@ -30,6 +34,7 @@ function EditTable(props) {
         fetch('deletetable/' + id, {
             method: 'DELETE',
             headers: {
+                Authorization: `Bearer ${jwt}`,
                 "Content-type": "application/json; charset=UTF-8", 
             },
         })
@@ -38,7 +43,7 @@ function EditTable(props) {
     const openModal = () => {setShowModal(true)}
     return (
     <div>
-    <Button onClick={openModal}>
+    <Button id="buttonAlign" onClick={openModal}>
         Edit {props.tableName}
     </Button>
     <Modal show={showModal}>
