@@ -20,6 +20,7 @@ import { UserMenu } from "./component/menu/UserMenu";
 import { Cart } from "./component/menu/Cart";
 import Comment from "./component/adminDashboard/Comment";
 import LeaveComment from "./component/userDashboard/LeaveComment";
+import Profile from "./component/userDashboard/Profile";
 
 // import UserDashboard from "./component/userDashboard/UserDashboard";
 
@@ -60,6 +61,7 @@ function App() {
 
       <Route path="/userDashboard/" element={<UserDashboard />}>
         <Route path="leavecomment" element={<LeaveComment />}/>
+        <Route path="profile" element={<Profile />}/>
       </Route>
       {/* <Route path="/userdashboard" element={<UserDashboard />}></Route> */}
       {/* <Route path="*" element={<Navigate to="/" />} /> */}

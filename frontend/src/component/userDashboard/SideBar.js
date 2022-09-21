@@ -19,18 +19,7 @@ import 'react-pro-sidebar/dist/css/styles.css';
 function SideBar(){
     const[isOpen, setIsOpen] = useState(false);
     const toggle = () => {isOpen ? setIsOpen(false) : setIsOpen(true);};
-
-    const [activePage, setActivePage] = useState(false) ;
-    const handleClick = (event) => {
-        event.preventDefault();
-        if (!event.target.classList.value.includes("active")) {
-            event.target.classList.add('active') ;
-            if (activePage)
-              activePage.classList.remove("active") ;
-            setActivePage(event.target) ;
-          }
-        console.log("clicked");
-    }
+    
 return(
 <>
     <div id="side_bar">
@@ -45,9 +34,9 @@ return(
             </SidebarHeader>
             <SidebarContent>
                 <Menu iconShape="circle">
-                    <MenuItem icon={<ImProfile />}>
+                    <MenuItem active={window.location.pathname === "/userDashboard/profile" ? true : false} icon={<ImProfile />}>
                         Profile
-                        <Link to="/" />
+                        <Link to="profile" />
                     </MenuItem>
                     <MenuItem icon={<RiFileHistoryFill />}>
                         Order History
@@ -57,9 +46,9 @@ return(
                         Reservations
                         <Link to="/" />
                     </MenuItem>
-                    <MenuItem active={window.location.pathname === "/admindashboard/leavecomment"} icon={<MdRateReview />}>
+                    <MenuItem active={window.location.pathname === "/userDashboard/leavecomment" ? true : false} icon={<MdRateReview />}>
                         Leave a Review
-                        <Link to="leavecomment" />
+                        <Link to="leavecomment"  />
                     </MenuItem>
                 </Menu>
             </SidebarContent>

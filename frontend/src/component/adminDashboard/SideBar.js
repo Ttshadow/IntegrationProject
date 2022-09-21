@@ -19,8 +19,6 @@ import "./sidebar.css";
 function SideBar(){
     const[isOpen, setIsOpen] = useState(false);
     const toggle = () => {isOpen ? setIsOpen(false) : setIsOpen(true);};
-
-    const [activePage, setActivePage] = useState(false) ;
     
 return(
 <>
