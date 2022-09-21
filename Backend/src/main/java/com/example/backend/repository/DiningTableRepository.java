@@ -13,6 +13,6 @@ public interface DiningTableRepository extends JpaRepository<DiningTable, Long> 
     @Query(value = "select * from dining_tables where status = 'available' or status = 'occupied'", nativeQuery = true)
     List<DiningTable> findAvailableDiningTable();
 
-    @Query(value = "select * from dining_tables where capacity >= :capacity and not status = :status and not id = 1", nativeQuery = true)
+    @Query(value = "select * from dining_tables where capacity >= :capacity and not status = :status and not id = 1 and not id = 2", nativeQuery = true)
     List<DiningTable> findDiningTableWithoutStatus(@Param("status")String status, @Param("capacity") int capacity);
 }
