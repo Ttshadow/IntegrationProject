@@ -44,7 +44,7 @@ return(
                     </MenuItem>
                     <MenuItem icon={<ImCalendar />}>
                         Reservations
-                        <Link to="/" />
+                        <Link to="reservation" />
                     </MenuItem>
                     <MenuItem active={window.location.pathname === "/userDashboard/leavecomment" ? true : false} icon={<MdRateReview />}>
                         Leave a Review

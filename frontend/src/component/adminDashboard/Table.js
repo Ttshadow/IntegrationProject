@@ -59,7 +59,7 @@ function Table() {
                                 defaultValue={table.status}
                             />
                         </Form.Group>
-                        <div class="align-self-end">
+                        <div className="align-self-end">
                         <EditTable tableName={table.name} table={table} ></EditTable>
                         </div>
                     </Form>

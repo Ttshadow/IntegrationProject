@@ -35,6 +35,7 @@ function App() {
     <Routes>
       <Route path="/" element={<MainLayout />}>
         <Route index element={<Home />}></Route>
+        <Route path="/newreservation" element={<LoginWrapper><AddReservation /></LoginWrapper>} />
         <Route path="/dine/" element={<LoginWrapper><Outlet /></LoginWrapper>}>
           <Route path="" element={<TakeoutOrDinein/>}/>
           <Route path="menu" element={<UserMenu />}/>
@@ -47,14 +48,17 @@ function App() {
       {/*<Route path="/admindashboard/reservation" element={<AdminReservation />}></Route>*/}
 
       {/*USER DASHBOARD*/}
-      <Route path="/userDashboard/" element={<UserDashboard />}>
+      <Route path="/userdashboard/" element={<UserDashboard />}>
+        <Route path="leavecomment" element={<LeaveComment />}/>
         <Route path="reservation" element={<UserReservation />} />
-        <Route path="newreservation" element={<AddReservation />} />
+        
+        <Route path="profile" element={<Profile />}/>
       </Route>
 
 
       <Route path="/login" element={<LoginForm />}></Route>
       <Route path="/register" element={<RegisterForm />}></Route>
+      
 
       {/*ADMIN DASHBOARD*/}
       <Route path="/adminDashboard/" element={<AdminDashboard />}>
@@ -68,10 +72,7 @@ function App() {
         <Route path="comment" element={<Comment />}/>
       </Route>
 
-      <Route path="/userDashboard/" element={<UserDashboard />}>
-        <Route path="leavecomment" element={<LeaveComment />}/>
-        <Route path="profile" element={<Profile />}/>
-      </Route>
+      
       {/* <Route path="/userdashboard" element={<UserDashboard />}></Route> */}
       {/* <Route path="*" element={<Navigate to="/" />} /> */}
     </Routes>

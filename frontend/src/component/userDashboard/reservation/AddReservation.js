@@ -23,7 +23,7 @@ function AddReservation() {
 
     const reservationStatus = () => {
         const dto = {startTime: startTime, endTime: endTime, numberOfParty: numberOfParty};
-        fetch('reservation/statusrequest', {
+        fetch('/userdashboard/reservation/statusrequest', {
             method: 'POST',
             headers: {
                 Authorization: `Bearer ${jwt}`,
@@ -41,7 +41,7 @@ function AddReservation() {
     const addReservation = (status2) => {
         console.log(status2);
         const reservation = {diningTable: {id: diningTable}, user: {id: user}, startTime: moment(startTime).toDate(), endTime: moment(endTime).toDate(), numberOfParty: numberOfParty, status: status2};
-        fetch('reservation/new', {
+        fetch('/userdashboard/reservation/new', {
             method: 'POST',
             headers: {
                 Authorization: `Bearer ${jwt}`,
@@ -50,10 +50,11 @@ function AddReservation() {
             body: JSON.stringify(reservation)
         })
         .then((data) => data.json())
-        .then((json) => alert(JSON.parse(JSON.stringify(json))))
     }
 
-    return <Container>
+    return <div className='login-container text-light'>
+        <br/>
+        <Container>
         <Row>
             <Col className='col-lg-7'>
                 <h1>
@@ -111,11 +112,10 @@ function AddReservation() {
                     </Form.Group>
                     <Button onClick={reservationStatus}>Confirm</Button>
                 </Form>
-                {startTime}
-                {endTime}
             </Col>
         </Row>
-    </Container>
+        </Container>
+    </div>
 }
 
 export default AddReservation;
