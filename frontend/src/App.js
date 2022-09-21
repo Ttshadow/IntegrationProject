@@ -11,7 +11,6 @@ import ShoppingCart from "./component/shoppingCart/ShoppingCart";
 import UserReservation from "./pages/UserReservation";
 import AddReservation from "./component/userDashboard/reservation/AddReservation"
 import { Navigate, Outlet, Route, Routes } from "react-router-dom";
-import AdminDashboard from "./component/adminDashboard/AdminDashboard";
 import LoginForm from "./component/authentication/LoginForm";
 import LoginWrapper from "./component/authentication/LoginWrapper";
 import RegisterForm from "./component/authentication/RegisterForm";
@@ -21,7 +20,6 @@ import { EditCategory } from "./component/adminDashboard/Menu/EditCategory";
 import { EditMenu } from "./component/adminDashboard/Menu/EditMenu";
 import NewMenu from "./component/adminDashboard/Menu/NewMenu";
 import { TakeoutOrDinein } from "./component/menu/TakeoutOrDinein";
-import { UserDashboard } from "./component/userDashboard/UserDashboard";
 import { Menu } from "./component/menu/Menu";
 import { UserMenu } from "./component/menu/UserMenu";
 import { Cart } from "./component/menu/Cart";

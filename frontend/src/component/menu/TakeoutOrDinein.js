@@ -26,7 +26,7 @@ export function TakeoutOrDinein(){
     }
 
     useEffect(()=>{
-        fetch('/diningtable', {
+        fetch('/admindashboard/diningtable', {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${jwt}`
