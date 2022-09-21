@@ -15,10 +15,12 @@ export default function Header() {
       setJwt("");
       setAuthority("");
       setUserId("");
-    } else {
-      window.location.href = "/";
+    } 
+    // else {
+    //   window.location.href = "/";
 
-    } else {
+    // } 
+    else {
       window.location.href = "/login";
     }
   };

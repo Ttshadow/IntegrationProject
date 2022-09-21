@@ -13,17 +13,6 @@ function LeaveComment() {
     const [show, setShow] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
 
-    
-    // const[validate, setValidate] = useState();
-    // const handleSubmit = (event) => {
-    //     const form = event.currentTarget;
-    //     if(form.checkValidity() === false) {
-    //         event.preventDefault();
-    //         event.stopPropagation();
-    //     }
-    //     setValidate(true);
-    // }
-
     const addComment = () => {
         
         fetch('/userdashboard/review', {
@@ -55,10 +44,9 @@ function LeaveComment() {
 
     const onSubmit = (event) => {
         event.preventDefault();
-        
-            addComment();
-            console.log(moment(dateCreate).toDate());
-            console.log(commentRef);
+        addComment();
+        // console.log(moment(dateCreate).toDate());
+        // console.log(commentRef);
     }
 
     const backClick = (event) => {
@@ -68,17 +56,12 @@ function LeaveComment() {
     return (
         <>
         <br/>
-
-        {/* noValidate validated={validate} onSubmit={handleSubmit} */}
             <Alert show={show} variant="success">Comment added successfully!</Alert>
             <Form style={{border: "ridge", padding:"20px"}}>
                 
                 <Form.Group className="mb-3" controlId="validateText">
                     <Form.Label><h4>Please leave your comments:</h4></Form.Label>
                     <Form.Control as="textarea" rows={5} ref={commentRef} required />
-                    {/* <Form.Control.Feedback type="invalid">
-                        Empty Comment! Please leave your comments.
-                    </Form.Control.Feedback> */}
                     <p className='text-danger' defaultValue={''}>{errorMessage}</p>
                 </Form.Group>
                 <Button type="submit" variant='warning' onClick={onSubmit}>Submit</Button>

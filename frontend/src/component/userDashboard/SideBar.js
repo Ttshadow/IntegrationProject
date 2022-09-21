@@ -54,7 +54,10 @@ return(
             </SidebarContent>
             <SidebarFooter>
                 <Menu iconShape="circle">
-                    <MenuItem icon={<FiLogOut />}>Log out</MenuItem>
+                    <MenuItem icon={<FiLogOut />}>
+                        Back to Home 
+                        <Link to="/" />
+                    </MenuItem>
                 </Menu>
             </SidebarFooter>
         </ProSidebar>

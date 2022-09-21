@@ -8,7 +8,6 @@ function UserDashboard() {
 
     return(
         <>
-        <Header />
         <Container>
             <Row>
                 <Col className="col-3">
