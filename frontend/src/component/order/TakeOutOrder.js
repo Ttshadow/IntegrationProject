@@ -3,16 +3,17 @@ import { Button, Col, Container, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { Label } from 'reactstrap';
 import useLocalStorage from '../../util/useLocalStorage';
-import './CustomerOrder.css';
+import './TakeOutOrder.css';
 import { v4 as uuidv4 } from "uuid";
 
-const CustomerOrder = () => {
+const TakeOutOrder = () => {
     const [jwt, setJwt] = useLocalStorage('', 'jwt');
     const [userId, setUserId] = useLocalStorage('', 'userId');
     const [orderItems, setOrderItems] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
     const [promotionDesc, setPromotionDesc] = useState('');
     const promotionRef = useRef()
+
     useEffect(() => {
         fetch(`../order/${(userId)}`, {
             method: 'get',
@@ -43,13 +44,14 @@ const CustomerOrder = () => {
             })
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data);
                     if (data.isValid) {
                         setTotalPrice(totalPrice * data.discount)
                         setPromotionDesc(data.description)
+                    } else {
+                        alert('Promotion code is not valid')
                     }
                 })
-        }else{
+        } else {
             alert('The discount has been applied')
         }
     }
@@ -59,8 +61,8 @@ const CustomerOrder = () => {
     }
 
     return (
-        <div className="card">
-            <div className="card-body">
+        <div className="customer_order_container">
+            <div className="customer_order_container-body">
                 <Row>
                     <Col md={7}>
                         <div className="left border">
@@ -180,4 +182,4 @@ const CustomerOrder = () => {
     );
 };
 
-export default CustomerOrder;
+export default TakeOutOrder;

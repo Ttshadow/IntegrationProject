@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import MainLayout from "./component/MainLayout";
-import HomePage from "./pages/HomePage";
 import AdminTable from "./pages/AdminTable";
 import Home from "./component/home/Home";
 
 import UserDashboard from "./component/userDashboard/UserDashboard";
 import AdminDashboard from "./component/adminDashboard/AdminDashboard";
 import AdminReservation from "./pages/AdminReservation";
-import ShoppingCart from "./component/shoppingCart/ShoppingCart";
 import UserReservation from "./pages/UserReservation";
 import AddReservation from "./component/userDashboard/reservation/AddReservation"
 import { Navigate, Outlet, Route, Routes } from "react-router-dom";
@@ -24,7 +22,8 @@ import { Menu } from "./component/menu/Menu";
 import { UserMenu } from "./component/menu/UserMenu";
 import { Cart } from "./component/menu/Cart";
 import Order from "./component/adminDashboard/Order";
-import CustomerOrder from "./component/order/CustomerOrder";
+import TakeOutOrder from "./component/order/TakeOutOrder";
+import DineInOrder from "./component/order/DineInOrder";
 
 // import UserDashboard from "./component/userDashboard/UserDashboard";
 
@@ -34,6 +33,8 @@ function App() {
     <Routes>
       <Route path="/" element={<MainLayout />}>
         <Route index element={<Home />}></Route>
+        <Route path="takeoutorder" element={<TakeOutOrder />}></Route>
+        <Route path="dineinorder" element={<DineInOrder />}></Route>
         <Route path="/dine/" element={<LoginWrapper><Outlet /></LoginWrapper>}>
           <Route path="" element={<TakeoutOrDinein/>}/>
           <Route path="menu" element={<UserMenu />}/>

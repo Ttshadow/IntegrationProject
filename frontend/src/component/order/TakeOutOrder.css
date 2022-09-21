@@ -1,29 +1,29 @@
-.card{
+.customer_order_container{
     min-height: 100vh;
     margin: 2vh;
     font-size: 0.9rem;
     display: flex;
 }
-.card-top{
+.customer_order_container-top{
     padding: 0.7rem 5rem;
 }
-.card-top a{
+.customer_order_container-top a{
     float: left;
     margin-top: 0.7rem;
 }
-.card-body{
+.customer_order_container-body{
     background-image: url("https://i.imgur.com/4bg1e6u.jpg");
     background-size: cover;
     background-repeat: no-repeat;
 }
 @media(max-width:768px){
-    .card-body{
+    .customer_order_container-body{
         padding: 0 1rem 1rem 1rem;
         background-image: url("https://i.imgur.com/4bg1e6u.jpg");
         background-size: cover;
         background-repeat: no-repeat;
     }  
-    .card-top{
+    .customer_order_container-top{
         padding: 0.7rem 1rem;
     }
 }

@@ -29,7 +29,7 @@ public class Order extends IdBaseEntity{
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 
-    @ManyToOne(optional = false)
+    @ManyToOne
     @JoinColumn(name = "promotion_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Promotion promotion;

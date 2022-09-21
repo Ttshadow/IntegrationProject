@@ -1,5 +1,6 @@
 package com.example.backend.service;
 
+import com.example.backend.entity.CartItem;
 import com.example.backend.entity.Order;
 import com.example.backend.entity.OrderItems;
 import com.example.backend.entity.pojo.OrderPojo;
@@ -7,8 +8,8 @@ import com.example.backend.exception.RecordNotFoundException;
 import com.example.backend.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +26,8 @@ public class OrderService {
     private DiningTableRepository diningTableRepository;
     @Autowired
     private OrderItemRepository orderItemRepository;
+    @Autowired
+    private CartItemRepository cartItemRepository;
 
     public List<Order> getAllOrder() {
         List<Order> orders = orderRepository.findAll();
@@ -39,9 +42,9 @@ public class OrderService {
         throw new RecordNotFoundException("Order Not Found.");
     }
 
-    public void saveOrUpdateOrder(Order newOrder) throws RecordNotFoundException {
+    public Order saveOrUpdateOrder(Order newOrder) throws RecordNotFoundException {
         if (newOrder.getId() == null) {
-            orderRepository.save(newOrder);
+            return orderRepository.save(newOrder);
         } else {
             Order orderFromDb = getOrderById(newOrder.getId());
             orderFromDb.setStatus(newOrder.getStatus());
@@ -51,8 +54,8 @@ public class OrderService {
             orderFromDb.setUser(newOrder.getUser());
             orderFromDb.setTotalPrice(newOrder.getTotalPrice());
             orderFromDb.setDate(newOrder.getDate());
-//            orderFromDb.setOrderItemsList(newOrder.getOrderItemsList());
-            orderRepository.save(orderFromDb);
+            orderFromDb.setOrderItemsList(newOrder.getOrderItemsList());
+            return orderRepository.save(orderFromDb);
         }
     }
 
@@ -69,24 +72,37 @@ public class OrderService {
         order.setStatus(orderPojo.getStatus());
         order.setDate(new Date());
         order.setTakeout(orderPojo.getTakeout());
-        order.setTotalPrice(orderPojo.getTotalPrice());
         order.setUser(userRepository.findById(orderPojo.getUserId()).get());
-        order.setPromotion(promotionRepository.findById(orderPojo.getPromotionId()).get());
-        order.setDiningTable(diningTableRepository.findById(orderPojo.getDiningTableId()).get());
-//        saveOrUpdateOrder(order);
-        System.out.println(order);
+
+        if (orderPojo.getTakeout()) {
+            order.setTotalPrice(orderPojo.getTotalPrice());
+            order.setPromotion(promotionRepository.findById(orderPojo.getPromotionId()).get());
+            order.setDiningTable(diningTableRepository.findById(orderPojo.getDiningTableId()).get());
+        } else {
+            order.setTotalPrice(0.00);
+            order.setDiningTable(diningTableRepository.findById(1L).get());
+        }
+        Order orderSaved = saveOrUpdateOrder(order);
+        createNewOrderLists(orderPojo,orderSaved);
+        removeAllItemsByUserId(orderPojo.getUserId());
     }
 
-    public List<OrderItems> getAllOrderItems(Long userId) {
-        List<Order> orders = orderRepository.getOrderByUserId(userId);
-        Order order = new Order();
-        for (Order o : orders) {
-            if(o.getStatus() != "Paid"){
-                order = o;
-                break;
-            }
+    public void createNewOrderLists(OrderPojo orderPojo,Order order){
+        List<OrderItems> orderItemsList = orderPojo.getOrderItemsList();
+        for (OrderItems oi : orderItemsList){
+            oi.setOrder(order);
         }
-        List<OrderItems> orderItemsList = orderItemRepository.getOrderItemsByOrderId(order.getId());
-        return orderItemsList;
+        orderItemRepository.saveAll(orderItemsList);
+    }
+
+    public void removeAllItemsByUserId(Long userId){
+        List<CartItem> cartItems = cartItemRepository.getAllCartItemByUserId(userId);
+        for (CartItem item: cartItems) {
+            cartItemRepository.deleteById(item.getId());
+        }
+    }
+
+    public List<CartItem> getAllOrderItems(Long userId) {
+        return cartItemRepository.getAllCartItemByUserId(userId);
     }
 }

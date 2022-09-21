@@ -1,5 +1,6 @@
 package com.example.backend.controller;
 
+import com.example.backend.entity.CartItem;
 import com.example.backend.entity.Order;
 import com.example.backend.entity.OrderItems;
 import com.example.backend.entity.pojo.EditOrderPojo;
@@ -30,10 +31,10 @@ public class OrderController {
         }
     }
     @PostMapping("/admindashboard/orders")
-    public ResponseEntity<String> saveNewOrder(@RequestBody OrderPojo orderPojo){
+    public ResponseEntity<?> saveNewOrder(@RequestBody OrderPojo orderPojo){
         try {
             orderService.createNewOrder(orderPojo);
-            return new ResponseEntity<>("Add successfully",HttpStatus.OK);
+            return ResponseEntity.ok("Add order successful");
         } catch (RecordNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -49,9 +50,9 @@ public class OrderController {
             throw new RuntimeException(e);
         }
     }
-    @GetMapping("/order/{id}")
-    public ResponseEntity<List<OrderItems>> getAllOrderItems(@PathVariable Long id){
-        List<OrderItems> orderItems = orderService.getAllOrderItems(id);
+    @GetMapping("/order/{userId}")
+    public ResponseEntity<List<CartItem>> getAllOrderItems(@PathVariable Long userId){
+        List<CartItem> orderItems = orderService.getAllOrderItems(userId);
         return ResponseEntity.ok(orderItems);
     }
 
