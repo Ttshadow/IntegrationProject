@@ -63,12 +63,16 @@ public class ReservationService {
         else {
             //need to check if the r.starttime >= c.endtime && r.starttime + duration <= c.starttime of the next reservation on the same table.id
             //list of reservation per table..
-            /*for (DiningTable table : uniqueTables) {
+            for (DiningTable table : uniqueTables) {
+                //order of the list? 
                 List<Reservation> reservationsByTable = reservationRepository.findSpecificReservationById("confirmed", startTime, table.getId());
-                for(Reservation reservation : reservationsByTable) {
-                    if(reservation.getStartTime())
+
+                for(int i = 0; i < reservationsByTable.size()-1; i++) {
+                    if (reservationsByTable.get(i).getStartTime().toInstant().compareTo(reservationsByTable.get(i+1).getEndTime().toInstant()) >= 0) {
+
+                    }
                 }
-            }*/
+            }
             //List<Reservation> reservationByTable
             for (Reservation reservation: selectedConfirmedReservation) {
                 if (reservation.getStartTime().toInstant().atZone(ZoneId.of("America/Montreal")).toLocalTime().isAfter(end) ||

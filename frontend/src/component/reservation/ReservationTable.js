@@ -1,6 +1,7 @@
 import { Button, Form, Tab, Tabs, Modal, Container, Row, Col, Table } from 'react-bootstrap';
 import React, { useState, useEffect } from 'react';
 import useLocalStorage from "../../util/useLocalStorage";
+import moment from 'moment';
 
 function ReservationTable() {
     const [reservation, setReservation] = useState([]);
@@ -30,7 +31,6 @@ function ReservationTable() {
     }, []);
 
     return <>
-        <h1>Admin reservation table</h1>
         <Table striped bordered hover>
             <thead>
                 <tr>
@@ -47,13 +47,13 @@ function ReservationTable() {
                     return (
                     <tr key={index}>
                         <td>{reservation.id}</td>
-                        <td>{reservation.startTime}</td>
-                        <td>{reservation.endTime}</td>
+                        <td>{moment(reservation.startTime).format("YYYY-MM-DD HH:mm ")}</td>
+                        <td>{moment(reservation.startTime).format("YYYY-MM-DD HH:mm ")}</td>
                         <td>{reservation.numberOfParty}</td>
                         <td>{reservation.status}</td>
                         <td>
-                            <Button onClick={editReservation}>Edit</Button>
-                            <Button onClick={deleteReservation}>Delete</Button>
+                            <Button className="ml-auto mx-2" onClick={editReservation}>Edit</Button>
+                            <Button variant='danger' className="ml-auto" onClick={deleteReservation}>Delete</Button>
                         </td>
                     </tr>
                     )
