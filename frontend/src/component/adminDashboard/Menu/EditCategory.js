@@ -12,14 +12,9 @@ export function EditCategory(){
     const [category, setCategory] = useState({id:'', name:''});
     const categoryNameRef = useRef();
     const navigate = useNavigate();
+    const [errorMessage, setErrorMessage] = useState('');
 
     function saveCategory(e){
-        // const form = e.currentTarget;
-        //   if (form.checkValidity() === false) {
-        //     e.preventDefault();
-        //     e.stopPropagation();
-        //  }
-        // setValidated(true);
         e.preventDefault();
         fetch('/admindashboard/category/edit_category',{
             method:'PUT',
@@ -28,12 +23,21 @@ export function EditCategory(){
                 name: categoryNameRef.current.value,
               }),
               headers: {
+                'Accept': 'application/json',
                 "Content-type": "application/json; charset=UTF-8",
                 Authorization: `Bearer ${jwt}`
               },
             })
-              .then((data) => data.json())
-              .then(navigate('../menuDashboard'))
+            .then((data) => {
+              if(data.status === 200){
+              navigate('../menuDashboard');}
+              else{
+                  return data.text();
+              }
+          })
+          .then((text)=>{
+                setErrorMessage(text);
+          })
     }
 
     useEffect(() => {
@@ -59,10 +63,8 @@ export function EditCategory(){
                 </Form.Group>
                 <Form.Group className="mb-3" >
                   <Form.Label >Name</Form.Label>
-                  <Form.Control maxLength={30} required type="text" defaultValue={category.name} ref={categoryNameRef}/>
-                  <Form.Control.Feedback type="invalid">
-                    Please enter a category name.
-                  </Form.Control.Feedback>
+                  <Form.Control required type="text" defaultValue={category.name} ref={categoryNameRef}/>
+                  <p className='text-danger' defaultValue={''}>{errorMessage}</p>
                 </Form.Group>
                 <Button type="submit" variant="warning" className="mt-3 mb-3">Save</Button>
             </Form>

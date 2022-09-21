@@ -12,4 +12,10 @@ import java.util.List;
 public interface MenuRepository extends JpaRepository<Menu, Long> {
     @Query(value = "select * from menus where category_id = :categoryId", nativeQuery = true)
     List<Menu> getMenuByCategoryId(@Param("categoryId") Long categoryId);
+
+    @Query(value = "select * from menus where status = 'Available'", nativeQuery = true)
+    List<Menu> getAvailableMenu();
+
+    @Query(value = "select * from menus where status = 'Available' and category_id = :categoryId", nativeQuery = true)
+    List<Menu> getAvailableMenuByCategoryId(@Param("categoryId") Long categoryId);
 }

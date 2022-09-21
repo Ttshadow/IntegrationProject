@@ -43,7 +43,7 @@ function EditTable(props) {
     const openModal = () => {setShowModal(true)}
     return (
     <div>
-    <Button id="buttonAlign" onClick={openModal}>
+    <Button onClick={openModal}>
         Edit {props.tableName}
     </Button>
     <Modal show={showModal}>

@@ -1,7 +1,6 @@
 import { Form, Tab, Tabs } from 'react-bootstrap';
 import React, { useEffect, useState } from 'react';
 import EditTable from './EditTable';
-import EditAllStatus from './EditAllStatus';
 import useLocalStorage from "../../util/useLocalStorage";
 
 function Table() {
@@ -32,7 +31,7 @@ function Table() {
         <Tabs
             transition={false}
         >
-        {table.filter(t => t.id !== 1).map((table, index) => {
+        {table.filter(t => t.id !== 1 && t.id !== 2).map((table, index) => {
             return (
                 <Tab key={index} eventKey={index} title={table.name}>
                     <Form id="tab-content" noValidate>
@@ -60,7 +59,9 @@ function Table() {
                                 defaultValue={table.status}
                             />
                         </Form.Group>
+                        <div class="align-self-end">
                         <EditTable tableName={table.name} table={table} ></EditTable>
+                        </div>
                     </Form>
                     
                 </Tab>
