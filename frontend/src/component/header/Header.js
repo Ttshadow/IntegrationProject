@@ -9,10 +9,13 @@ import useLocalStorage from "../../util/useLocalStorage";
 export default function Header() {
   const [jwt, setJwt] = useLocalStorage("", "jwt");
   const [authority, setAuthority] = useLocalStorage("", "authority");
+  const [userId, setUserId] = useLocalStorage("", "userId");
+
   const handleLogin = () => {
     if (jwt) {
       setJwt("");
       setAuthority("");
+      setUserId("");
     } else {
       window.location.href = "/";
     }
@@ -40,7 +43,7 @@ export default function Header() {
         <Col className="collapse navbar-collapse " id="navbarSupportedContent">
           <ul className="navbar-nav navbar mx-auto">
             <li className="nav-item">
-              <Link to="" className="nav-link">
+              <Link to="dine" className="nav-link">
                 Menu
               </Link>
             </li>

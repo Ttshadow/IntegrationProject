@@ -26,21 +26,12 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<MainLayout />}>
-        <Route index element={
-          <LoginWrapper>
-            <Home />
-          </LoginWrapper>
-        }></Route>
-        {/* <Route path="/menu" element={<Menu />}></Route>
-            <Route path="/reservation" element={<Reservation />}></Route>
-            <Route path="/shoppingcart" element={<ShoppingCart />}></Route> */}
+        <Route index element={<Home />}></Route>
       </Route>
-      {/* <Route path="/userdashboard" element={<UserDashboard />}></Route>
-          <Route path="*" element={<Navigate to="/" />} /> */}
 
       <Route path="/login" element={<LoginForm />}></Route>
       <Route path="/register" element={<RegisterForm />}></Route>
-
+      
       <Route path="/adminDashboard/" element={<AdminDashboard />}>
         <Route path="menuDashboard" element={<MenuDashboard />}/>
         <Route path="newCategory" element={<NewCategory />}/>
@@ -48,13 +39,11 @@ function App() {
         <Route path="editMenu/:id" element={<EditMenu />}/>
         <Route path="newMenu" element={<NewMenu />}/>
       </Route>
-
-      <Route path="/dine/" element={<Outlet />}>
+      <Route path="/dine/" element={<LoginWrapper><Outlet /></LoginWrapper>}>
         <Route path="" element={<TakeoutOrDinein/>}/>
-        <Route path="menu" element={<UserMenu />}/>
+        <Route path="menu" element={<LoginWrapper><UserMenu /></LoginWrapper>}/>
         <Route path="cart" element={<Cart />}/>
       </Route>
-
       {/* <Route path="/userDashboard/" element={<UserDashboard />}>
       </Route> */}
       {/* <Route path="/userdashboard" element={<UserDashboard />}></Route> */}

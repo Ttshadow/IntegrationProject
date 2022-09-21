@@ -49,7 +49,7 @@ function RegisterForm() {
             ref={passwordRef}
             required
             className="input"
-            placeholder="Username"
+            placeholder="Password"
           />
           <button type="submit" id="button">
             Create User
