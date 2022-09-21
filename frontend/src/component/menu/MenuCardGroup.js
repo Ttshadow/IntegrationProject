@@ -8,13 +8,15 @@ export function MenuCardGroup(props){
     const selectCategory = props.selectCategory;
     const [menus, setMenus] = useState();
     const [quantity, setQuantity] = useState(1);
+    const userId = localStorage.getItem('userId');
+
     useEffect(()=>{
         let url = '';
         if (selectCategory === 0){
-            url = '../admindashboard/menu'
+            url = '/admindashboard/menu'
         }
         else{
-            url = `../admindashboard/menu/category/${selectCategory}`
+            url = `/admindashboard/menu/category/${selectCategory}`
         }
         fetch(url, {
             method: 'GET',
@@ -27,11 +29,11 @@ export function MenuCardGroup(props){
     },[])
 
     function addToCart(menu){
-        fetch('../cart/add_to_cart', {
+        fetch('/cart/add_to_cart', {
             method: 'POST',
             body: JSON.stringify({
                 user: {
-                    id: 2
+                    id: userId,
                 },
                 table: {
                     id: Number(sessionStorage.getItem('table'))
@@ -48,9 +50,12 @@ export function MenuCardGroup(props){
                 Authorization: `Bearer ${jwt}`            
             }, 
         })
+        .then(()=>{
+            alert("Added to your cart.")
+        })
     }
     return (
-    <Row xs={1} md={3} className="g-4">
+    <Row xs={1} md={4} className="g-4">
     {
         menus?.map((menu)=>{
             return <Col key={menu.id} >

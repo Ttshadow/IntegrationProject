@@ -11,3 +11,27 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+#tab {
+  /*border-left: 1px solid grey;*/
+  
+  /*border-right: 1px solid grey;*/
+  
+  
+}
+
+#tab-content {
+  padding: 30px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  outline: 1px solid lightgray;
+}
+
+#buttonAlign {
+  display: flex;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+}
+

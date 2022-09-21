@@ -3,7 +3,7 @@ import { ImPriceTag } from "react-icons/im";
 import { BsCartFill, BsCalendarCheckFill } from "react-icons/bs";
 import { SiAirtable } from "react-icons/si";
 import { FiArrowLeftCircle, FiArrowRightCircle, FiLogOut } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 import React, { useState } from "react";
 import {
     ProSidebar,
@@ -19,7 +19,7 @@ import "./sidebar.css";
 function SideBar(){
     const[isOpen, setIsOpen] = useState(false);
     const toggle = () => {isOpen ? setIsOpen(false) : setIsOpen(true);};
-    
+
 return(
 <>
     <div id="side_bar">
@@ -36,7 +36,7 @@ return(
                 <Menu iconShape="circle">
                     <MenuItem icon={<SiAirtable />}>
                         Tables
-                        <Link to="/" />
+                        <Link to="/admindashboard/table" />
                     </MenuItem>
                     <MenuItem icon={<BiFoodMenu />}>
                         Menu
@@ -47,10 +47,19 @@ return(
                         <Link to="/" />
                     </MenuItem>
                     <MenuItem icon={<ImPriceTag />}>Promotions</MenuItem>
-                    <MenuItem icon={<BsCalendarCheckFill />}>Reservations</MenuItem>
+                    <MenuItem icon={<BsCalendarCheckFill />}>
+                        Reservations
+                        <Link to="/admindashboard/reservation" />
+                    </MenuItem>
                     <MenuItem icon={<BiCommentDots />}>
                         Reviews
-                        <Link to="comment" />
+                        <Link to="/admindashboard/comment" />
+                    </MenuItem>
+
+                    {/*TEMP FOR USERDASHBOARD*/}
+                    <MenuItem icon={<BiUserPin />}>
+                        User reservation
+                        <Link to="/userdashboard/reservation" />
                     </MenuItem>
                 </Menu>
             </SidebarContent>

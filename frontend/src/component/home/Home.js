@@ -5,7 +5,7 @@ import Information from './information/Information'
 import Testimonials from './testimonials/Testimonials'
 import MapAndReservation from './mapAndReservation/MapAndReservation'
 
-export default function Home() {
+function Home() {
   return (
     <div>
       <Slider />
@@ -16,3 +16,4 @@ export default function Home() {
     </div>
   )
 }
+export default Home;

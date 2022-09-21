@@ -17,13 +17,16 @@ export default function Header() {
       setUserId("");
     } else {
       window.location.href = "/";
+
+    } else {
+      window.location.href = "/login";
     }
   };
 
   const jumpToDashboard = () => {
     if(authority === "ROLE_ADMIN") {
       window.location.href = "/adminDashboard";
-    }else if(authority === "ROLE_USER") {
+    }else if(authority === "ROLE_USER") { 
       window.location.href = "/userDashboard";
     }else{
       window.location.href = "/";
@@ -42,7 +45,7 @@ export default function Header() {
         <Col className="collapse navbar-collapse " id="navbarSupportedContent">
           <ul className="navbar-nav navbar mx-auto">
             <li className="nav-item">
-              <Link to="" className="nav-link">
+              <Link to="dine" className="nav-link">
                 Menu
               </Link>
             </li>
@@ -64,7 +67,7 @@ export default function Header() {
         <Col>
           <ul className="navbar-nav navbar float-end">
             <li className="nav-item">
-              <button className="btn btn-light">
+              <button className="btn btn-light"onClick={()=>{window.location.href = "/dine/cart";}}>
                 <BsCartDash />
               </button>
               <span

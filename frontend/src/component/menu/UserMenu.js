@@ -4,7 +4,7 @@ import { UseFetchCategories } from "../adminDashboard/Menu/UseFetchCategories";
 import { MenuCardGroup } from "./MenuCardGroup";
 
 export function UserMenu(){
-    const categories = UseFetchCategories('../admindashboard/category');
+    const categories = UseFetchCategories('/admindashboard/category');
     const [key, setKey] = useState();
     return (
         <div>

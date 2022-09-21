@@ -11,7 +11,7 @@ import java.util.Date;
 @Data
 @Table(name = "reservations")
 public class Reservation extends IdBaseEntity{
-    @ManyToOne(fetch = FetchType.LAZY,optional = false)
+    @ManyToOne(/*fetch = FetchType.LAZY,*/optional = false)
     @JoinColumn(name = "user_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
@@ -19,7 +19,7 @@ public class Reservation extends IdBaseEntity{
     private Date startTime;
     private Date endTime;
     private String status;
-    @ManyToOne(fetch = FetchType.LAZY,optional = false)
+    @ManyToOne(/*fetch = FetchType.LAZY,*/optional = false)
     @JoinColumn(name = "dining_table_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private DiningTable diningTable;

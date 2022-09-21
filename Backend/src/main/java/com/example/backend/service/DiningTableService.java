@@ -40,6 +40,11 @@ public class DiningTableService {
         }
     }
 
+    //Take status and modify reservation.status if needed.
+    public void updateReservationStatus(String status) {
+
+    }
+
     public void deleteDiningTableById(Long id) {
         diningTableRepository.deleteById(id);
     }
@@ -50,7 +55,20 @@ public class DiningTableService {
         diningTableRepository.save(diningTable);
     }
 
+    public void changeAllDiningTableStatus(String status) throws RecordNotFoundException {
+        List<DiningTable> allDiningTables = getAllDiningTables();
+        //Add functionality to change reservation status
+        for (DiningTable table: allDiningTables) {
+            table.setStatus(status);
+            diningTableRepository.save(table);
+        }
+    }
+
     public List<DiningTable> getDiningTableByAvailability(String status) {
         return diningTableRepository.findDiningTableByStatus(status);
+    }
+
+    public List<DiningTable> getDiningTablWithoutStatus(String status, int capacity) {
+        return diningTableRepository.findDiningTableWithoutStatus(status, capacity);
     }
 }
