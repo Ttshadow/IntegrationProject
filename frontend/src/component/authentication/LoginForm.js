@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import useLocalStorage from "../../util/useLocalStorage";
+import "./LoginForm.css";
 
 export default function LoginForm() {
     const [jwt, setJwt] = useLocalStorage("", "jwt");
@@ -12,7 +13,7 @@ export default function LoginForm() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        fetch("user/login", {
+        fetch("../user/login", {
             method: "POST",
             body: JSON.stringify({
                 username: usernameRef.current.value,
@@ -67,6 +68,9 @@ export default function LoginForm() {
         </form>
         <Link to="/register" id="goToRegister">
           Go to Register
+        </Link>
+        <Link to="/" id="goToRegister">
+          Go to Home Page
         </Link>
       </div>
     </div>

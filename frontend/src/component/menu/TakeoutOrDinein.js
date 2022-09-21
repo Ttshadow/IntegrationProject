@@ -26,7 +26,7 @@ export function TakeoutOrDinein(){
     }
 
     useEffect(()=>{
-        fetch('diningtable', {
+        fetch('/admindashboard/diningtable', {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${jwt}`
@@ -47,8 +47,9 @@ export function TakeoutOrDinein(){
     }
 
     return (
-        <div className="row">
-                <h2 className="text-center">Start Your Order</h2>
+        <div className="row login-container">
+            <div className="login-form">
+                <h2 className="text-center text-light mb-5">Start Your Order</h2>
                 <div className="text-center">
                     <Button className="btn btn-dark btn-lg me-2 col-5" onClick={selectDinein}>DINE-IN</Button>
                     <Button className="btn btn-dark btn-lg col-5" onClick={selectTakeout}>TAKE-OUT</Button>
@@ -74,10 +75,11 @@ export function TakeoutOrDinein(){
                         </Form.Select>
                     </Modal.Body>
                     <Modal.Footer>
-                    <Button variant="warning" onClick={handleYes}>Yes</Button>
-                    <Button variant="warning" onClick={handleCancel}>Cancel</Button>
+                    <Button variant="dark" onClick={handleYes}>Yes</Button>
+                    <Button variant="secondary" onClick={handleCancel}>Cancel</Button>
                     </Modal.Footer>
                 </Modal>
+                </div>
         </div>
         
     )

@@ -5,6 +5,7 @@ import com.example.backend.exception.RecordNotFoundException;
 import com.example.backend.repository.CartItemRepository;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,22 +27,17 @@ public class CartItemService {
         throw new RecordNotFoundException("Cart Item Not Found");
     }
     public void saveOrUpdateCartItem(CartItem newCartItem) throws RecordNotFoundException {
-        if(newCartItem.getId() == null){
+        Optional<CartItem> cartItemFromDb = cartItemRepository.getCartItemByUserAndMenu(newCartItem.getUser().getId(), newCartItem.getMenu().getId());
+        if(!cartItemFromDb.isPresent()){
             cartItemRepository.save(newCartItem);
         }
-        // DO WE NEED TO UPDATE THE WHOLE CART ITEM, OR JUST THE QUANTITY?
         else{
-            CartItem cartItemFromDb = getCartItemById(newCartItem.getId());
-            cartItemFromDb.setMenu(newCartItem.getMenu());
-            cartItemFromDb.setQuantity(newCartItem.getQuantity());
-            cartItemFromDb.setTable(newCartItem.getTable());
-            cartItemFromDb.setTakeout(newCartItem.isTakeout());
-            cartItemRepository.save(cartItemFromDb);
+            updateCartItemQuantity(cartItemFromDb.get().getId(), newCartItem.getQuantity() + cartItemFromDb.get().getQuantity());
         }
     }
-    public void updateCartItemQuantity(Long cartItemId, int quantity) throws RecordNotFoundException {
+    public void updateCartItemQuantity(Long cartItemId, int qty) throws RecordNotFoundException {
         CartItem cartItem = getCartItemById(cartItemId);
-        cartItem.setQuantity(quantity);
+        cartItem.setQuantity(qty);
         cartItemRepository.save(cartItem);
     }
     public void deleteCartItemById(Long id){

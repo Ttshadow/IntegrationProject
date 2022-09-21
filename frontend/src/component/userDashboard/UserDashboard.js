@@ -1,7 +1,9 @@
 import { Outlet } from "react-router-dom";
 
-export function UserDashboard(){
+function UserDashboard(){
     return (
         <Outlet />
     )
-}
+};
+
+export default UserDashboard;
