@@ -5,7 +5,6 @@ import com.example.backend.entity.Menu;
 import com.example.backend.exception.RecordNotFoundException;
 import com.example.backend.service.MenuService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.TransactionSystemException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.ConstraintViolationException;
@@ -24,6 +23,12 @@ public class MenuController {
     public List<Menu> getAllMenus(){
         return menuService.getAllMenu();
     }
+
+    @GetMapping("/available_menu")
+    public List<Menu> getAvailableMenu(){
+        return menuService.getAvailableMenu();
+    }
+
     @GetMapping("/{id}")
     public Menu getMenuById(@PathVariable Long id) throws RecordNotFoundException {
         return menuService.getMenuById(id);
@@ -66,5 +71,10 @@ public class MenuController {
     @GetMapping("/category/{id}")
     public List<Menu> getMenuByCategoryId(@PathVariable Long id){
         return menuService.getMenuByCategory(id);
+    }
+
+    @GetMapping("/available_by_category/{id}")
+    public List<Menu> getAvailableMenuByCategoryId(@PathVariable Long id){
+        return menuService.getAvailableMenuByCategoryId(id);
     }
 }

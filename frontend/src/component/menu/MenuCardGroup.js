@@ -13,10 +13,10 @@ export function MenuCardGroup(props){
     useEffect(()=>{
         let url = '';
         if (selectCategory === 0){
-            url = '/admindashboard/menu'
+            url = '/admindashboard/menu/available_menu'
         }
         else{
-            url = `/admindashboard/menu/category/${selectCategory}`
+            url = `/admindashboard/menu/available_by_category/${selectCategory}`
         }
         fetch(url, {
             method: 'GET',
