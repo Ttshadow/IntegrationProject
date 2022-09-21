@@ -5,15 +5,15 @@ import "./Footer.css"
 
 export default function Footer() {
   return (
-    <Container className="mt-5 py-5 footer">
+    <Container fluid className="mt-5 py-5 footer">
       <Row> 
-        <Col>
+        <Col className="col-2 offset-2">
         <h6 className="text-uppercase">Logo</h6>
           <p className="pt-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius itaque omnis dignissimos
                     numquam
                     provident deleniti fugiat quasi.</p>
         </Col>
-        <Col>
+        <Col className="col-2">
         <h5 className="pb-2">Featured</h5>
                 <ul className="text-uppercase list-unstyled">
                     <li><Link to="">Home</Link></li>
@@ -22,7 +22,7 @@ export default function Footer() {
                     {/* <li><Link to="">Contact Us</Link></li> */}
                 </ul>
         </Col>
-        <Col>
+        <Col className="col-2">
         <h5 className="pb-2">Contact Us</h5>
                 <div>
                     {/* <h6 className="text-uppercase">Address</h6> */}
@@ -37,7 +37,7 @@ export default function Footer() {
                     <p>email.exemple.com</p>
                 </div>
         </Col>
-        <Col>
+        <Col className="col-2">
         <h5 className="pb-2">Instagram</h5>
                 <div className="row">
                     <img className="img-fluid w-25 h-50 m-2" src="images/footer_image1.jpeg" alt=""/>
