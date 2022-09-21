@@ -29,7 +29,7 @@ function Slider() {
   };
 
   const jumpHandlerMenu = () => {
-    navigate("");
+    navigate("/dine");
   };
 
   const jumpHandlerReservation = () => {

@@ -4,16 +4,16 @@ import useLocalStorage from "../../util/useLocalStorage";
 import "./LoginForm.css";
 
 export default function LoginForm() {
-  const [jwt, setJwt] = useLocalStorage("", "jwt");
-  const [authority, setAuthority] = useLocalStorage("", "authority");
-  const [userId, setUserId] = useLocalStorage("", "userId");
-  const [message, setMessage] = useState("");
-  const usernameRef = useRef();
-  const passwordRef = useRef();
+    const [jwt, setJwt] = useLocalStorage("", "jwt");
+    const [authority,setAuthority] = useLocalStorage('','authority');
+    const [userId,setUserId] = useLocalStorage('','userId');
+    const [message, setMessage] = useState("");
+    const usernameRef = useRef();
+    const passwordRef = useRef();
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    fetch("user/login", {
+    fetch("/user/login", {
       method: "POST",
       body: JSON.stringify({
         username: usernameRef.current.value,
@@ -33,6 +33,7 @@ export default function LoginForm() {
       .then(([body, headers]) => {
         setJwt(headers.get("authorization"));
         setAuthority(body.authority.authority);
+        setUserId(body.id);
         window.location.href = "/";
       });
   };
@@ -67,6 +68,9 @@ export default function LoginForm() {
         </form>
         <Link to="/register" id="goToRegister">
           Go to Register
+        </Link>
+        <Link to="/" id="goToRegister">
+          Go to Home Page
         </Link>
       </div>
     </div>

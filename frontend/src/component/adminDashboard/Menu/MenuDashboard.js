@@ -16,7 +16,7 @@ export function MenuDashboard(){
 
     //fetch to get all the catogires from the db.
     useEffect(() =>{
-        fetch('category', {
+        fetch('/admindashboard/category', {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${jwt}`
@@ -30,10 +30,10 @@ export function MenuDashboard(){
     useEffect(()=>{
         let url = '';
         if (selectCategory == 0){
-            url = 'menu'
+            url = '/admindashboard/menu'
         }
         else{
-            url = `menu/category/${selectCategory}`
+            url = `/admindashboard/menu/category/${selectCategory}`
         }
         fetch(url, {
             method: 'GET',
@@ -54,12 +54,12 @@ export function MenuDashboard(){
 
     // user select different category.
     function handleChange(e){
-        console.log(e.target.value);
+        // console.log(e.target.value);
         setSelectCategory(e.target.value);
     }
 
     function deleteCategory(){
-        fetch(`category/${selectCategory}`, 
+        fetch(`/admindashboard/category/${selectCategory}`, 
         {
             method: 'DELETE',
             headers: {
@@ -72,12 +72,13 @@ export function MenuDashboard(){
             }
         })
         .then(()=>{
+            setSelectCategory(0);
             setRefresh(true);
         })
     }
 
     function deleteMenu(id){
-        fetch(`menu/${id}`, {
+        fetch(`/admindashboard/menu/${id}`, {
             method: 'DELETE',
             headers: {
                 Authorization: `Bearer ${jwt}`
@@ -113,7 +114,7 @@ export function MenuDashboard(){
     }
     // change menu status
     function changeStatus(id){
-        fetch(`menu/status/${id}`, {
+        fetch(`/admindashboard/menu/status/${id}`, {
             method: 'PUT',
             body: status,
             headers: {

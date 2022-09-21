@@ -6,7 +6,7 @@ function LoginWrapper({ children }) {
     const [jwt, setJwt] = useLocalStorage("", "jwt")
     const [isLoading,setIsLoading] = useState(true)
     const [isValid,setIsValid] = useState(null)
-    fetch(`user/validate?token=${jwt}`, {
+    fetch(`/user/validate?token=${jwt}`, {
         method: 'get'
     })
         .then(response => response.json())

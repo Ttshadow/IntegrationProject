@@ -24,7 +24,7 @@ export function EditMenu(){
         if (imageChange){
             await uploadImage();
         }
-        await fetch('../menu/edit_menu',{
+        await fetch('/admindashboard/menu/edit_menu',{
             method:'PUT',
             body: JSON.stringify({
                 id : id,
@@ -65,7 +65,7 @@ export function EditMenu(){
         setCategoryId(e.target.value);
     }
     useEffect(() => {
-      fetch(`../menu/${id}`, {
+      fetch(`/admindashboard/menu/${id}`, {
         method:'GET',
         headers: {
             Authorization: `Bearer ${jwt}`
@@ -84,7 +84,7 @@ export function EditMenu(){
     //     .then((data) => data.json())
     //     .then((json) => {setCategories(json)})
     // }, [])
-    const categories = UseFetchCategories('../category');
+    const categories = UseFetchCategories('/admindashboard/category');
     
     useEffect(()=>{
         setCategoryId(menu.category?.id);

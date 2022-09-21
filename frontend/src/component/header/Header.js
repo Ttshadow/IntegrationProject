@@ -9,12 +9,17 @@ import useLocalStorage from "../../util/useLocalStorage";
 export default function Header() {
   const [jwt, setJwt] = useLocalStorage("", "jwt");
   const [authority, setAuthority] = useLocalStorage("", "authority");
+  const [userId, setUserId] = useLocalStorage("", "userId");
+
   const handleLogin = () => {
     if (jwt) {
       setJwt("");
       setAuthority("");
-    } else {
+      setUserId("");
       window.location.href = "/";
+
+    } else {
+      window.location.href = "/login";
     }
   };
 
@@ -40,7 +45,7 @@ export default function Header() {
         <Col className="collapse navbar-collapse " id="navbarSupportedContent">
           <ul className="navbar-nav navbar mx-auto">
             <li className="nav-item">
-              <Link to="" className="nav-link">
+              <Link to="dine" className="nav-link">
                 Menu
               </Link>
             </li>
@@ -62,7 +67,7 @@ export default function Header() {
         <Col>
           <ul className="navbar-nav navbar float-end">
             <li className="nav-item">
-              <button className="btn btn-light">
+              <button className="btn btn-light"onClick={()=>{window.location.href = "/dine/cart";}}>
                 <BsCartDash />
               </button>
               <span
