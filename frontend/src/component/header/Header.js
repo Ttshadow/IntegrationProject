@@ -10,15 +10,17 @@ export default function Header() {
   const [jwt, setJwt] = useLocalStorage("", "jwt");
   const [authority, setAuthority] = useLocalStorage("", "authority");
   const [userId, setUserId] = useLocalStorage("", "userId");
-
   const handleLogin = () => {
     if (jwt) {
       setJwt("");
       setAuthority("");
       setUserId("");
-      window.location.href = "/";
+    } 
+    // else {
+    //   window.location.href = "/";
 
-    } else {
+    // } 
+    else {
       window.location.href = "/login";
     }
   };
@@ -51,7 +53,7 @@ export default function Header() {
             </li>
 
             <li className="nav-item">
-              <Link to="" className="nav-link">
+              <Link to="/newreservation" className="nav-link">
                 Reservation
               </Link>
             </li>

@@ -18,15 +18,15 @@ export function TakeoutOrDinein(){
     }
     function selectTakeout(){
         sessionStorage.setItem("isTakeout", true);
+        sessionStorage.setItem("table", 1);
         navigate(`menu`);
     }
     function handleSelectChange(e){
-        console.log(e)
         sessionStorage.setItem('table', e.target.value)
     }
 
     useEffect(()=>{
-        fetch('/admindashboard/diningtable', {
+        fetch('/admindashboard/getavailabletable', {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${jwt}`

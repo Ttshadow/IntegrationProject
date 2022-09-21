@@ -3,13 +3,6 @@ import {Form , Button} from 'react-bootstrap';
 import {useNavigate} from 'react-router-dom';
 import useLocalStorage from '../../../util/useLocalStorage';
 
-// export const checkStatus = response => {
-//     const hasError = (response.status < 200 || response.status >= 300)
-//     if (hasError) {
-//       throw response.json();
-//     }
-//     return response
-//   }
 function NewCategory(){
     const [jwt, setJwt] = useLocalStorage('', 'jwt');
     const nameRef = useRef();
@@ -37,7 +30,7 @@ function NewCategory(){
             }
         })
         .then((text)=>{
-              setErrorMessage(text);
+            setErrorMessage(text);
         })
 
     }

@@ -1,8 +1,13 @@
 import React from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import './MapAndReservation.css'
+import { useNavigate } from "react-router-dom"
 
 function MapAndReservation() {
+    const navigate = useNavigate();
+    const handleToReservation = () =>{
+        navigate("/newreservation");
+    }
   return (
     <Container fluid className="mt-4 bg-light containerBox">
         <Row>
@@ -25,7 +30,7 @@ function MapAndReservation() {
                 <h2 className='reservationTitle mt-5'>Book A Table Online</h2>
                 <p className='reservationText'>Call (123) 456–7890 daily, or book online below.<br/>
                     Reservations required for parties of 6 or more.</p>
-                <button className='btn btn-warning'>Book Table Now</button>
+                <button className='btn btn-warning' onClick={handleToReservation}>Book Table Now</button>
             </Col>
         </Row>
     </Container>

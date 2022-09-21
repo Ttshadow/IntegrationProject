@@ -15,7 +15,7 @@ function NewMenu(){
     const statusRef = useRef();
     const [categoryId, setCategoryId] = useState(0);
     let imageSrc = '';
-    
+    const [errorMessage, setErrorMessage] = useState("");
     const navigate = useNavigate();
 
     const saveMenu = async (e) => {
@@ -42,10 +42,15 @@ function NewMenu(){
             }
         })
         .then((data) => {
-            if(data.status == 200){
-                navigate('../menuDashboard');
-            } 
-        })  
+            if(data.status === 200){
+            navigate('../menuDashboard');}
+            else{
+                return data.text();
+            }
+        })
+        .then((text)=>{
+              setErrorMessage(text);
+        })
     }
 
     function handleChange(e){
@@ -77,6 +82,7 @@ function NewMenu(){
                 <Form.Group className="mb-3" >
                     <Form.Label >Name</Form.Label>
                     <Form.Control type="text" ref={nameRef}/>
+                    <p className='text-danger' defaultValue={''}>{errorMessage}</p>
                 </Form.Group>
                 <Form.Group className="mb-3" >
                     <Form.Label >Description</Form.Label>

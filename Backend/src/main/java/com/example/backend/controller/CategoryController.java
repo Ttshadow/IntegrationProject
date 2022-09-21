@@ -6,11 +6,9 @@ import com.example.backend.exception.RecordNotFoundException;
 import com.example.backend.repository.CategoryRepository;
 import com.example.backend.service.CategoryService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.ConstraintViolationException;
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -29,13 +27,12 @@ public class CategoryController {
     }
     @PostMapping("/add_category")
     public ResponseEntity addCategory(@RequestBody Category category) throws RecordNotFoundException {
-//        System.out.println(category);
         try{
             categoryService.saveOrUpdateCategory(category);
             return ResponseEntity.ok(category);
         }
         catch(ConstraintViolationException e){
-            return ResponseEntity.badRequest().body(ErrorMessage.NAME_IS_REQUIRED_ERROR_MESSAGE);
+            return ResponseEntity.badRequest().body(e.getConstraintViolations().iterator().next().getMessageTemplate());
         }
     }
     @GetMapping("/{id}")
@@ -44,9 +41,14 @@ public class CategoryController {
     }
 
     @PutMapping("/edit_category")
-    public Category updateCategory(@RequestBody Category category) throws RecordNotFoundException {
-        categoryService.saveOrUpdateCategory(category);
-        return category;
+    public ResponseEntity updateCategory(@RequestBody Category category) throws RecordNotFoundException {
+        try{
+            categoryService.saveOrUpdateCategory(category);
+            return ResponseEntity.ok((category));
+        }
+        catch (Exception e){
+            return ResponseEntity.internalServerError().body(ErrorMessage.NAME_SIZE_LIMIT_ERROR_MESSAGE);
+        }
     }
 
     @DeleteMapping("/{id}")

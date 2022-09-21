@@ -24,6 +24,9 @@ import { Cart } from "./component/menu/Cart";
 import Order from "./component/adminDashboard/Order";
 import TakeOutOrder from "./component/order/TakeOutOrder";
 import DineInOrder from "./component/order/DineInOrder";
+import Comment from "./component/adminDashboard/Comment";
+import LeaveComment from "./component/userDashboard/LeaveComment";
+import Profile from "./component/userDashboard/Profile";
 
 // import UserDashboard from "./component/userDashboard/UserDashboard";
 
@@ -35,6 +38,7 @@ function App() {
         <Route index element={<Home />}></Route>
         <Route path="takeoutorder" element={<TakeOutOrder />}></Route>
         <Route path="dineinorder" element={<DineInOrder />}></Route>
+        <Route path="/newreservation" element={<LoginWrapper><AddReservation /></LoginWrapper>} />
         <Route path="/dine/" element={<LoginWrapper><Outlet /></LoginWrapper>}>
           <Route path="" element={<TakeoutOrDinein/>}/>
           <Route path="menu" element={<UserMenu />}/>
@@ -47,9 +51,11 @@ function App() {
       {/*<Route path="/admindashboard/reservation" element={<AdminReservation />}></Route>*/}
 
       {/*USER DASHBOARD*/}
-      <Route path="/userDashboard/" element={<UserDashboard />}>
+      <Route path="/userdashboard/" element={<UserDashboard />}>
+        <Route path="leavecomment" element={<LeaveComment />}/>
         <Route path="reservation" element={<UserReservation />} />
-        <Route path="newreservation" element={<AddReservation />} />
+
+        <Route path="profile" element={<Profile />}/>
       </Route>
 
 
@@ -72,10 +78,10 @@ function App() {
         <Route path="cart" element={<Cart />}/>
           <Route path="table" element={<AdminTable />}/>
           <Route path="reservation" element={<AdminReservation />}/>
+        <Route path="comment" element={<Comment />}/>
       </Route>
 
-      {/* <Route path="/userDashboard/" element={<UserDashboard />}>
-      </Route> */}
+
       {/* <Route path="/userdashboard" element={<UserDashboard />}></Route> */}
       {/* <Route path="*" element={<Navigate to="/" />} /> */}
     </Routes>

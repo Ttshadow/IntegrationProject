@@ -1,19 +1,17 @@
-import { Button, Form, Tab, Tabs, Modal, Container, Row, Col } from 'react-bootstrap';
-import React, { useContext, useEffect, useState } from 'react';
+import { Button, Form, Container, Row, Col } from 'react-bootstrap';
+import React, { useState } from 'react';
 import useLocalStorage from "../../../util/useLocalStorage";
 import moment from 'moment';
 
 function AddReservation() {
     const [jwt,setJwt] = useLocalStorage("","jwt")
-    const [showModal, setShowModal] = useState(false);
-    const [user, setUser] = useState(2);
+    //const [user, setUser] = useState(2);
+    const user = localStorage.getItem('userId');
     const [numberOfParty, setNumberOfParty] = useState(1);
     const [startTime, setStartTime] = useState('');
     const [endTime, setEndTime] = useState('');
-    const [status, setStatus] = useState('');
     const [diningTable, setDiningTable] = useState(1);
-    var startdate = new Date();
-    var enddate = new Date();
+    
     var optionArray = [];
     const partyLimit = 20;
     (() => {
@@ -22,13 +20,10 @@ function AddReservation() {
         }
         return optionArray;
     })()
-    const openModal = () => {setShowModal(true)}
 
-    //function to determine the status
     const reservationStatus = () => {
-        //alert(status);
         const dto = {startTime: startTime, endTime: endTime, numberOfParty: numberOfParty};
-        fetch('reservation/statusrequest', {
+        fetch('/userdashboard/reservation/statusrequest', {
             method: 'POST',
             headers: {
                 Authorization: `Bearer ${jwt}`,
@@ -37,20 +32,16 @@ function AddReservation() {
             body: JSON.stringify(dto)
         })
         .then((response) => response.text())
-        //.then((text) => status1 = text)
         .then((text) => {
             console.log(text);
             addReservation(text);
         })
-        //.then((response) => status1 = response)
-        //.then(() => console.log(status1))
-        //.then(addReservation(status1))
     };
 
     const addReservation = (status2) => {
         console.log(status2);
         const reservation = {diningTable: {id: diningTable}, user: {id: user}, startTime: moment(startTime).toDate(), endTime: moment(endTime).toDate(), numberOfParty: numberOfParty, status: status2};
-        fetch('reservation/new', {
+        fetch('/userdashboard/reservation/new', {
             method: 'POST',
             headers: {
                 Authorization: `Bearer ${jwt}`,
@@ -59,10 +50,11 @@ function AddReservation() {
             body: JSON.stringify(reservation)
         })
         .then((data) => data.json())
-        .then((json) => alert(JSON.parse(JSON.stringify(json))))
     }
 
-    return <Container>
+    return <div className='login-container text-light'>
+        <br/>
+        <Container>
         <Row>
             <Col className='col-lg-7'>
                 <h1>
@@ -120,11 +112,10 @@ function AddReservation() {
                     </Form.Group>
                     <Button onClick={reservationStatus}>Confirm</Button>
                 </Form>
-                {startTime}
-                {endTime}
             </Col>
         </Row>
-    </Container>
+        </Container>
+    </div>
 }
 
 export default AddReservation;

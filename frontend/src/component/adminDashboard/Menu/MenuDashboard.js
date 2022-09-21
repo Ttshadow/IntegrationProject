@@ -49,7 +49,12 @@ export function MenuDashboard(){
         navigate('../newCategory')
     }
     function navigateToEditCategory(event){ 
-        navigate(`../editCategory/${selectCategory}`);
+        if(selectCategory == 0){
+            alert("Please select a category to edit.")
+        }
+        else{
+            navigate(`../editCategory/${selectCategory}`);
+        }
     }
 
     // user select different category.
@@ -59,22 +64,27 @@ export function MenuDashboard(){
     }
 
     function deleteCategory(){
-        fetch(`/admindashboard/category/${selectCategory}`, 
-        {
-            method: 'DELETE',
-            headers: {
-                Authorization: `Bearer ${jwt}`
-            }
-        })
-        .then((data)=>{
-            if(data.status === 200){
-                alert("Category Delete Successfully!");
-            }
-        })
-        .then(()=>{
-            setSelectCategory(0);
-            setRefresh(true);
-        })
+        if(selectCategory == 0){
+            alert("Please select a category to delete.")
+        }
+        else{
+            fetch(`/admindashboard/category/${selectCategory}`, 
+            {
+                method: 'DELETE',
+                headers: {
+                    Authorization: `Bearer ${jwt}`
+                }
+            })
+            .then((data)=>{
+                if(data.status === 200){
+                    alert("Category Delete Successfully!");
+                }
+            })
+            .then(()=>{
+                setSelectCategory(0);
+                setRefresh(true);
+            })
+        }
     }
 
     function deleteMenu(id){

@@ -37,32 +37,7 @@ function TableStatusOption(props) {
             statusOptions = [{value: ''}];
         }
       })()
-    /*if (status === 'available') { 
-        statusOptions = [
-            {value: 'available'},
-            {value: 'occupied'},
-            {value: 'unavailable'}
-        ];
-    };
-    if (status === 'occupied') {
-        statusOptions = [
-            {value: 'occupied'}
-        ];
-     };
-    if (status === 'reserved') {
-        statusOptions = [
-            {value: 'reserved'},
-            {value: 'available'},
-            {value: 'occupied'},
-            {value: 'unavailable'}
-        ];
-     };
-    if (status === 'unavailable') {
-        statusOptions = [
-            {value: 'unavailable'},
-            {value: 'available'}
-        ];
-     };*/
+
     return (
     <Form.Group className="mb-3">
         <Form.Label>Availability</Form.Label>

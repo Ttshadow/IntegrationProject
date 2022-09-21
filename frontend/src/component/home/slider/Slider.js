@@ -33,7 +33,7 @@ function Slider() {
   };
 
   const jumpHandlerReservation = () => {
-    navigate("");
+    navigate("/newreservation");
   };
 
   return (

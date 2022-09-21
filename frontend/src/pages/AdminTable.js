@@ -1,6 +1,5 @@
-import {Container, Row, Col} from 'react-bootstrap'
+import { Row, Col} from 'react-bootstrap'
 import Table from '../component/adminDashboard/Table';
-import SideBar from '../component/adminDashboard/SideBar';
 import AddTable from '../component/adminDashboard/AddTable';
 import EditAllStatus from '../component/adminDashboard/EditAllStatus';
 function AdminTable() {

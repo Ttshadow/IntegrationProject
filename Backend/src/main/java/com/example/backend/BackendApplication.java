@@ -43,5 +43,7 @@ public class BackendApplication implements CommandLineRunner {
 					authorityRepository.findByAuthority("ROLE_USER").get()));
 			userRepository.saveAll(userList);
 		}
+
+		//seed table1
 	}
 }

@@ -1,4 +1,4 @@
-import { BiFoodMenu, BiCommentDots, BiUserPin } from "react-icons/bi";
+import { BiFoodMenu, BiCommentDots } from "react-icons/bi";
 import { ImPriceTag } from "react-icons/im";
 import { BsCartFill, BsCalendarCheckFill } from "react-icons/bs";
 import { SiAirtable } from "react-icons/si";
@@ -51,17 +51,21 @@ return(
                         Reservations
                         <Link to="/admindashboard/reservation" />
                     </MenuItem>
-                    <MenuItem icon={<BiCommentDots />}>Reviews</MenuItem>
-                    {/*TEMP FOR USERDASHBOARD*/}
-                    <MenuItem icon={<BiUserPin />}>
-                        User reservation
-                        <Link to="/userdashboard/reservation" />
+                    <MenuItem icon={<BiCommentDots />}>
+                        Reviews
+                        <Link to="/admindashboard/comment" />
                     </MenuItem>
+
+                    {/*TEMP FOR USERDASHBOARD*/}
+                
                 </Menu>
             </SidebarContent>
             <SidebarFooter>
                 <Menu iconShape="circle">
-                    <MenuItem icon={<FiLogOut />}>Log out</MenuItem>
+                    <MenuItem icon={<FiLogOut />}  >
+                        Back to Home
+                        <Link to="/" />
+                    </MenuItem>
                 </Menu>
             </SidebarFooter>
         </ProSidebar>

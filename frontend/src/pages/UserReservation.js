@@ -7,13 +7,10 @@ import {useNavigate} from 'react-router-dom';
 function UserReservation() {
     const navigate = useNavigate();
     const handleClick = () => {
-        navigate('/userdashboard/newreservation');
+        navigate('/newreservation');
     };
     return <Container>
     <Row>
-        <Col className='col-3'>
-            <SideBar />
-        </Col>
         <Col className='col-9'>
         <h1>User Reservations</h1>
         <Button onClick={handleClick}>New reservation</Button>
