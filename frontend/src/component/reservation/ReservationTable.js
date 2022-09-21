@@ -35,6 +35,7 @@ function ReservationTable() {
             <thead>
                 <tr>
                 <th>Reservation number</th>
+                <th>Name</th>
                 <th>Start Time</th>
                 <th>End Time</th>
                 <th>Number of People</th>
@@ -43,10 +44,11 @@ function ReservationTable() {
                 </tr>
             </thead>
             <tbody>
-                {reservation.map((reservation, index) => {
+                {reservation.slice(0).reverse().map((reservation, index) => {
                     return (
                     <tr key={index}>
                         <td>{reservation.id}</td>
+                        <td>{reservation.user.firstName} {reservation.user.lastName}</td>
                         <td>{moment(reservation.startTime).format("YYYY-MM-DD HH:mm ")}</td>
                         <td>{moment(reservation.startTime).format("YYYY-MM-DD HH:mm ")}</td>
                         <td>{reservation.numberOfParty}</td>

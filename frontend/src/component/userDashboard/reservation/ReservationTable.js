@@ -6,7 +6,8 @@ import moment from 'moment';
 function ReservationTable() {
     const [jwt,setJwt] = useLocalStorage("","jwt")
     const [reservation, setReservation] = useState([]);
-    const [userId, setUserId] = useState(2);
+    //const [userId, setUserId] = useState(2);
+    const userId = localStorage.getItem('userId');
     
     const allReservationById = () => {
         fetch('reservation/' + userId, {
@@ -36,7 +37,7 @@ function ReservationTable() {
                 </tr>
             </thead>
             <tbody>
-                {reservation.map((reservation, index) => {
+                {reservation.slice(0).reverse().map((reservation, index) => {
                     return (
                     <tr key={index}>
                         <td>{reservation.id}</td>

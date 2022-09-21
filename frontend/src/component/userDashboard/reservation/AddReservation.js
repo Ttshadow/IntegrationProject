@@ -5,7 +5,8 @@ import moment from 'moment';
 
 function AddReservation() {
     const [jwt,setJwt] = useLocalStorage("","jwt")
-    const [user, setUser] = useState(2);
+    //const [user, setUser] = useState(2);
+    const user = localStorage.getItem('userId');
     const [numberOfParty, setNumberOfParty] = useState(1);
     const [startTime, setStartTime] = useState('');
     const [endTime, setEndTime] = useState('');
