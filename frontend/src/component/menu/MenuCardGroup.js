@@ -29,10 +29,6 @@ export function MenuCardGroup(props){
     },[])
 
     function addToCart(menu){
-        if(sessionStorage.getItem("isTakeout") === "true")
-        {
-            sessionStorage.setItem("table", 7);
-        }
         fetch('/cart/add_to_cart', {
             method: 'POST',
             body: JSON.stringify({
