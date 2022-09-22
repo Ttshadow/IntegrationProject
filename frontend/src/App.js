@@ -70,14 +70,15 @@ function App() {
         <Route path="editMenu/:id" element={<EditMenu />}/>
         <Route path="newMenu" element={<NewMenu />}/>
         <Route path="order" element={<Order />}/>
+        <Route path="table" element={<AdminTable />}/>
+        <Route path="reservation" element={<AdminReservation />}/>
       </Route>
 
       <Route path="/dine/" element={<Outlet />}>
         <Route path="" element={<TakeoutOrDinein/>}/>
         <Route path="menu" element={<UserMenu />}/>
         <Route path="cart" element={<Cart />}/>
-          <Route path="table" element={<AdminTable />}/>
-          <Route path="reservation" element={<AdminReservation />}/>
+          
         <Route path="comment" element={<Comment />}/>
       </Route>
 

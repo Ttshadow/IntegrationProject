@@ -27,7 +27,7 @@ function AddTable() {
             },
             body: JSON.stringify(table)
         })
-        .then((data) => data.json())
+        .then(() => alert(name + ' has been successfully added.'))
     }
     const openModal = () => {setShowModal(true)}
     return (

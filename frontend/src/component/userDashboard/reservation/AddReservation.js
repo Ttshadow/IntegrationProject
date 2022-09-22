@@ -33,7 +33,6 @@ function AddReservation() {
         })
         .then((response) => response.text())
         .then((text) => {
-            console.log(text);
             addReservation(text);
         })
     };
@@ -50,6 +49,7 @@ function AddReservation() {
             body: JSON.stringify(reservation)
         })
         .then((data) => data.json())
+        .then(() => alert("Reservation was successfully added."))
     }
 
     return <div className='login-container text-light'>
