@@ -66,8 +66,10 @@ public class DiningTableService {
         List<DiningTable> allDiningTables = getAllDiningTables();
         //Add functionality to change reservation status
         for (DiningTable table: allDiningTables) {
-            table.setStatus(status);
-            diningTableRepository.save(table);
+            if(table.getId() != 1 && table.getId() != 2){
+                table.setStatus(status);
+                diningTableRepository.save(table);
+            }
         }
     }
 

@@ -9,7 +9,7 @@ export default function Footer() {
     <Container fluid className="mt-5 py-5 footer">
       <Row> 
         <Col className="col-2 offset-2">
-        <h6 className="text-uppercase">Logo</h6>
+        <h6 className="text-uppercase">YUKI</h6>
           <p className="pt-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius itaque omnis dignissimos
                     numquam
                     provident deleniti fugiat quasi.</p>
@@ -17,8 +17,8 @@ export default function Footer() {
         <Col className="col-2">
         <h5 className="pb-2">Featured</h5>
                 <ul className="text-uppercase list-unstyled">
-                    <li><Link to="">Home</Link></li>
-                    <li><Link to="">Reservation</Link></li>
+                    <li><Link to="/">Home</Link></li>
+                    <li><Link to="/newreservation">Reservation</Link></li>
                     <li><Link to="">Testimonial</Link></li>
                     {/* <li><Link to="">Contact Us</Link></li> */}
                 </ul>

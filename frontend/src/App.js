@@ -54,8 +54,8 @@ function App() {
       <Route path="/userdashboard/" element={<UserDashboard />}>
         <Route path="leavecomment" element={<LeaveComment />}/>
         <Route path="reservation" element={<UserReservation />} />
-
         <Route path="profile" element={<Profile />}/>
+
       </Route>
 
 
@@ -72,14 +72,13 @@ function App() {
         <Route path="order" element={<Order />}/>
         <Route path="table" element={<AdminTable />}/>
         <Route path="reservation" element={<AdminReservation />}/>
+        <Route path="comment" element={<Comment />}/>
       </Route>
 
       <Route path="/dine/" element={<Outlet />}>
         <Route path="" element={<TakeoutOrDinein/>}/>
         <Route path="menu" element={<UserMenu />}/>
         <Route path="cart" element={<Cart />}/>
-          
-        <Route path="comment" element={<Comment />}/>
       </Route>
 
 
