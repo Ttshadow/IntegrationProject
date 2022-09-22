@@ -14,7 +14,7 @@ function EditAllStatus() {
                 "Content-type": "application/json; charset=UTF-8", 
             },
         })
-        .then(() => alert('All table status updated successfully.'))
+        alert("All tables' status has been updated.");
     };
 
     const openModal = () => {setShowModal(true)}
