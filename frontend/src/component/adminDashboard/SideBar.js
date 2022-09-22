@@ -44,7 +44,7 @@ return(
                     </MenuItem>
                     <MenuItem icon={<BsCartFill />}>
                         Orders
-                        <Link to="order" />
+                        <Link to="/admindashboard/order" />
                     </MenuItem>
                     <MenuItem icon={<ImPriceTag />}>Promotions</MenuItem>
                     <MenuItem icon={<BsCalendarCheckFill />}>
