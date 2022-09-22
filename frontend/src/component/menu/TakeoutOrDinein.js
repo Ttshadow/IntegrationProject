@@ -10,6 +10,9 @@ export function TakeoutOrDinein(){
     const [showModal, setShowModal] = useState(false);
     const [tables, setTables] = useState([]);
     const [fetchTable, setFetchTable] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
+    const [selectedTableId, setSelectedTableId] = useState(0);
+    sessionStorage.setItem("table", 0);
 
     function selectDinein(){
         sessionStorage.setItem("isTakeout", false);
@@ -22,10 +25,9 @@ export function TakeoutOrDinein(){
         navigate(`menu`);
     }
     function handleSelectChange(e){
-        if(e.target.value == 0){
-
-        }
         sessionStorage.setItem('table', e.target.value)
+        setErrorMessage('');
+        
     }
 
     useEffect(()=>{
@@ -40,7 +42,12 @@ export function TakeoutOrDinein(){
         , [fetchTable]);
 
     function handleYes(){
-        navigate(`menu`);
+        if(sessionStorage.getItem("table") === "0"){
+            setErrorMessage("Please select a table.")
+        }
+        else{
+            navigate(`menu`);
+         }
     }
 
     function handleCancel(){
@@ -71,10 +78,12 @@ export function TakeoutOrDinein(){
                     </Modal.Header>
                     <Modal.Body>
                         <Form.Select onChange={handleSelectChange}>
+                            <option value={0}>Select a table</option>
                             {tables?.map((table)=>{
                                 return <option key={table.id} value={table.id}>{table.name}</option>
                             })}
                         </Form.Select>
+                        <p className="text-danger">{errorMessage}</p>
                     </Modal.Body>
                     <Modal.Footer>
                     <Button variant="dark" onClick={handleYes}>Yes</Button>
