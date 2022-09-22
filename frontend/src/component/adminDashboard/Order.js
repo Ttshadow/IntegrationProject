@@ -51,7 +51,7 @@ export default function Order() {
                             })}</td>
                             <td>{order.date}</td>
                             <td>{order.status}</td>
-                            <td>{order.promotion.code}</td>
+                            <td>{order.promotion ? order.promotion.code : ''}</td>
                             <td>
                                 <OrderModal order={order} setOrderStatus={setOrderStatus}></OrderModal>
                             </td>
