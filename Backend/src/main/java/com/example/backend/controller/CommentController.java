@@ -30,8 +30,11 @@ public class CommentController {
             commentService.saveComment(newComment);
             return ResponseEntity.ok(newComment);
         }catch(ConstraintViolationException ex){
-            return ResponseEntity.badRequest().body(ErrorMessage.COMMENT_IS_REQUIRED_ERROR_MESSAGE);
+            if(newComment.getContent().equals("")){
+                return ResponseEntity.badRequest().body(ErrorMessage.COMMENT_IS_REQUIRED_ERROR_MESSAGE);
+            }else {
+                return ResponseEntity.badRequest().body(ErrorMessage.COMMENT_SIZE_LIMIT_ERROR_MESSAGE);
+            }
         }
-
     }
 }
