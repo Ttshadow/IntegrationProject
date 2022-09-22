@@ -10,8 +10,6 @@ export function TakeoutOrDinein(){
     const [showModal, setShowModal] = useState(false);
     const [tables, setTables] = useState([]);
     const [fetchTable, setFetchTable] = useState(false);
-    const [errorMessage, setErrorMessage] = useState('');
-    const [selectedTableId, setSelectedTableId] = useState(0);
     sessionStorage.setItem("table", 0);
 
     function selectDinein(){
@@ -26,9 +24,7 @@ export function TakeoutOrDinein(){
     }
     function handleSelectChange(e){
         sessionStorage.setItem('table', e.target.value)
-        setErrorMessage('');
-        
-    }
+        }
 
     useEffect(()=>{
         fetch('/admindashboard/getavailabletable', {
@@ -41,9 +37,9 @@ export function TakeoutOrDinein(){
         .then((json) => {setTables(JSON.parse(JSON.stringify(json)))},[fetchTable])}
         , [fetchTable]);
 
-    function handleYes(){
+    function handleYes(e){
         if(sessionStorage.getItem("table") === "0"){
-            setErrorMessage("Please select a table.")
+            alert("Please select a table.")
         }
         else{
             navigate(`menu`);
@@ -83,7 +79,6 @@ export function TakeoutOrDinein(){
                                 return <option key={table.id} value={table.id}>{table.name}</option>
                             })}
                         </Form.Select>
-                        <p className="text-danger">{errorMessage}</p>
                     </Modal.Body>
                     <Modal.Footer>
                     <Button variant="dark" onClick={handleYes}>Yes</Button>
