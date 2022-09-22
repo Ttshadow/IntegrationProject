@@ -1,6 +1,7 @@
 package com.example.backend.service;
 
 import com.example.backend.entity.DiningTable;
+import com.example.backend.exception.RecordAlreadyExistsException;
 import com.example.backend.exception.RecordNotFoundException;
 import com.example.backend.repository.DiningTableRepository;
 import org.springframework.stereotype.Service;
@@ -28,8 +29,14 @@ public class DiningTableService {
         throw new RecordNotFoundException("Dining Table Not Found.");
     }
 
-    public void saveOrUpdateDiningTable(DiningTable newDiningTable) throws RecordNotFoundException {
+    public void saveOrUpdateDiningTable(DiningTable newDiningTable) throws RecordNotFoundException, RecordAlreadyExistsException {
         if (newDiningTable.getId() == null) {
+            List<DiningTable> tables = getAllDiningTables();
+            for (DiningTable table: tables) {
+                if (newDiningTable.getName() == table.getName()) {
+                    throw new RecordAlreadyExistsException("This table name already exists.");
+                }
+            }
             diningTableRepository.save(newDiningTable);
         } else {
             DiningTable diningTableFromDb = getDiningTableById(newDiningTable.getId());
@@ -59,8 +66,10 @@ public class DiningTableService {
         List<DiningTable> allDiningTables = getAllDiningTables();
         //Add functionality to change reservation status
         for (DiningTable table: allDiningTables) {
-            table.setStatus(status);
-            diningTableRepository.save(table);
+            if(table.getId() != 1 && table.getId() != 2){
+                table.setStatus(status);
+                diningTableRepository.save(table);
+            }
         }
     }
 

@@ -37,7 +37,7 @@ public class MenuAndDiningTableDataLoader implements CommandLineRunner {
             DiningTable diningTable2 = new DiningTable();
             diningTable2.setName("Table 0");
             diningTable2.setCapacity(20);
-            diningTable2.setStatus("available");
+            diningTable2.setStatus("unavailable");
             diningTableRepository.save(diningTable2);
 
             DiningTable diningTable3 = new DiningTable();

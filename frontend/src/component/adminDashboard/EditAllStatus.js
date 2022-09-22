@@ -14,6 +14,7 @@ function EditAllStatus() {
                 "Content-type": "application/json; charset=UTF-8", 
             },
         })
+        .then(() => alert("All tables' status has been updated."))
     };
 
     const openModal = () => {setShowModal(true)}
@@ -30,7 +31,7 @@ function EditAllStatus() {
             Edit all table status
         </Button>
         <Modal show={showModal}>
-            <Modal.Header closeButton>
+            <Modal.Header>
             <Modal.Title>
             Edit status for all tables
             </Modal.Title>

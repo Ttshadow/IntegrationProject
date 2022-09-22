@@ -28,6 +28,7 @@ function EditTable(props) {
             },
             body: JSON.stringify(updatetable)
         })
+        .then(() => alert(name + " has been updated."))
     };
 
     const deleteTable = () => {
@@ -38,6 +39,7 @@ function EditTable(props) {
                 "Content-type": "application/json; charset=UTF-8", 
             },
         })
+        .then(() => alert(name + " has been deleted."))
     };
 
     const openModal = () => {setShowModal(true)}
@@ -47,7 +49,7 @@ function EditTable(props) {
         Edit {props.tableName}
     </Button>
     <Modal show={showModal}>
-        <Modal.Header closeButton>
+        <Modal.Header>
           <Modal.Title>
           Edit {props.table.name}
           </Modal.Title>

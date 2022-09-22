@@ -1,6 +1,7 @@
 package com.example.backend.controller;
 
 import com.example.backend.entity.DiningTable;
+import com.example.backend.exception.RecordAlreadyExistsException;
 import com.example.backend.exception.RecordNotFoundException;
 import com.example.backend.service.DiningTableService;
 import org.springframework.stereotype.Controller;
@@ -25,13 +26,13 @@ public class DiningTableController {
         return diningTableService.getAllDiningTables();
     }
     @PutMapping("/updatetable")
-    public List<DiningTable> saveDiningTable(@RequestBody DiningTable newDiningtable) throws RecordNotFoundException {
+    public List<DiningTable> saveDiningTable(@RequestBody DiningTable newDiningtable) throws RecordNotFoundException, RecordAlreadyExistsException {
         diningTableService.saveOrUpdateDiningTable(newDiningtable);
         return diningTableService.getAllDiningTables();
     }
 
     @PostMapping("/addtable")
-    public List<DiningTable> addDiningTable(@RequestBody DiningTable newDiningtable) throws RecordNotFoundException {
+    public List<DiningTable> addDiningTable(@RequestBody DiningTable newDiningtable) throws RecordNotFoundException, RecordAlreadyExistsException {
         diningTableService.saveOrUpdateDiningTable(newDiningtable);
         return diningTableService.getAllDiningTables();
     }

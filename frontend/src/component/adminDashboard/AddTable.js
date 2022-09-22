@@ -27,7 +27,7 @@ function AddTable() {
             },
             body: JSON.stringify(table)
         })
-        .then((data) => data.json())
+        .then(() => alert(name + ' added successfully.'))
     }
     const openModal = () => {setShowModal(true)}
     return (
@@ -36,7 +36,7 @@ function AddTable() {
         New table
     </Button>
     <Modal show={showModal}>
-        <Modal.Header closeButton>
+        <Modal.Header >
           <Modal.Title>
             Add a new table
           </Modal.Title>

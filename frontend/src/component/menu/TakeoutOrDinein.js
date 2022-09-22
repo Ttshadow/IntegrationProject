@@ -22,6 +22,9 @@ export function TakeoutOrDinein(){
         navigate(`menu`);
     }
     function handleSelectChange(e){
+        if(e.target.value == 0){
+
+        }
         sessionStorage.setItem('table', e.target.value)
     }
 
@@ -68,7 +71,6 @@ export function TakeoutOrDinein(){
                     </Modal.Header>
                     <Modal.Body>
                         <Form.Select onChange={handleSelectChange}>
-                            <option value={0} >Select a Table</option>
                             {tables?.map((table)=>{
                                 return <option key={table.id} value={table.id}>{table.name}</option>
                             })}
