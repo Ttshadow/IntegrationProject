@@ -16,7 +16,7 @@ const CARD_OPTIONS = {
 			color: "#000",
 			fontWeight: 500,
 			fontFamily: "Roboto, Open Sans, Segoe UI, sans-serif",
-			fontSize: "26px",
+			fontSize: "24px",
 			fontSmoothing: "antialiased",
 			":-webkit-autofill": { color: "#fce883" },
 			"::placeholder": { color: "#87bbfd" }
@@ -35,7 +35,6 @@ const TakeOutOrder = () => {
     const [totalPrice, setTotalPrice] = useState(0);
     const [promotionDesc, setPromotionDesc] = useState('');
     const promotionRef = useRef();
-    const [success, setSuccess] = useState(false);
     const stripe = useStripe();
     const elements = useElements();
 
@@ -108,13 +107,12 @@ const TakeOutOrder = () => {
                 })
                 .then((text)=>{
                     alert(text);
-                    setSuccess(true);
                 })
             }catch(error){
                 console.log('Error', error);
             }
         }else{
-            console.log(error.message);
+            alert(error.message)
         }
     }
 
