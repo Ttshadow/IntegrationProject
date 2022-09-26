@@ -6,7 +6,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.*;
 import java.time.*;
 import java.util.*;
 
@@ -15,6 +15,7 @@ import java.util.*;
 @Table(name = "comments")
 public class Comment extends IdBaseEntity{
     @NotEmpty(message = ErrorMessage.COMMENT_IS_REQUIRED_ERROR_MESSAGE)
+    @Size(max=1000, message = ErrorMessage.COMMENT_SIZE_LIMIT_ERROR_MESSAGE)
     private String content;
     //@Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
