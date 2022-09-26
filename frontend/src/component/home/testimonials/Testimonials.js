@@ -1,8 +1,9 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react';
 import "./Testimonials.css"
 import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'; 
 import 'slick-carousel/slick/slick-theme.css';
+import useLocalStorage from "../../../util/useLocalStorage";
 
 
 function Testimonials() {
@@ -40,6 +41,22 @@ function Testimonials() {
       }
     ]
   };
+  const [jwt,setJwt] = useLocalStorage("","jwt")
+    const [comments, setComments] = useState([])
+
+    useEffect(() =>{
+        fetch('../admindashboard/review', {
+            method: 'GET',
+            headers: {
+                Authorization: `Bearer ${jwt}`
+              }
+        })
+        .then((data)=> data.json())
+        .then((json)=> {
+            console.log(json)
+            setComments(JSON.parse(JSON.stringify(json)))
+        });
+    }, []);
 
 
   return (
@@ -47,35 +64,21 @@ function Testimonials() {
     <div className="section-testimonials mt-0">
     <div className='pt-5'><h2 className='pt-4'>Our customers can't live without us</h2></div>
     <Slider {...settings} >
-    <section>
+      {comments.map((comment)=>{
+        return (
+          <section key={comment.id}>
             <div className="testimonials">
-                <blockquote>YUKI is just awesome! I just launched a startup which leaves me with no time for cooking, so YUKI is a life-saver. Now that I got used to it, I couldn't live without my daily meals!
-                    <cite> &mdash; Alberto Duncan</cite>
+                <blockquote>{comment.content}
+                    <cite> &mdash; {comment.user.firstName} {comment.user.lastName}</cite>
                 </blockquote>
             </div>
             
     </section>
-    <section>
-            <div className="testimonials">
-                <blockquote>YUKI is just awesome! I just launched a startup which leaves me with no time for cooking, so YUKI is a life-saver. Now that I got used to it, I couldn't live without my daily meals!
-                    <cite> &mdash; Alberto Duncan</cite>
-                </blockquote>
-            </div>
-    </section>
-    <section >
-            <div className="testimonials">
-                <blockquote>YUKI is just awesome! I just launched a startup which leaves me with no time for cooking, so YUKI is a life-saver. Now that I got used to it, I couldn't live without my daily meals!
-                    <cite> &mdash; Alberto Duncan</cite>
-                </blockquote>
-            </div>
-    </section>
-    <section >
-            <div className="testimonials">
-                <blockquote>YUKI is just awesome! I just launched a startup which leaves me with no time for cooking, so YUKI is a life-saver. Now that I got used to it, I couldn't live without my daily meals!
-                    <cite> &mdash; Alberto Duncan</cite>
-                </blockquote>
-            </div>
-    </section>
+        )
+        
+      })}
+    
+    
     </Slider>
     </div>
     </>

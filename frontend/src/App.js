@@ -27,6 +27,7 @@ import DineInOrder from "./component/order/DineInOrder";
 import Comment from "./component/adminDashboard/Comment";
 import LeaveComment from "./component/userDashboard/LeaveComment";
 import Profile from "./component/userDashboard/Profile";
+import StripeContainer from "./component/order/StripeContainer";
 
 // import UserDashboard from "./component/userDashboard/UserDashboard";
 
@@ -36,7 +37,7 @@ function App() {
     <Routes>
       <Route path="/" element={<MainLayout />}>
         <Route index element={<Home />}></Route>
-        <Route path="takeoutorder" element={<TakeOutOrder />}></Route>
+        <Route path="takeoutorder" element={<StripeContainer />}></Route>
         <Route path="dineinorder" element={<DineInOrder />}></Route>
         <Route path="/newreservation" element={<LoginWrapper><AddReservation /></LoginWrapper>} />
         <Route path="/dine/" element={<LoginWrapper><Outlet /></LoginWrapper>}>

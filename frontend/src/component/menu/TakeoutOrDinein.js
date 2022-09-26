@@ -10,6 +10,7 @@ export function TakeoutOrDinein(){
     const [showModal, setShowModal] = useState(false);
     const [tables, setTables] = useState([]);
     const [fetchTable, setFetchTable] = useState(false);
+    sessionStorage.setItem("table", 0);
 
     function selectDinein(){
         sessionStorage.setItem("isTakeout", false);
@@ -22,11 +23,8 @@ export function TakeoutOrDinein(){
         navigate(`menu`);
     }
     function handleSelectChange(e){
-        if(e.target.value == 0){
-
-        }
         sessionStorage.setItem('table', e.target.value)
-    }
+        }
 
     useEffect(()=>{
         fetch('/admindashboard/getavailabletable', {
@@ -39,8 +37,13 @@ export function TakeoutOrDinein(){
         .then((json) => {setTables(JSON.parse(JSON.stringify(json)))},[fetchTable])}
         , [fetchTable]);
 
-    function handleYes(){
-        navigate(`menu`);
+    function handleYes(e){
+        if(sessionStorage.getItem("table") === "0"){
+            alert("Please select a table.")
+        }
+        else{
+            navigate(`menu`);
+         }
     }
 
     function handleCancel(){
@@ -71,6 +74,7 @@ export function TakeoutOrDinein(){
                     </Modal.Header>
                     <Modal.Body>
                         <Form.Select onChange={handleSelectChange}>
+                            <option value={0}>Select a table</option>
                             {tables?.map((table)=>{
                                 return <option key={table.id} value={table.id}>{table.name}</option>
                             })}
