@@ -46,7 +46,10 @@ return(
                         Orders
                         <Link to="order" />
                     </MenuItem>
-                    <MenuItem icon={<ImPriceTag />}>Promotions</MenuItem>
+                    <MenuItem icon={<ImPriceTag />}>
+                        Promotions
+                        <Link to="/admindashboard/promotion" />
+                    </MenuItem>
                     <MenuItem icon={<BsCalendarCheckFill />}>
                         Reservations
                         <Link to="/admindashboard/reservation" />

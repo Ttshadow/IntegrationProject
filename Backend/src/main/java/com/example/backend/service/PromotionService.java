@@ -34,6 +34,13 @@ public class PromotionService {
         if (newPromotion.getId() == null) {
             promotionRepository.save(newPromotion);
         } else {
+            if(newPromotion.isStatus()){
+                List<Promotion> allPromotion = getAllPromotion();
+                for (Promotion p : allPromotion){
+                    p.setStatus(false);
+                    promotionRepository.save(p);
+                }
+            }
             Promotion promotionFromDb = getPromotionById(newPromotion.getId());
             promotionFromDb.setDescription(newPromotion.getDescription());
             promotionFromDb.setStatus(newPromotion.isStatus()); //TODO: change to isValid?

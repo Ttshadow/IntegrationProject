@@ -27,6 +27,7 @@ import DineInOrder from "./component/order/DineInOrder";
 import Comment from "./component/adminDashboard/Comment";
 import LeaveComment from "./component/userDashboard/LeaveComment";
 import Profile from "./component/userDashboard/Profile";
+import Promotion from "./component/adminDashboard/Promotion";
 
 // import UserDashboard from "./component/userDashboard/UserDashboard";
 
@@ -70,6 +71,10 @@ function App() {
         <Route path="editMenu/:id" element={<EditMenu />}/>
         <Route path="newMenu" element={<NewMenu />}/>
         <Route path="order" element={<Order />}/>
+        <Route path="promotion" element={<Promotion />}/>
+        <Route path="table" element={<AdminTable />}/>
+        <Route path="reservation" element={<AdminReservation />}/>
+        <Route path="comment" element={<Comment />}/>
       </Route>
 
       <Route path="/dine/" element={<Outlet />}>
