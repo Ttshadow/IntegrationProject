@@ -13,9 +13,6 @@ import javax.annotation.PostConstruct;
 @Service
 public class PaymentService {
 
-    @Value("${stripe.public.key}")
-    private String stripePublicKey;
-
     @Value("${stripe.apikey}")
     private String stripeSecretKey;
 

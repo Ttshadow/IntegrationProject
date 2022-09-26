@@ -24,8 +24,8 @@ public class PaymentController {
         try{paymentService.createPayment(paymentRequest.getAmount(), paymentRequest.getId());
         return ResponseEntity.ok("success");
         }
-        catch (Exception e) {
-            return ResponseEntity.badRequest().body("fail");
+        catch (StripeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 }
