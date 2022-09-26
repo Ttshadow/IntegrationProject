@@ -56,6 +56,11 @@ public class OrderController {
         return ResponseEntity.ok(orderItems);
     }
 
+    @GetMapping("/order/getuserinfo/{userId}")
+    public ResponseEntity<?> getUserInfo(@PathVariable Long userId){
+        return ResponseEntity.ok(orderService.getUserInfo(userId));
+    }
+
     @GetMapping("/validatepromotion")
     public ResponseEntity<?> validatePromotionCode(@RequestParam String promotion){
         return ResponseEntity.ok(promotionService.validatePromotionByCode(promotion));

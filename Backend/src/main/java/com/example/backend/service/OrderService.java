@@ -3,6 +3,7 @@ package com.example.backend.service;
 import com.example.backend.entity.CartItem;
 import com.example.backend.entity.Order;
 import com.example.backend.entity.OrderItems;
+import com.example.backend.entity.User;
 import com.example.backend.entity.pojo.OrderPojo;
 import com.example.backend.exception.RecordNotFoundException;
 import com.example.backend.repository.*;
@@ -104,5 +105,9 @@ public class OrderService {
 
     public List<CartItem> getAllOrderItems(Long userId) {
         return cartItemRepository.getAllCartItemByUserId(userId);
+    }
+
+    public User getUserInfo(Long userId){
+        return userRepository.findById(userId).get();
     }
 }

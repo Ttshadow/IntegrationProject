@@ -9,6 +9,7 @@ import { v4 as uuidv4 } from "uuid";
 const TakeOutOrder = () => {
     const [jwt, setJwt] = useLocalStorage('', 'jwt');
     const [userId, setUserId] = useLocalStorage('', 'userId');
+    const [user,setUser] = useState({});
     const [orderItems, setOrderItems] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
     const [promotionDesc, setPromotionDesc] = useState('');
@@ -30,6 +31,17 @@ const TakeOutOrder = () => {
                 })
                 setTotalPrice(totalPrice)
                 setOrderItems(items)
+            })
+        fetch(`../order/getuserinfo/${(userId)}`, {
+            method: 'get',
+            headers: {
+                Authorization: `Bearer ${jwt}`
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                setUser(data);
             })
     }, []);
 
@@ -78,21 +90,21 @@ const TakeOutOrder = () => {
                                 <Row>
                                     <Col md={6}>
                                         <Label htmlFor='first_name'>First Name:</Label>
-                                        <input placeholder="" id='first_name' type='text' required />
+                                        <input placeholder="" id='first_name' type='text' required defaultValue={user.firstName ? user.firstName : ''}/>
                                     </Col>
                                     <Col md={6}>
                                         <Label htmlFor='last_name'>Last Name:</Label>
-                                        <input placeholder="" id='last_name' type='text' required />
+                                        <input placeholder="" id='last_name' type='text' required defaultValue={user.lastName ? user.lastName : ''}/>
                                     </Col>
                                 </Row>
                                 <Row className='mt-3'>
                                     <Col md={6}>
                                         <Label htmlFor='email'>Email:</Label>
-                                        <input placeholder="" id='email' type='text' required />
+                                        <input placeholder="" id='email' type='text' required defaultValue={user.email ? user.email : ''}/>
                                     </Col>
                                     <Col md={6}>
                                         <Label htmlFor='telephone'>Telephone:</Label>
-                                        <input placeholder="" id='telephone' type='text' required />
+                                        <input placeholder="" id='telephone' type='text' required defaultValue={user.tel ? user.tel : ''}/>
                                     </Col>
                                 </Row>
                                 <Row className='mt-3'>
