@@ -2,6 +2,7 @@ import { Button, Table } from 'react-bootstrap';
 import React, { useState, useEffect } from 'react';
 import useLocalStorage from "../../util/useLocalStorage";
 import moment from 'moment';
+import EditReservation from './EditReservation';
 
 function ReservationTable() {
     const [reservation, setReservation] = useState([]);
@@ -18,9 +19,7 @@ function ReservationTable() {
         .then((json) => {setReservation(JSON.parse(JSON.stringify(json)))})
     };
 
-    const editReservation = () => {
-        
-    }
+    
 
     const deleteReservation  = () => {
 
@@ -50,13 +49,12 @@ function ReservationTable() {
                         <td>{reservation.id}</td>
                         <td>{reservation.user.firstName} {reservation.user.lastName}</td>
                         <td>{moment(reservation.startTime).format("YYYY-MM-DD HH:mm ")}</td>
-                        <td>{moment(reservation.startTime).format("YYYY-MM-DD HH:mm ")}</td>
+                        <td>{moment(reservation.endTime).format("YYYY-MM-DD HH:mm ")}</td>
                         <td>{reservation.numberOfParty}</td>
                         <td>{reservation.status}</td>
                         <td>
-                            <Button className="ml-auto mx-2" onClick={editReservation}>Edit</Button>
-                            <Button variant='danger
-                            ' className="ml-auto" onClick={deleteReservation}>Delete</Button>
+                            <EditReservation className="ml-auto mx-2" user={reservation.user.id} table={reservation.diningTable.id} id={reservation.id} status={reservation.status} startTime={reservation.startTime} endTime={reservation.endTime} numberOfParty={reservation.numberOfParty}>Edit</EditReservation>
+                            <Button variant='danger' className="ml-auto" onClick={deleteReservation}>Delete</Button>
                         </td>
                     </tr>
                     )

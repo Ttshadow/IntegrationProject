@@ -36,15 +36,15 @@ public class ReservationController {
     }
 
     @PostMapping("/userdashboard/reservation/new")
-    public List<Reservation> addDiningTable(@RequestBody Reservation newReservation) throws RecordNotFoundException {
+    public Reservation addDiningTable(@RequestBody Reservation newReservation) throws RecordNotFoundException {
         reservationService.saveReservation(newReservation);
-        return reservationService.getAllReservations();
+        return reservationService.getReservation(newReservation.getId());
     }
 
     @PostMapping("/userdashboard/reservation/statusrequest")
     public String getNewReservationStatus(@RequestBody ReservationPojo reservation) {
         //JSONObject jsonObject = new JSONObject();
-        if (reservationService.getTableReservationAvailability(reservation.getStartTime(), reservation.getEndTime(), reservation.getNumberOfParty())) {
+        if (reservationService.getTableReservationAvailability(reservation.getStartTime(), reservation.getEndTime(), reservation.getNumberOfParty()).size() > 0) {
             return "pending";
         }
         return "rejected";
@@ -53,5 +53,15 @@ public class ReservationController {
     @GetMapping("/admindashboard/reservation/test")
     public void test() throws RecordNotFoundException{
 
+    }
+
+    @PostMapping("/admindashboard/reservation/tables")
+    public List<DiningTable> getDiningTableForReservation(@RequestBody ReservationPojo reservation) {
+        return reservationService.getTableReservationAvailability(reservation.getStartTime(), reservation.getEndTime(), reservation.getNumberOfParty());
+    }
+
+    @PutMapping("/admindashboard/reservation/editreservation")
+    public void editReservation(@RequestBody Reservation reservation) {
+        reservationService.saveUpdatedReservation(reservation);
     }
 }

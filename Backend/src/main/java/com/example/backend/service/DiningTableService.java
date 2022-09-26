@@ -6,8 +6,7 @@ import com.example.backend.exception.RecordNotFoundException;
 import com.example.backend.repository.DiningTableRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class DiningTableService {
@@ -79,5 +78,13 @@ public class DiningTableService {
 
     public List<DiningTable> getDiningTablWithoutStatus(String status, int capacity) {
         return diningTableRepository.findDiningTableWithoutStatus(status, capacity);
+    }
+
+    public List<DiningTable> getPotentialDiningTables(int capacity) {
+        List<DiningTable> potentialTables = diningTableRepository.findDiningTableWithoutStatus("unavailable", capacity);
+        //List<DiningTable> toRemoveTables = new ArrayList<>();
+        //Set<DiningTable> uniqueTables = new HashSet<DiningTable>();
+
+        return potentialTables;
     }
 }

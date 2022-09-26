@@ -39,7 +39,7 @@ function AddTable() {
         New table
     </Button>
     <Modal show={showModal}>
-        <Modal.Header closeButton>
+        <Modal.Header>
           <Modal.Title>
             Add a new table
           </Modal.Title>
