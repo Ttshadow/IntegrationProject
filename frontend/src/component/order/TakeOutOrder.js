@@ -94,7 +94,7 @@ const TakeOutOrder = () => {
                     method: "POST",
                     body: JSON.stringify({
                         id: id,
-                        amount: totalPrice * 100
+                        amount: totalPrice * 1.1475 * 100
                     }),
                     headers: {
                         'Accept': 'application/json',
