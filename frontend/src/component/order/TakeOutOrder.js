@@ -5,6 +5,30 @@ import { Label } from 'reactstrap';
 import useLocalStorage from '../../util/useLocalStorage';
 import './TakeOutOrder.css';
 import { v4 as uuidv4 } from "uuid";
+import StripeContainer from './StripeContainer';
+import { CardElement, Elements, useElements, useStripe } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+
+
+const CARD_OPTIONS = {
+	iconStyle: "solid",
+	style: {
+		base: {
+			iconColor: "#c4f0ff",
+			color: "#fff",
+			fontWeight: 500,
+			fontFamily: "Roboto, Open Sans, Segoe UI, sans-serif",
+			fontSize: "16px",
+			fontSmoothing: "antialiased",
+			":-webkit-autofill": { color: "#fce883" },
+			"::placeholder": { color: "#87bbfd" }
+		},
+		invalid: {
+			iconColor: "#ffc7ee",
+			color: "#ffc7ee"
+		}
+	}
+}
 
 const TakeOutOrder = () => {
     const [jwt, setJwt] = useLocalStorage('', 'jwt');
@@ -12,7 +36,10 @@ const TakeOutOrder = () => {
     const [orderItems, setOrderItems] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
     const [promotionDesc, setPromotionDesc] = useState('');
-    const promotionRef = useRef()
+    const promotionRef = useRef();
+    const [success, setSuccess] = useState(false);
+    const stripe = useStripe();
+    const elements = useElements();
 
     useEffect(() => {
         fetch(`../order/${(userId)}`, {
@@ -56,8 +83,42 @@ const TakeOutOrder = () => {
         }
     }
 
-    const submitOrder = (e) => {
-        e.preventDefault()
+    const submitOrder = async(e, token) => {
+        e.preventDefault();
+        console.log(token);
+        const {error, paymentMethod} = await stripe.createPaymentMethod({
+            type: "card",
+            card: elements.getElement(CardElement)
+    })
+
+        if(!error){
+            try{
+                const {id} = paymentMethod;
+                fetch('/order/payment',{
+                    method: "POST",
+                    body: JSON.stringify({
+                        id: id,
+                        amount: totalPrice
+                    }),
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${jwt}`
+                    }, 
+                }) 
+                .then((data)=>data.json())
+                .then((json)=>{
+                    console.log(json);
+                    setSuccess(true);
+                })
+            }catch(error){
+                console.log('Error', error);
+            }
+        }else{
+            console.log(error.message);
+        }
+        console.log("error:", error)
+        console.log("PaymentMethod: ", paymentMethod);
     }
 
     return (
@@ -74,7 +135,7 @@ const TakeOutOrder = () => {
                                     <img src="https://img.icons8.com/color/48/000000/maestro.png" alt='' />
                                 </span>
                             </div>
-                            <form className='mt-4'>
+                            <form className='mt-4' onSubmit={(e, token)=>submitOrder(e, token)}>
                                 <Row>
                                     <Col md={6}>
                                         <Label htmlFor='first_name'>First Name:</Label>
@@ -114,6 +175,22 @@ const TakeOutOrder = () => {
                                         <Label className='mb-3' htmlFor='cvv'>CVV:</Label>
                                         <input id="cvv" type='text' />
                                     </Col>
+                                </Row>
+                                <Row className="mt-3">
+
+                                <div className='bg-dark'>
+                                    {!success ?
+                                    <Row >
+                                        <Col className="">
+                                            <CardElement options={CARD_OPTIONS}/>
+                                        </Col>
+                                    </Row>
+                                    :
+                                    <div>
+                                        <h2>Payment Successful!</h2>
+                                    </div>
+                                    }
+                                </div>
                                 </Row>
                             </form>
                         </div>
