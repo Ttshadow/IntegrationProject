@@ -27,7 +27,7 @@ import DineInOrder from "./component/order/DineInOrder";
 import Comment from "./component/adminDashboard/Comment";
 import LeaveComment from "./component/userDashboard/LeaveComment";
 import Profile from "./component/userDashboard/Profile";
-
+import ShowProfile from "./component/userDashboard/ShowProfile";
 // import UserDashboard from "./component/userDashboard/UserDashboard";
 
 
@@ -54,7 +54,8 @@ function App() {
       <Route path="/userdashboard/" element={<UserDashboard />}>
         <Route path="leavecomment" element={<LeaveComment />}/>
         <Route path="reservation" element={<UserReservation />} />
-        <Route path="profile" element={<Profile />}/>
+        <Route path="/userdashboard/profile/edit" element={<Profile />}/>
+        <Route path="profile" element={<ShowProfile />}/>
 
       </Route>
 

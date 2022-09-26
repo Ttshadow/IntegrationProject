@@ -14,9 +14,13 @@ import java.util.*;
 @RestController
 public class CommentController {
     private final CommentService commentService;
+    private final OrderService orderService;
+    private final ReservationService reservationService;
 
-    public CommentController(CommentService commentService){
+    public CommentController(CommentService commentService, OrderService orderService, ReservationService reservationService){
         this.commentService = commentService;
+        this.orderService = orderService;
+        this.reservationService = reservationService;
     }
 
     @GetMapping("/admindashboard/review")
@@ -26,9 +30,18 @@ public class CommentController {
 
     @PostMapping("/userdashboard/review")
     public ResponseEntity addComment(@RequestBody Comment newComment) throws RecordNotFoundException {
+        List <Reservation> reservations = reservationService.getUserReservationWithStatus(newComment.getUser().getId());
         try{
-            commentService.saveComment(newComment);
-            return ResponseEntity.ok(newComment);
+            if(orderService.getOrderByUserId(newComment.getUser().getId()).isEmpty()){
+                return ResponseEntity.badRequest().body("You have to order before leave a comment.");
+            }
+            else if(reservations.isEmpty()){
+                return ResponseEntity.badRequest().body("You can leave comment after fulfill your reservation.");
+            }
+            else{
+                commentService.saveComment(newComment);
+                return ResponseEntity.ok(newComment);
+            }
         }catch(ConstraintViolationException ex){
             if(newComment.getContent().equals("")){
                 return ResponseEntity.badRequest().body(ErrorMessage.COMMENT_IS_REQUIRED_ERROR_MESSAGE);

@@ -13,9 +13,14 @@ public class UserController {
 
     public UserController(UserService userService){this.userService = userService;}
 
-    @PostMapping("/userdashboard/edituser")
+    @PutMapping ("/userdashboard/edituser")
     public ResponseEntity updateUser(@RequestBody User user) throws RecordNotFoundException{
         userService.updateUser(user);
         return ResponseEntity.ok(user);
+    }
+
+    @GetMapping("/userdashboard/{id}")
+    public User findUserById(@PathVariable Long id) throws RecordNotFoundException{
+        return userService.getUserById(id);
     }
 }

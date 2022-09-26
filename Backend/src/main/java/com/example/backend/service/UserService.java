@@ -45,6 +45,12 @@ public class UserService {
             userFromDb.setImage(editUser.getImage());
             userRepo.save(userFromDb);
         }
-
+    }
+    public User getUserById(Long id) throws RecordNotFoundException{
+        Optional<User> user = userRepo.findById(id);
+        if(user.isPresent()){
+            return user.get();
+        }
+        throw new RecordNotFoundException("User not found.");
     }
 }
