@@ -10,4 +10,7 @@ import java.util.*;
 @Repository
 public interface UserRepository extends JpaRepository<User,Long> {
     Optional<User> findByUsername(String username);
+
+    @Query(value="select * from users where user_firstName like %:keyword% or user_laseName like %:keyword%", nativeQuery = true)
+    List<User> findUsersByKeyword(@Param("keyword") String keyword);
 }

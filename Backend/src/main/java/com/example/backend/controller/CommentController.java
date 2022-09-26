@@ -4,6 +4,7 @@ import com.example.backend.constant.*;
 import com.example.backend.entity.*;
 import com.example.backend.exception.*;
 import com.example.backend.service.*;
+import org.springframework.data.domain.*;
 import org.springframework.http.*;
 import org.springframework.web.bind.*;
 import org.springframework.web.bind.annotation.*;
@@ -30,14 +31,14 @@ public class CommentController {
 
     @PostMapping("/userdashboard/review")
     public ResponseEntity addComment(@RequestBody Comment newComment) throws RecordNotFoundException {
-        List <Reservation> reservations = reservationService.getUserReservationWithStatus(newComment.getUser().getId());
+//        List <Reservation> reservations = reservationService.getUserReservationWithStatus(newComment.getUser().getId());
         try{
             if(orderService.getOrderByUserId(newComment.getUser().getId()).isEmpty()){
                 return ResponseEntity.badRequest().body("You have to order before leave a comment.");
             }
-            else if(reservations.isEmpty()){
-                return ResponseEntity.badRequest().body("You can leave comment after fulfill your reservation.");
-            }
+//            else if(reservations.isEmpty()){
+//                return ResponseEntity.badRequest().body("You can leave comment after fulfill your reservation.");
+//            }
             else{
                 commentService.saveComment(newComment);
                 return ResponseEntity.ok(newComment);

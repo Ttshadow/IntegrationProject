@@ -2,6 +2,7 @@ package com.example.backend.service;
 
 import com.example.backend.entity.*;
 import com.example.backend.repository.CommentRepository;
+import org.springframework.data.domain.*;
 import org.springframework.data.repository.query.*;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +16,7 @@ public class CommentService {
         this.commentRepository = commentRepository;
     }
     public List<Comment> getAllComments(){
-        return commentRepository.findAll();
+        return commentRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
     }
     public void saveComment(Comment comment){
         commentRepository.save(comment);

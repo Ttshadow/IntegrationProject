@@ -1,11 +1,12 @@
 package com.example.backend.service;
 
-import com.example.backend.entity.User;
+import com.example.backend.entity.*;
 import com.example.backend.entity.pojo.AuthCredentialsRequest;
 import com.example.backend.exception.*;
 import com.example.backend.repository.AuthorityRepository;
 import com.example.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -42,6 +43,7 @@ public class UserService {
             userFromDb.setLastName(editUser.getLastName());
             userFromDb.setTel(editUser.getTel());
             userFromDb.setEmail(editUser.getEmail());
+            //userFromDb.setPassword(encode(editUser.getPassword()));
             userFromDb.setImage(editUser.getImage());
             userRepo.save(userFromDb);
         }
@@ -52,5 +54,13 @@ public class UserService {
             return user.get();
         }
         throw new RecordNotFoundException("User not found.");
+    }
+
+    public List<User> getAllUsers(){
+        return userRepo.findAll(Sort.by(Sort.Direction.DESC, "id"));
+    }
+
+    public List<User> getUserByName(String keyword){
+        return userRepo.findUsersByKeyword(keyword);
     }
 }

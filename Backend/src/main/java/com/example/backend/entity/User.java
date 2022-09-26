@@ -1,5 +1,6 @@
 package com.example.backend.entity;
 
+import com.example.backend.constant.*;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -8,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.persistence.Table;
+import javax.validation.constraints.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -20,9 +22,13 @@ import java.util.List;
 @NoArgsConstructor
 public class User extends IdBaseEntity implements UserDetails {
     private String username;
+    @Email(message = ErrorMessage.EMAIL_INVALID_ERROR_MESSAGE)
     private String email;
+    @Size(max = 15, message = ErrorMessage.TEL_SIZE_LIMIT_ERROR_MESSAGE)
     private String tel;
+    @Size(max = 30, message = ErrorMessage.FIRSTNAME_SIZE_LIMIT_ERROR_MESSAGE)
     private String firstName;
+    @Size(max = 30, message = ErrorMessage.LASTNAME_SIZE_LIMIT_ERROR_MESSAGE)
     private String lastName;
     private String image;
     private String password;

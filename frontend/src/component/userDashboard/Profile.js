@@ -14,6 +14,8 @@
     const passRef = useRef("");
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
+    const [userImage, setUserImage] = useState('');
+    const [imageChange, setImageChange] = useState(false);
 
     let id = Number(localStorage.getItem('userId'));
     useEffect(() =>{
@@ -30,7 +32,12 @@
         });
     }, []);
 
-    const saveProfile = ()=>{
+    let imageSrc = user.image;
+    async function saveProfile (e) {
+        e.preventDefault();
+        if(imageChange){
+            await uploadImage();
+        }
         fetch('/userdashboard/edituser', {
             method: 'PUT',
             headers:{
@@ -44,31 +51,38 @@
                     lastName: lNameRef.current.value,
                     email: emailRef.current.value,
                     tel: telRef.current.value,
-                    password: passRef.current.value,               
+                    //password: passRef.current.value,
+                    image: imageSrc,
             })
         })
-    }
-
-    const onSubmit = (e)=>{
-        e.preventDefault();
-        saveProfile().then((data) => {
-            if(data.status === 200){
-            navigate('../profile');}
-            else{
-                return data.text();
+        .then((response) => {
+            if (response.status === 200) {
+                navigate('/userdashboard/profile');
+            } else {
+                setErrorMessage("");
             }
         })
-        .then((text)=>{
-            setErrorMessage(text);
+    }
+
+    async function uploadImage(e){
+        const formData = new FormData();
+        formData.append("file", userImage);
+        formData.append("upload_preset", "lbxauk4n");
+        await fetch('https://api.cloudinary.com/v1_1/dmncdxm4z/image/upload',{
+            method: 'POST',
+            body: formData,
+        })
+        .then(response=>response.json())
+        .then((json)=>{
+            imageSrc = json.secure_url;
         })
     }
 
-    
     return(
         <>
         <br/ >
             <h3>Edit Profile</h3>
-            <Form>
+            <Form onSubmit={saveProfile}>
                 <Form.Group className="mb-3" controlId="formGroupFirstName">
                     <Form.Label>First Name</Form.Label>
                     <Form.Control type="text" defaultValue={user.firstName} ref={fNameRef} />
@@ -85,11 +99,18 @@
                     <Form.Label>Email</Form.Label>
                     <Form.Control type="email" defaultValue={user.email} ref={emailRef} />
                 </Form.Group>
-                <Form.Group className="mb-3" controlId="formGroupPassword">
+                {/* <Form.Group className="mb-3" controlId="formGroupPassword">
                     <Form.Label>Password</Form.Label>
                     <Form.Control type="password" placeholder="Enter password" ref={passRef} />
+                </Form.Group> */}
+                <Form.Group className="mb-3" controlId="formGroupImage">
+                    <Form.Label>Image</Form.Label>
+                    <div>
+                        <img src={user.image} width="200" alt="" />
+                    </div>
+                    <Form.Control type="file" defaultValue={user.image} onChange={(e)=>{setUserImage(e.target.files[0]); setImageChange(true)}} />
                 </Form.Group>
-                <Button type="submit" variant="warning" onClick={onSubmit}>Update Profile</Button>
+                <Button type="submit" variant="warning">Update Profile</Button>
             </Form>
         </>
     )

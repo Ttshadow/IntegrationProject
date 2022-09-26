@@ -72,6 +72,15 @@ import { useNavigate } from "react-router-dom";
                     <Card.Text className="text-muted">{user.tel}</Card.Text>
                   </Col>
                 </Row>
+                <hr />
+                <Row>
+                  <Col sm="3">
+                    <Card.Text>Image</Card.Text>
+                  </Col>
+                  <Col sm="9">
+                    <Card.Img variant="bottom" src={user.image}></Card.Img>
+                  </Col>
+                </Row>
               </Card.Body>
             </Card>
             </Col>
