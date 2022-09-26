@@ -5,9 +5,7 @@ import { Label } from 'reactstrap';
 import useLocalStorage from '../../util/useLocalStorage';
 import './TakeOutOrder.css';
 import { v4 as uuidv4 } from "uuid";
-import StripeContainer from './StripeContainer';
 import { CardElement, Elements, useElements, useStripe } from '@stripe/react-stripe-js';
-import { loadStripe } from '@stripe/stripe-js';
 
 
 const CARD_OPTIONS = {
@@ -15,10 +13,10 @@ const CARD_OPTIONS = {
 	style: {
 		base: {
 			iconColor: "#c4f0ff",
-			color: "#fff",
+			color: "#000",
 			fontWeight: 500,
 			fontFamily: "Roboto, Open Sans, Segoe UI, sans-serif",
-			fontSize: "16px",
+			fontSize: "26px",
 			fontSmoothing: "antialiased",
 			":-webkit-autofill": { color: "#fce883" },
 			"::placeholder": { color: "#87bbfd" }
@@ -83,9 +81,8 @@ const TakeOutOrder = () => {
         }
     }
 
-    const submitOrder = async(e, token) => {
+    const submitOrder = async(e) => {
         e.preventDefault();
-        console.log(token);
         const {error, paymentMethod} = await stripe.createPaymentMethod({
             type: "card",
             card: elements.getElement(CardElement)
@@ -98,7 +95,7 @@ const TakeOutOrder = () => {
                     method: "POST",
                     body: JSON.stringify({
                         id: id,
-                        amount: totalPrice
+                        amount: totalPrice * 100
                     }),
                     headers: {
                         'Accept': 'application/json',
@@ -106,9 +103,11 @@ const TakeOutOrder = () => {
                         Authorization: `Bearer ${jwt}`
                     }, 
                 }) 
-                .then((data)=>data.json())
-                .then((json)=>{
-                    console.log(json);
+                .then((data)=>{
+                    return data.text();
+                })
+                .then((text)=>{
+                    alert(text);
                     setSuccess(true);
                 })
             }catch(error){
@@ -117,8 +116,6 @@ const TakeOutOrder = () => {
         }else{
             console.log(error.message);
         }
-        console.log("error:", error)
-        console.log("PaymentMethod: ", paymentMethod);
     }
 
     return (
@@ -135,7 +132,7 @@ const TakeOutOrder = () => {
                                     <img src="https://img.icons8.com/color/48/000000/maestro.png" alt='' />
                                 </span>
                             </div>
-                            <form className='mt-4' onSubmit={(e, token)=>submitOrder(e, token)}>
+                            <form className='mt-4'>
                                 <Row>
                                     <Col md={6}>
                                         <Label htmlFor='first_name'>First Name:</Label>
@@ -156,7 +153,7 @@ const TakeOutOrder = () => {
                                         <input placeholder="" id='telephone' type='text' required />
                                     </Col>
                                 </Row>
-                                <Row className='mt-3'>
+                                {/* <Row className='mt-3'>
                                     <Col md={6}>
                                         <Label htmlFor='cardHolder'>Cardholder's name:</Label>
                                         <input placeholder="Linda Williams" id='cardHolder' type='text' />
@@ -175,22 +172,10 @@ const TakeOutOrder = () => {
                                         <Label className='mb-3' htmlFor='cvv'>CVV:</Label>
                                         <input id="cvv" type='text' />
                                     </Col>
-                                </Row>
-                                <Row className="mt-3">
-
-                                <div className='bg-dark'>
-                                    {!success ?
-                                    <Row >
-                                        <Col className="">
-                                            <CardElement options={CARD_OPTIONS}/>
-                                        </Col>
-                                    </Row>
-                                    :
-                                    <div>
-                                        <h2>Payment Successful!</h2>
-                                    </div>
-                                    }
-                                </div>
+                                </Row> */}
+                                <Row className="mt-5">
+                                    <Label className='mb-3'><strong>Bank Information:</strong></Label>
+                                    <CardElement className='text-dark border border-primary' options={CARD_OPTIONS}/>
                                 </Row>
                             </form>
                         </div>
