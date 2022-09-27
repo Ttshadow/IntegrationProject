@@ -29,6 +29,9 @@ import LeaveComment from "./component/userDashboard/LeaveComment";
 import Profile from "./component/userDashboard/Profile";
 import ShowProfile from "./component/userDashboard/ShowProfile";
 import UserInfo from "./component/adminDashboard/UserInfo";
+import StripeContainer from "./component/order/StripeContainer";
+import Promotion from "./component/adminDashboard/Promotion";
+
 // import UserDashboard from "./component/userDashboard/UserDashboard";
 
 
@@ -37,7 +40,7 @@ function App() {
     <Routes>
       <Route path="/" element={<MainLayout />}>
         <Route index element={<Home />}></Route>
-        <Route path="takeoutorder" element={<TakeOutOrder />}></Route>
+        <Route path="takeoutorder" element={<StripeContainer />}></Route>
         <Route path="dineinorder" element={<DineInOrder />}></Route>
         <Route path="/newreservation" element={<LoginWrapper><AddReservation /></LoginWrapper>} />
         <Route path="/dine/" element={<LoginWrapper><Outlet /></LoginWrapper>}>
@@ -72,6 +75,7 @@ function App() {
         <Route path="editMenu/:id" element={<EditMenu />}/>
         <Route path="newMenu" element={<NewMenu />}/>
         <Route path="order" element={<Order />}/>
+        <Route path="promotion" element={<Promotion />}/>
         <Route path="table" element={<AdminTable />}/>
         <Route path="reservation" element={<AdminReservation />}/>
         <Route path="comment" element={<Comment />}/>

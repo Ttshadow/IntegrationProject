@@ -5,6 +5,28 @@ import { Label } from 'reactstrap';
 import useLocalStorage from '../../util/useLocalStorage';
 import './TakeOutOrder.css';
 import { v4 as uuidv4 } from "uuid";
+import { CardElement, Elements, useElements, useStripe } from '@stripe/react-stripe-js';
+
+
+const CARD_OPTIONS = {
+	iconStyle: "solid",
+	style: {
+		base: {
+			iconColor: "#c4f0ff",
+			color: "#000",
+			fontWeight: 500,
+			fontFamily: "Roboto, Open Sans, Segoe UI, sans-serif",
+			fontSize: "24px",
+			fontSmoothing: "antialiased",
+			":-webkit-autofill": { color: "#fce883" },
+			"::placeholder": { color: "#87bbfd" }
+		},
+		invalid: {
+			iconColor: "#ffc7ee",
+			color: "#ffc7ee"
+		}
+	}
+}
 
 const TakeOutOrder = () => {
     const [jwt, setJwt] = useLocalStorage('', 'jwt');
@@ -12,7 +34,9 @@ const TakeOutOrder = () => {
     const [orderItems, setOrderItems] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
     const [promotionDesc, setPromotionDesc] = useState('');
-    const promotionRef = useRef()
+    const promotionRef = useRef();
+    const stripe = useStripe();
+    const elements = useElements();
 
     useEffect(() => {
         fetch(`../order/${(userId)}`, {
@@ -56,8 +80,40 @@ const TakeOutOrder = () => {
         }
     }
 
-    const submitOrder = (e) => {
-        e.preventDefault()
+    const submitOrder = async(e) => {
+        e.preventDefault();
+        const {error, paymentMethod} = await stripe.createPaymentMethod({
+            type: "card",
+            card: elements.getElement(CardElement)
+    })
+
+        if(!error){
+            try{
+                const {id} = paymentMethod;
+                fetch('/order/payment',{
+                    method: "POST",
+                    body: JSON.stringify({
+                        id: id,
+                        amount: totalPrice * 1.1475 * 100
+                    }),
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${jwt}`
+                    }, 
+                }) 
+                .then((data)=>{
+                    return data.text();
+                })
+                .then((text)=>{
+                    alert(text);
+                })
+            }catch(error){
+                console.log('Error', error);
+            }
+        }else{
+            alert(error.message)
+        }
     }
 
     return (
@@ -95,7 +151,7 @@ const TakeOutOrder = () => {
                                         <input placeholder="" id='telephone' type='text' required />
                                     </Col>
                                 </Row>
-                                <Row className='mt-3'>
+                                {/* <Row className='mt-3'>
                                     <Col md={6}>
                                         <Label htmlFor='cardHolder'>Cardholder's name:</Label>
                                         <input placeholder="Linda Williams" id='cardHolder' type='text' />
@@ -114,6 +170,10 @@ const TakeOutOrder = () => {
                                         <Label className='mb-3' htmlFor='cvv'>CVV:</Label>
                                         <input id="cvv" type='text' />
                                     </Col>
+                                </Row> */}
+                                <Row className="mt-5">
+                                    <Label className='mb-3'><strong>Bank Information:</strong></Label>
+                                    <CardElement className='text-dark border border-primary' options={CARD_OPTIONS}/>
                                 </Row>
                             </form>
                         </div>
