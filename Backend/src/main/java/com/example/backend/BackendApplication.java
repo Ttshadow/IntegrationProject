@@ -50,11 +50,11 @@ public class BackendApplication implements CommandLineRunner {
 		}
 		if(promotionList.isEmpty()){
 			promotionList.add(new Promotion("20OFFTHURSDAY", "20% OFF",
-					"Every Thursday Night 6:00 PM - 8:00 PM",0.8,true));
+					"Every Thursday Night",0.8,true));
 			promotionList.add(new Promotion("15OFFWEDNESDAY", "15% OFF",
-					"Every Wednesday Night 6:00 PM - 8:00 PM",0.85,false));
+					"Every Wednesday Night",0.85,false));
 			promotionList.add(new Promotion("10OFFTUESDAY", "10% OFF",
-					"Every Tuesday Night 6:00 PM - 8:00 PM",0.9,false));
+					"Every Tuesday Night",0.9,false));
 			promotionRepository.saveAll(promotionList);
 		}
 
