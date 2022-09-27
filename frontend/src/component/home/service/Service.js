@@ -1,10 +1,33 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import "./Service.css";
 import Card from "react-bootstrap/Card";
+import useLocalStorage from "../../../util/useLocalStorage";
 
 function Service() {
-  let promotionCode = "20OFFTHURSDAY";
+  const [promotion, setPromotion] = useState({});
+  const [jwt, setJwt] = useLocalStorage("", "jwt");
+
+  useEffect(() => {
+    fetch("../home/promotion", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        const value = data.filter((element) => {
+          return element.status === true;
+        });
+        if (value.length > 0) {
+          setPromotion(value[0]);
+        }
+      });
+  }, []);
+
   return (
     <Container fluid className="container-service bg-dark">
       <Row>
@@ -14,21 +37,34 @@ function Service() {
             className="happyHourCard float-end bg-dark"
           >
             <Card.Body>
-              <Card.Title className="text-light">Happy Hours</Card.Title>
-              <Card.Subtitle className="mb-2 text-muted">
-                Every Thursday Night 6:00 PM - 8:00 PM
-              </Card.Subtitle>
-              <Card.Text className="text-light">
-                Our biggest event is here!{" "}
-                <span className="coupon">20% OFF</span> for all orders.
-              </Card.Text>
-              <Card.Link
-                className="btn btn-warning promotionCode"
-                onClick={()=>{navigator.clipboard.writeText(promotionCode)}}
-              >
-                {promotionCode}
-                <span className="tooltipText">Click To Copy</span>
-              </Card.Link>
+              <Card.Title className="text-light">
+                {Object.keys(promotion).length === 0
+                  ? "Stay tuned for our next offers"
+                  : "Happy Hours"}
+              </Card.Title>
+              {Object.keys(promotion).length === 0 ? (
+                ""
+              ) : (
+                <>
+                  <Card.Subtitle className="mb-2 text-muted">
+                    {promotion.description}
+                  </Card.Subtitle>
+                  <Card.Text className="text-light">
+                    Our biggest event is here!{" "}
+                    <span className="coupon">{promotion.title}</span> for all
+                    orders.
+                  </Card.Text>
+                  <Card.Link
+                    className="btn btn-warning promotionCode"
+                    onClick={() => {
+                      navigator.clipboard.writeText(promotion.code);
+                    }}
+                  >
+                    {promotion.code}
+                    <span className="tooltipText">Click To Copy</span>
+                  </Card.Link>
+                </>
+              )}
             </Card.Body>
           </Card>
         </Col>
