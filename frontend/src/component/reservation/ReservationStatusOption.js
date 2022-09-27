@@ -6,10 +6,56 @@ function ReservationStatusOption(props) {
     const [status, setStatus] = useState(props.status);
     const [tables, setTables] = useState([]);
     const [jwt,setJwt] = useLocalStorage("","jwt")
-    let statusOptions = 
+    let statusOptions = [{value: ''}];
+    
+    (() => {
+        switch (status) {
+          case 'pending':
+            tables.length > 0 ? 
+            statusOptions = [
+                {value: 'confirmed'},
+                {value: 'pending'},
+                {value: 'rejected'}
+            ]
+            :
+            statusOptions = [
+                {value: 'pending'},
+                {value: 'rejected'}
+            ];
+            break;
+          case 'confirmed':
+            statusOptions = [
+                {value: 'confirmed'},
+                {value: 'fulfilled'},
+                {value: 'unfulfilled'}
+            ];
+            break;
+          case 'fulfilled':
+            statusOptions = [
+                {value: 'fulfilled'}
+            ];
+            break;
+          case 'unfulfilled':
+            statusOptions = [
+                {value: 'unfulfilled'}
+            ];
+            break;
+            case 'rejected':
+            statusOptions = [
+                {value: 'rejected'}
+            ];
+            break;
+          default:
+            statusOptions = [{value: ''}];
+        }
+      })()
+    
+    /*let statusOptions = 
             tables.length > 0 ? 
             [
                 {value: 'confirmed'},
+                {value: 'fulfilled'},
+                {value: 'unfulfilled'},
                 {value: 'pending'},
                 {value: 'rejected'}
             ]
@@ -18,7 +64,7 @@ function ReservationStatusOption(props) {
                 {value: 'pending'},
                 {value: 'rejected'}
             ]
-    ;
+    ;*/
 
     
     const reservationStatus = () => {
@@ -44,12 +90,9 @@ function ReservationStatusOption(props) {
     <>
         <Form.Group className="mb-3">
             <Form.Label>Reservation status</Form.Label>
-            <Form.Select onChange={(e) => {props.setStatus(e.target.value); setStatus(e.target.value);}}>
+            <Form.Select value={status} onChange={(e) => {props.setStatus(e.target.value); setStatus(e.target.value);}}>
                 {statusOptions.map((option, index) => {
-                    return option.value === status ? 
-                        <option key={index} defaultValue={option.value}>{option.value}</option>
-                    :
-                        <option key={index} value={option.value}>{option.value}</option>
+                    return <option key={index} value={option.value}>{option.value}</option>
                 })}
                 
             </Form.Select>
@@ -63,7 +106,7 @@ function ReservationStatusOption(props) {
                         return <option key={index} value={table.id} disabled={status === 'confirmed' ? null : true}>{table.name}</option>
                     })
                     :
-                    <option value={2}>No table available</option>
+                    <option defaultValue={2}>No table available</option>
                 }
             </Form.Select>
         </Form.Group>

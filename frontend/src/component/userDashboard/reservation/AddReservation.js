@@ -1,5 +1,5 @@
 import { Button, Form, Container, Row, Col, Alert } from 'react-bootstrap';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import useLocalStorage from "../../../util/useLocalStorage";
 import moment from 'moment';
 
@@ -9,15 +9,17 @@ function AddReservation() {
     const user = localStorage.getItem('userId');
     const [numberOfParty, setNumberOfParty] = useState(1);
     const [startTime, setStartTime] = useState(moment().format("yyyy-MM-DDTHH:mm"));
-    const [endTime, setEndTime] = useState('');
+    const [endTime, setEndTime] = useState(moment().format("yyyy-MM-DDTHH:mm"));
     const [diningTable, setDiningTable] = useState(2);
     const [showSuccessAlert, setShowSuccessAlert] = useState(false);
     const [showFailAlert, setShowFailAlert] = useState(false);
     const [showFailTimeAlert, setShowFailTimeAlert] = useState(false);
+    const [showFailMinTimeAlert, setShowFailMinTimeAlert] = useState(false);
+    const [showFailFormAlert, setShowFailFormAlert] = useState(false);
     //console.log(moment(startTime, "hh:mm"));
     var minValue;
     var maxValue;
-
+    const dateNow = moment().format("yyyy-MM-DDTHH:mm");
     var optionArray = [];
     const partyLimit = 20;
     /*(() => {
@@ -30,26 +32,30 @@ function AddReservation() {
         const maxLunchTime = moment().set({'hour': 14, 'minute': 30}).format(format);
         const startDinnerTime = moment().set({'hour': 17, 'minute': 30}).format(format);
         const maxDinnerTime = moment().set({'hour': 22, 'minute': 0}).format(format);
-        const currentDate = moment().format("yyyy-MM-DD");
-        const currentTime = moment().format(format);
+        const currentDate = moment(startTime).format("yyyy-MM-DD");
+        const currentTime = moment(startTime).format(format);
         const nextDate = moment().add(1, 'd').format("yyyy-MM-DD");
         
         console.log(startTime);
         console.log('now: ' + moment(startTime).format(format));
         console.log('lunch: ' + startLunchTime);
-        if (moment(currentTime, format).isBefore(moment(startLunchTime, format))) {
+        if (moment(currentTime, format).isBefore(moment(maxLunchTime, format))) {
             minValue = moment(currentDate + 'T' + startLunchTime).format("yyyy-MM-DDTHH:mm");
             maxValue = moment(currentDate + 'T' + maxLunchTime).format("yyyy-MM-DDTHH:mm");
+            console.log(minValue);
+            console.log(maxValue);
         }
-        else if (moment(currentTime, format).isBefore(moment(startDinnerTime, format))) {
+        else if (moment(startTime, format).isBefore(moment(maxDinnerTime, format))) {
             minValue = moment(currentDate + 'T' + startDinnerTime).format("yyyy-MM-DDTHH:mm");
             maxValue = moment(currentDate + 'T' + maxDinnerTime).format("yyyy-MM-DDTHH:mm");
             console.log(minValue);
+            console.log(maxValue);
         }
         else {
             minValue = moment(nextDate + 'T' + startLunchTime).format("yyyy-MM-DDTHH:mm");
             maxValue = moment(currentDate + 'T' + maxDinnerTime).format("yyyy-MM-DDTHH:mm");
             console.log(minValue);
+            console.log(maxValue);
         }
         
         for (let i = 1; i < partyLimit+1; i++) {
@@ -60,19 +66,25 @@ function AddReservation() {
     })();
 
     const reservationStatus = () => {
-        const dto = {startTime: startTime, endTime: endTime, numberOfParty: numberOfParty};
-        fetch('/userdashboard/reservation/statusrequest', {
-            method: 'POST',
-            headers: {
-                Authorization: `Bearer ${jwt}`,
-                "Content-type": "application/json; charset=UTF-8",
-            },
-            body: JSON.stringify(dto)
-        })
-        .then((response) => response.text())
-        .then((text) => {
-            addReservation(text);
-        })
+        if(showFailAlert === true || showFailTimeAlert === true || showFailMinTimeAlert === true) {
+            setShowFailFormAlert(true);
+        }
+        else {
+            setShowFailFormAlert(false);
+            const dto = {startTime: startTime, endTime: endTime, numberOfParty: numberOfParty};
+            fetch('/userdashboard/reservation/statusrequest', {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                    "Content-type": "application/json; charset=UTF-8",
+                },
+                body: JSON.stringify(dto)
+            })
+            .then((response) => response.text())
+            .then((text) => {
+                addReservation(text);
+            })
+        }
     };
 
     const addReservation = (status2) => {
@@ -114,7 +126,9 @@ function AddReservation() {
         <Row>
             <Alert show={showSuccessAlert} variant="success">Reservation was successfully added. The status is 'pending' and will be updated soon.</Alert>
             <Alert show={showFailAlert} variant="danger">Reservation was rejected. There is no availability for the requested time slot.</Alert>
-            <Alert show={showFailTimeAlert} variant="danger">Please select a time slot between {/*startValue*/} and {/*endValue*/}</Alert>
+            <Alert show={showFailTimeAlert} variant="danger">Please select a time slot between {moment(minValue).format("HH:mm")} and {moment(maxValue).format("HH:mm")}.</Alert>
+            <Alert show={showFailMinTimeAlert} variant="danger">You cannot select a time slot before the current time: {moment(dateNow).format("yyyy-MM-DD HH:mm")}.</Alert>
+            <Alert show={showFailFormAlert} variant="danger">Please verify your reservation information.</Alert>
             <Col className='col-lg-7'>
                 <h1>
                     RESERVATIONS
@@ -157,9 +171,12 @@ function AddReservation() {
                             type="datetime-local"
                             /*min={moment(Date.now()).toDate()}
                             max={moment(Date.now()).toDate()}*/
-                            min={minValue}
+                            min={dateNow}
                             value={startTime}
-                            onChange={(e) => setStartTime(e.target.value)}
+                            onChange={(e) => {
+                                setStartTime(e.target.value);
+                                moment(e.target.value).isBefore(moment(dateNow)) ? setShowFailMinTimeAlert(true) : setShowFailMinTimeAlert(false);
+                            }}
                         />
                     </Form.Group>
                     
