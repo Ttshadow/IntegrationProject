@@ -6,34 +6,44 @@ function RegisterForm() {
   const usernameRef = useRef();
   const passwordRef = useRef();
   const navigate = useNavigate();
-  const [validated, setValidated] = useState(false);
+  const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{6,})");
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    fetch("/user/register", {
-      method: "POST",
-      body: JSON.stringify({
-        username: usernameRef.current.value,
-        password: passwordRef.current.value,
-      }),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-      },
-    }).then((response) => {
-      if (response.status === 200) {
-        // setMessage("Registration success");
-        alert("Registration Successful");
-        navigate("/login");
-      } else {
-        alert("Username already exists, Please choose another one!");
-        // setMessage("Username already exists, Please choose another one!");
-      }
-    })
+    if(checkValidation()){
+      setMessage("");
+      fetch("/user/register", {
+        method: "POST",
+        body: JSON.stringify({
+          username: usernameRef.current.value,
+          password: passwordRef.current.value,
+        }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      }).then((response) => {
+        if (response.status === 200) {
+          // setMessage("Registration success");
+          alert("Registration Successful");
+          navigate("/login");
+        } else {
+          alert("Username already exists, Please choose another one!");
+          // setMessage("Username already exists, Please choose another one!");
+        }
+      })}
+    else{
+      setMessage("Password should contain at least one upper case character, one numeric character, one special character, and must be 6 characters or longer.");
+    }
   };
 
   function checkValidation(){
-    
+    if(strongRegex.test(passwordRef.current.value)){
+      return true;
+    }else{
+      return false;
+    }
   }
+
   return (
     <div className="login-container">
       <div className="login-form">
@@ -59,6 +69,7 @@ function RegisterForm() {
             className="input"
             placeholder="Password"
           />
+          <p className="text-danger bg-light mt-3 rounded">{message}</p>
           <button type="submit" id="button">
             Create User
           </button>
