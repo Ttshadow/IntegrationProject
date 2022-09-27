@@ -6,6 +6,7 @@ function RegisterForm() {
   const usernameRef = useRef();
   const passwordRef = useRef();
   const navigate = useNavigate();
+  const [validated, setValidated] = useState(false);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -30,6 +31,9 @@ function RegisterForm() {
     })
   };
 
+  function checkValidation(){
+    
+  }
   return (
     <div className="login-container">
       <div className="login-form">
