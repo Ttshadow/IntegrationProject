@@ -16,7 +16,7 @@ public class PromotionController {
     private PromotionService promotionService;
 
     @GetMapping
-    public ResponseEntity<?> getAllPromotion(Long userId){
+    public ResponseEntity<?> getAllPromotion(){
         List<Promotion> promotionList = promotionService.getAllPromotion();
         return ResponseEntity.ok(promotionList);
     }
@@ -29,6 +29,16 @@ public class PromotionController {
 
     @PutMapping
     public ResponseEntity<?> updatePromotionById(@RequestBody Promotion promotion){
+        try {
+            promotionService.saveOrUpdatePromotion(promotion);
+        } catch (RecordNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        return ResponseEntity.ok(promotionService.getAllPromotion());
+    }
+
+    @PostMapping
+    public ResponseEntity<?> addNewPromotion(@RequestBody Promotion promotion){
         try {
             promotionService.saveOrUpdatePromotion(promotion);
         } catch (RecordNotFoundException e) {

@@ -19,7 +19,7 @@ function AddPromotion({setPromotions}) {
   const addPromotion = (e) => {
     e.preventDefault();
     fetch('../promotion', {
-        method: "put",
+        method: "post",
         headers: {
           Authorization: `Bearer ${jwt}`,
           "Content-type": "application/json; charset=UTF-8"
@@ -76,7 +76,7 @@ function AddPromotion({setPromotions}) {
               <Form.Select
                 aria-label="Default select example"
                 defaultValue="Inactive"
-                ref={statusRef}
+                ref={statusRef} disabled
               >
                 <option value="Active">Active</option>
                 <option value="Inactive">Inactive</option>

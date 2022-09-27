@@ -1,8 +1,10 @@
 package com.example.backend;
 
 import com.example.backend.entity.Authority;
+import com.example.backend.entity.Promotion;
 import com.example.backend.entity.User;
 import com.example.backend.repository.AuthorityRepository;
+import com.example.backend.repository.PromotionRepository;
 import com.example.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -22,6 +24,8 @@ public class BackendApplication implements CommandLineRunner {
 	private UserRepository userRepository;
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	@Autowired
+	private PromotionRepository promotionRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(BackendApplication.class, args);
@@ -31,6 +35,7 @@ public class BackendApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		List<Authority> authorityList = authorityRepository.findAll();
 		List<User> userList = userRepository.findAll();
+		List<Promotion> promotionList = promotionRepository.findAll();
 		if(authorityList.isEmpty()){
 			authorityList.add(new Authority("ROLE_ADMIN"));
 			authorityList.add(new Authority("ROLE_USER"));
@@ -42,6 +47,15 @@ public class BackendApplication implements CommandLineRunner {
 			userList.add(new User("test", passwordEncoder.encode("123456"),
 					authorityRepository.findByAuthority("ROLE_USER").get()));
 			userRepository.saveAll(userList);
+		}
+		if(promotionList.isEmpty()){
+			promotionList.add(new Promotion("20OFFTHURSDAY", "20% OFF",
+					"Every Thursday Night 6:00 PM - 8:00 PM",0.8,true));
+			promotionList.add(new Promotion("15OFFWEDNESDAY", "15% OFF",
+					"Every Wednesday Night 6:00 PM - 8:00 PM",0.85,false));
+			promotionList.add(new Promotion("10OFFTUESDAY", "10% OFF",
+					"Every Tuesday Night 6:00 PM - 8:00 PM",0.9,false));
+			promotionRepository.saveAll(promotionList);
 		}
 
 		//seed table1

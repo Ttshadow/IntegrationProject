@@ -35,7 +35,6 @@ function Promotion() {
       })
       .then((data) => {
         setPromotions(data);
-        console.log(data);
       });
   }, []);
 
