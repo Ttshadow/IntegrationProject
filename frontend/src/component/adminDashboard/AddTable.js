@@ -16,18 +16,21 @@ function AddTable() {
         if (form.checkValidity() === false) {
             event.preventDefault();
             event.stopPropagation();
+            alert("Please verify the information entered.")
         }
-        setValidated(true);
-        const table = {name, capacity, status};
-        fetch('addtable', {
-            method: 'POST',
-            headers: {
-                Authorization: `Bearer ${jwt}`,
-                "Content-type": "application/json; charset=UTF-8",
-            },
-            body: JSON.stringify(table)
-        })
-        .then(() => alert(name + ' added successfully.'))
+        else {
+            setValidated(true);
+            const table = {name, capacity, status};
+            fetch('addtable', {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                    "Content-type": "application/json; charset=UTF-8",
+                },
+                body: JSON.stringify(table)
+            })
+            alert(name + ' added successfully.');
+        }
     }
     const openModal = () => {setShowModal(true)}
     return (
@@ -36,7 +39,7 @@ function AddTable() {
         New table
     </Button>
     <Modal show={showModal}>
-        <Modal.Header >
+        <Modal.Header>
           <Modal.Title>
             Add a new table
           </Modal.Title>
