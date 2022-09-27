@@ -24,6 +24,4 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     @Query(value = "select * from reservations where status = :status and (DATE(start_time) = DATE(:date)) and dining_table_id = :tableId order by start_time", nativeQuery = true)
     List<Reservation> findSpecificReservationById(@Param("status") String status, @Param("date") Date date, @Param("tableId")long tableId);
 
-    @Query(value = "select * from reservations where user_id = :userId and status = :status", nativeQuery = true)
-    List<Reservation> findReservationByUserStatus(@Param("status") String status, @Param("userId") long userId);
 }

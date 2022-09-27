@@ -43,7 +43,7 @@ public class UserService {
             userFromDb.setLastName(editUser.getLastName());
             userFromDb.setTel(editUser.getTel());
             userFromDb.setEmail(editUser.getEmail());
-            //userFromDb.setPassword(encode(editUser.getPassword()));
+            userFromDb.setPassword(passwordEncoder.encode(editUser.getPassword()));
             userFromDb.setImage(editUser.getImage());
             userRepo.save(userFromDb);
         }
@@ -58,9 +58,5 @@ public class UserService {
 
     public List<User> getAllUsers(){
         return userRepo.findAll(Sort.by(Sort.Direction.DESC, "id"));
-    }
-
-    public List<User> getUserByName(String keyword){
-        return userRepo.findUsersByKeyword(keyword);
     }
 }

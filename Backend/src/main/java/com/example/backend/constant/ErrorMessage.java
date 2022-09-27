@@ -16,7 +16,5 @@ public class ErrorMessage {
     //User:
     public static final String FIRSTNAME_SIZE_LIMIT_ERROR_MESSAGE = "First name should be less than 30 characters.";
     public static final String LASTNAME_SIZE_LIMIT_ERROR_MESSAGE = "Last name should be less than 30 characters.";
-    public static final String TEL_SIZE_LIMIT_ERROR_MESSAGE = "Please enter a valid telephone number.";
-    public static final String EMAIL_INVALID_ERROR_MESSAGE = "Please enter a valid email address.";
 
 }

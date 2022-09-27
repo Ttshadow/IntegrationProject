@@ -22,9 +22,7 @@ import java.util.List;
 @NoArgsConstructor
 public class User extends IdBaseEntity implements UserDetails {
     private String username;
-    @Email(message = ErrorMessage.EMAIL_INVALID_ERROR_MESSAGE)
     private String email;
-    @Size(max = 15, message = ErrorMessage.TEL_SIZE_LIMIT_ERROR_MESSAGE)
     private String tel;
     @Size(max = 30, message = ErrorMessage.FIRSTNAME_SIZE_LIMIT_ERROR_MESSAGE)
     private String firstName;

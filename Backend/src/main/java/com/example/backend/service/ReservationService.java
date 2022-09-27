@@ -36,9 +36,6 @@ public class ReservationService {
     public List<Reservation> getAllUserReservation(Long userId) {
         return reservationRepository.findAllReservationOfUser(userId);
     }
-    public List<Reservation> getUserReservationWithStatus(Long userId){
-        return reservationRepository.findReservationByUserStatus("fulfilled", userId);
-    }
 
     public boolean getTableReservationAvailability(Date startTime, Date endTime, int capacity) {
         List<DiningTable> potentialTables = diningTableRepository.findDiningTableWithoutStatus("unavailable", capacity);

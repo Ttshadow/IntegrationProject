@@ -2,16 +2,26 @@ import React, {useEffect, useState} from 'react';
 import {Table } from 'react-bootstrap';
 import useLocalStorage from "../../util/useLocalStorage";
 
+
 function UserInfo(){
 
     const [jwt,setJwt] = useLocalStorage("","jwt");
     const [users, setUsers] = useState([]);
-    // const [searchUser, setSearchUser] = useState([]);
+    const [searchUser, setSearchUser] = useState("");
+    const [searchRes, setSearchRes] = useState([]);
 
-    // const searchItems = (searchValue) =>{
-    //     setSearchUser(searchValue);
-    //     console.log(searchValue);
-    // }
+    const searchForUser = (searchValue) =>{
+        setSearchUser(searchValue);
+        //console.log(searchValue);
+        if(searchUser !== ""){
+            const filterData = users.filter((item) => {
+                return Object.values(item).join('').toLowerCase().includes(searchUser.toLowerCase());
+            })
+            setSearchRes(filterData);
+        }else{
+            setSearchRes(users);
+        }
+    }
 
     useEffect(() =>{
         fetch('../admindashboard/users', {
@@ -33,10 +43,10 @@ function UserInfo(){
         <>
             <br/>
             <h3>User Page</h3>
-            {/* <div style = {{margin: '0 auto', marginTop: '5%'}}>
+            <div style = {{margin: '0 auto', marginTop: '5%'}}>
                 <label>Search</label>
-                <input type="text" onChange={(e) => searchItems(e.target.value)} />
-            </div> */}
+                <input type="text" onChange={(e) => searchForUser(e.target.value)} />
+            </div>
             
             <hr/>
             <Table striped bordered hover>
@@ -50,15 +60,28 @@ function UserInfo(){
                     </tr>
                 </thead>
                 <tbody>
-                    {users.map((user) =>{
-                        return <tr key={user.id}>
-                            <td>{user.firstName} </td>
-                            <td>{user.lastName}</td>
-                            <td>{user.email}</td>
-                            <td>{user.tel}</td>
-                            <td><img src={user.image} alt='' width='100' /></td>
+                    {searchUser.length>1 ? (
+                        searchRes.map((item) =>{
+                            return <tr key={item.id}>
+                            <td>{item.firstName} </td>
+                            <td>{item.lastName}</td>
+                            <td>{item.email}</td>
+                            <td>{item.tel}</td>
+                            <td><img src={item.image} alt='' width='100' /></td>
                             </tr>
-                    })}
+                        })
+                    ) : (
+                        users.map((user) =>{
+                            return <tr key={user.id}>
+                                <td>{user.firstName} </td>
+                                <td>{user.lastName}</td>
+                                <td>{user.email}</td>
+                                <td>{user.tel}</td>
+                                <td><img src={user.image} alt='' width='100' /></td>
+                                </tr>
+                        })
+                    )}
+                    
                     
                 </tbody>
             </Table>
