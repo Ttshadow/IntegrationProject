@@ -34,6 +34,7 @@ function AddReservation() {
         const startDinnerTime = moment().set({'hour': 17, 'minute': 30}).format(format);
         const maxDinnerTime = moment().set({'hour': 22, 'minute': 0}).format(format);
         const currentDate = moment(dateNow).format("yyyy-MM-DD");
+        const updatedDate = moment(startTime).format("yyyy-MM-DD");
         const currentTime = moment(dateNow).format(format);
         const nextDate = moment().add(1, 'd').format("yyyy-MM-DD");
         
@@ -42,19 +43,19 @@ function AddReservation() {
         console.log('lunch: ' + startLunchTime);
         if (moment(currentTime, format).isBefore(moment(maxLunchTime, format))) {
             minValue = moment(currentDate + 'T' + startLunchTime).format("yyyy-MM-DDTHH:mm");
-            maxValue = moment(currentDate + 'T' + maxLunchTime).format("yyyy-MM-DDTHH:mm");
+            maxValue = moment(updatedDate + 'T' + maxLunchTime).format("yyyy-MM-DDTHH:mm");
             console.log(minValue);
             console.log(maxValue);
         }
         else if (moment(currentTime, format).isBefore(moment(maxDinnerTime, format))) {
             minValue = moment(currentDate + 'T' + startDinnerTime).format("yyyy-MM-DDTHH:mm");
-            maxValue = moment(currentDate + 'T' + maxDinnerTime).format("yyyy-MM-DDTHH:mm");
+            maxValue = moment(updatedDate + 'T' + maxDinnerTime).format("yyyy-MM-DDTHH:mm");
             console.log(minValue);
             console.log(maxValue);
         }
         else {
             minValue = moment(nextDate + 'T' + startLunchTime).format("yyyy-MM-DDTHH:mm");
-            maxValue = moment(currentDate + 'T' + maxDinnerTime).format("yyyy-MM-DDTHH:mm");
+            maxValue = moment(updatedDate + 'T' + maxDinnerTime).format("yyyy-MM-DDTHH:mm");
             console.log(minValue);
             console.log(maxValue);
         }
@@ -67,7 +68,7 @@ function AddReservation() {
     })();
 
     const reservationStatus = () => {
-        if(showFailAlert === true || showFailTimeAlert === true || showFailMinTimeAlert === true) {
+        if(showFailAlert === true || showFailTimeAlert === true || showFailMinTimeAlert === true || showFailLogicTimeAlert === true ) {
             setShowFailFormAlert(true);
         }
         else {
