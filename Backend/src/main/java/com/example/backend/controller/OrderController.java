@@ -2,11 +2,13 @@ package com.example.backend.controller;
 
 import com.example.backend.entity.CartItem;
 import com.example.backend.entity.Order;
+import com.example.backend.entity.User;
 import com.example.backend.entity.pojo.EditOrderPojo;
 import com.example.backend.entity.pojo.OrderPojo;
 import com.example.backend.exception.RecordNotFoundException;
 import com.example.backend.service.OrderService;
 import com.example.backend.service.PromotionService;
+import com.example.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +24,8 @@ public class OrderController {
     private OrderService orderService;
     @Autowired
     private PromotionService promotionService;
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/admindashboard/orders")
     public ResponseEntity<List<Order>> getAllOrders(){
@@ -66,5 +70,14 @@ public class OrderController {
     @GetMapping("/validatepromotion")
     public ResponseEntity<?> validatePromotionCode(@RequestParam String promotion){
         return ResponseEntity.ok(promotionService.validatePromotionByCode(promotion));
+    }
+
+    @PostMapping("/order/edituser")
+    public void updateUser(@RequestBody User user){
+        try {
+            userService.updateUser(user);
+        } catch (RecordNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

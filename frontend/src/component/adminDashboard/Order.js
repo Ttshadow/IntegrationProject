@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import OrderModal from "./OrderModal";
 import './Order.css'
 import useLocalStorage from "../../util/useLocalStorage";
+import moment from 'moment';
 
 export default function Order() {
     const [jwt,setJwt] = useLocalStorage("","jwt")
@@ -16,10 +17,7 @@ export default function Order() {
         }).then(data => data.json()).then(json => { 
             json.reverse()
             json.map((order)=>{
-                let arr = order.date.split("T")
-                let date = arr[0]
-                let time = arr[1].slice(0,8)
-                order.date = date + " " +  time
+                order.date = moment(order.date).format("YYYY-MM-DD HH:mm ")
                 return order
             })
             setOrders(json)

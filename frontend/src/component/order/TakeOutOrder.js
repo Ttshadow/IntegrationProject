@@ -36,6 +36,10 @@ const TakeOutOrder = () => {
     const [totalPrice, setTotalPrice] = useState(0);
     const [promotionDesc, setPromotionDesc] = useState('');
     const promotionRef = useRef();
+    const firstNameRef = useRef();
+    const lastNameRef = useRef();
+    const emailRef = useRef();
+    const telRef = useRef();
     const stripe = useStripe();
     const elements = useElements();
     const navigate = useNavigate();
@@ -116,6 +120,7 @@ const TakeOutOrder = () => {
                 }) 
                 .then((data)=>{
                     if(data.status === 200){
+                        editUser();
                         saveOrder();
                     }
                 })
@@ -125,6 +130,23 @@ const TakeOutOrder = () => {
         } else {
             alert(error.message)
         }
+    }
+
+    const editUser = () => {
+        fetch('../order/edituser', {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${jwt}`
+            },
+            body: JSON.stringify({
+                id: userId,
+                email: emailRef.current.value,
+                tel: telRef.current.value,
+                firstName: firstNameRef.current.value,
+                lastName: lastNameRef.current.value
+            }),
+        })
     }
 
     const saveOrder = () => {
@@ -172,21 +194,21 @@ const TakeOutOrder = () => {
                                 <Row>
                                     <Col md={6}>
                                         <Label htmlFor='first_name'>First Name:</Label>
-                                        <input placeholder="" id='first_name' type='text' disabled defaultValue={user.firstName ? user.firstName : ''} />
+                                        <input placeholder="" id='first_name' type='text' defaultValue={user.firstName ? user.firstName : ''} ref={firstNameRef}/>
                                     </Col>
                                     <Col md={6}>
                                         <Label htmlFor='last_name'>Last Name:</Label>
-                                        <input placeholder="" id='last_name' type='text' disabled defaultValue={user.lastName ? user.lastName : ''} />
+                                        <input placeholder="" id='last_name' type='text' defaultValue={user.lastName ? user.lastName : ''} ref={lastNameRef}/>
                                     </Col>
                                 </Row>
                                 <Row className='mt-3'>
                                     <Col md={6}>
                                         <Label htmlFor='email'>Email:</Label>
-                                        <input placeholder="" id='email' type='text' disabled defaultValue={user.email ? user.email : ''} />
+                                        <input placeholder="" id='email' type='text' defaultValue={user.email ? user.email : ''} ref={emailRef}/>
                                     </Col>
                                     <Col md={6}>
                                         <Label htmlFor='telephone'>Telephone:</Label>
-                                        <input placeholder="" id='telephone' type='text' disabled defaultValue={user.tel ? user.tel : ''} />
+                                        <input placeholder="" id='telephone' type='text' defaultValue={user.tel ? user.tel : ''} ref={telRef}/>
                                     </Col>
                                 </Row>
                                 <Row className="mt-5">
