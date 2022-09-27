@@ -19,11 +19,18 @@ function ReservationTable() {
         .then((json) => {setReservation(JSON.parse(JSON.stringify(json)))})
     };
 
-    
-
-    const deleteReservation  = () => {
-
-    } 
+    const getTableInfo = (reservation) => {
+        switch (reservation.status) {
+            case 'confirmed':
+                return reservation.diningTable.name;
+            case 'fulfilled':
+                return reservation.diningTable.name;
+            case 'unfulfilled':
+                return reservation.diningTable.name;
+            default: 
+                return reservation.status;
+        }
+    };
 
     useEffect(() =>{
         allReservation();
@@ -38,6 +45,7 @@ function ReservationTable() {
                 <th>Start Time</th>
                 <th>End Time</th>
                 <th>Number of People</th>
+                <th>Table</th>
                 <th>Status</th>
                 <th>Action</th>
                 </tr>
@@ -51,10 +59,10 @@ function ReservationTable() {
                         <td>{moment(reservation.startTime).format("YYYY-MM-DD HH:mm ")}</td>
                         <td>{moment(reservation.endTime).format("YYYY-MM-DD HH:mm ")}</td>
                         <td>{reservation.numberOfParty}</td>
+                        <td>{getTableInfo(reservation)}</td>
                         <td>{reservation.status}</td>
                         <td>
-                            <EditReservation className="ml-auto mx-2" user={reservation.user.id} table={reservation.diningTable.id} id={reservation.id} status={reservation.status} startTime={reservation.startTime} endTime={reservation.endTime} numberOfParty={reservation.numberOfParty}>Edit</EditReservation>
-                            <Button variant='danger' className="ml-auto" onClick={deleteReservation}>Delete</Button>
+                            <EditReservation className="ml-auto mx-2" user={reservation.user.id} table={reservation.diningTable.id} tableName={reservation.diningTable.name} id={reservation.id} status={reservation.status} startTime={reservation.startTime} endTime={reservation.endTime} numberOfParty={reservation.numberOfParty}>Edit</EditReservation>
                         </td>
                     </tr>
                     )

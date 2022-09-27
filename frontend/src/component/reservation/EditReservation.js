@@ -39,7 +39,7 @@ function EditReservation(props) {
             </Modal.Header>
             <Modal.Body>
             <Form noValidate validated={validated} >
-                 <ReservationStatusOption setTable={setTable} setStatus={setStatus} status={props.status} startTime={props.startTime} endTime={props.endTime} numberOfParty={props.numberOfParty}></ReservationStatusOption>
+                 <ReservationStatusOption setTable={setTable} setStatus={setStatus} status={props.status} startTime={props.startTime} endTime={props.endTime} numberOfParty={props.numberOfParty} tableName={props.tableName}></ReservationStatusOption>
                 <Button variant="primary" onClick={editReservation}>Confirm</Button>
             </Form>
             </Modal.Body>

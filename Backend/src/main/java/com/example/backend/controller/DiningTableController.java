@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -23,10 +24,20 @@ public class DiningTableController {
     }
     @GetMapping("/diningtable")
     public List<DiningTable> getAllDiningTables(){
-        return diningTableService.getAllDiningTables();
+        Date date = new Date();
+        return diningTableService.getCurrentTableStatus(date);
     }
     @PutMapping("/updatetable")
     public List<DiningTable> saveDiningTable(@RequestBody DiningTable newDiningtable) throws RecordNotFoundException, RecordAlreadyExistsException {
+        //get list of reservation
+        //check status. if reserved - occupied, reservation.status=fulfilled
+        //if reserved - available = unfulfilled
+        //if reserved - occupied = fulfilled
+        //if reserved - unavailable = cancelled
+        //if available - occupied = nothing
+        //if available - unavailable = cancelled(for the day/alert admin)
+        //if unavailable - available = nothing
+        //if occupied - available = nothing
         diningTableService.saveOrUpdateDiningTable(newDiningtable);
         return diningTableService.getAllDiningTables();
     }

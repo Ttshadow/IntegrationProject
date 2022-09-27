@@ -16,7 +16,8 @@ function TableStatusOption(props) {
             break;
           case 'occupied':
             statusOptions = [
-                {value: 'occupied'}
+                {value: 'occupied'},
+                {value: 'available'}
             ];
             break;
           case 'reserved':

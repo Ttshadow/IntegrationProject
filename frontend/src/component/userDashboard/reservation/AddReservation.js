@@ -9,13 +9,14 @@ function AddReservation() {
     const user = localStorage.getItem('userId');
     const [numberOfParty, setNumberOfParty] = useState(1);
     const [startTime, setStartTime] = useState(moment().format("yyyy-MM-DDTHH:mm"));
-    const [endTime, setEndTime] = useState(moment().format("yyyy-MM-DDTHH:mm"));
+    const [endTime, setEndTime] = useState(moment().add(30, 'm').format("yyyy-MM-DDTHH:mm"));
     const [diningTable, setDiningTable] = useState(2);
     const [showSuccessAlert, setShowSuccessAlert] = useState(false);
     const [showFailAlert, setShowFailAlert] = useState(false);
     const [showFailTimeAlert, setShowFailTimeAlert] = useState(false);
     const [showFailMinTimeAlert, setShowFailMinTimeAlert] = useState(false);
     const [showFailFormAlert, setShowFailFormAlert] = useState(false);
+    const [showFailLogicTimeAlert, setShowFailLogicTimeAlert] = useState(false);
     //console.log(moment(startTime, "hh:mm"));
     var minValue;
     var maxValue;
@@ -32,8 +33,8 @@ function AddReservation() {
         const maxLunchTime = moment().set({'hour': 14, 'minute': 30}).format(format);
         const startDinnerTime = moment().set({'hour': 17, 'minute': 30}).format(format);
         const maxDinnerTime = moment().set({'hour': 22, 'minute': 0}).format(format);
-        const currentDate = moment(startTime).format("yyyy-MM-DD");
-        const currentTime = moment(startTime).format(format);
+        const currentDate = moment(dateNow).format("yyyy-MM-DD");
+        const currentTime = moment(dateNow).format(format);
         const nextDate = moment().add(1, 'd').format("yyyy-MM-DD");
         
         console.log(startTime);
@@ -45,7 +46,7 @@ function AddReservation() {
             console.log(minValue);
             console.log(maxValue);
         }
-        else if (moment(startTime, format).isBefore(moment(maxDinnerTime, format))) {
+        else if (moment(currentTime, format).isBefore(moment(maxDinnerTime, format))) {
             minValue = moment(currentDate + 'T' + startDinnerTime).format("yyyy-MM-DDTHH:mm");
             maxValue = moment(currentDate + 'T' + maxDinnerTime).format("yyyy-MM-DDTHH:mm");
             console.log(minValue);
@@ -129,6 +130,7 @@ function AddReservation() {
             <Alert show={showFailTimeAlert} variant="danger">Please select a time slot between {moment(minValue).format("HH:mm")} and {moment(maxValue).format("HH:mm")}.</Alert>
             <Alert show={showFailMinTimeAlert} variant="danger">You cannot select a time slot before the current time: {moment(dateNow).format("yyyy-MM-DD HH:mm")}.</Alert>
             <Alert show={showFailFormAlert} variant="danger">Please verify your reservation information.</Alert>
+            <Alert show={showFailLogicTimeAlert} variant="danger">Please verify your start and end time.</Alert>
             <Col className='col-lg-7'>
                 <h1>
                     RESERVATIONS
@@ -172,10 +174,12 @@ function AddReservation() {
                             /*min={moment(Date.now()).toDate()}
                             max={moment(Date.now()).toDate()}*/
                             min={dateNow}
-                            value={startTime}
+                            value={moment(minValue).isAfter(moment(startTime)) ? minValue : startTime}
                             onChange={(e) => {
                                 setStartTime(e.target.value);
                                 moment(e.target.value).isBefore(moment(dateNow)) ? setShowFailMinTimeAlert(true) : setShowFailMinTimeAlert(false);
+                                moment(e.target.value).isBefore(moment(minValue)) ? setShowFailTimeAlert(true) : setShowFailTimeAlert(false);
+                                moment(e.target.value).isAfter(moment(maxValue)) ? setShowFailLogicTimeAlert(true) : setShowFailLogicTimeAlert(false);
                             }}
                         />
                     </Form.Group>
@@ -187,10 +191,12 @@ function AddReservation() {
                             type="datetime-local"
                             min={minValue}
                             max={maxValue}
-                            value={endTime}
+                            value={moment(minValue).isAfter(moment(endTime)) ? maxValue : endTime}
                             onChange={(e) => {
                                 setEndTime(e.target.value);
+                                moment(e.target.value).isBefore(moment(dateNow)) ? setShowFailMinTimeAlert(true) : setShowFailMinTimeAlert(false);
                                 moment(e.target.value).isAfter(moment(maxValue)) ? setShowFailTimeAlert(true) : setShowFailTimeAlert(false);
+                                moment(e.target.value).isBefore(moment(startTime)) ? setShowFailLogicTimeAlert(true) : setShowFailLogicTimeAlert(false);
                             }}
                         />
                     </Form.Group>

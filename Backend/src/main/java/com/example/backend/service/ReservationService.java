@@ -117,6 +117,14 @@ public class ReservationService {
         return potentialTables;
     }
 
+    public List<Reservation> getReservationAtDate(Date date) {
+        return reservationRepository.findSpecificReservation("confirmed", date);
+    }
+
+    public List<Reservation> findReservationByStatusTableAndTime(String status, Date start, Long tableId) {
+        return reservationRepository.findSpecificReservationById(status, start, tableId);
+    }
+
 
 
 }
