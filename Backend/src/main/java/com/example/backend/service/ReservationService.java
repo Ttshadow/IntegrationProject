@@ -15,14 +15,20 @@ import java.util.*;
 public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final DiningTableRepository diningTableRepository;
+    private final DiningTableService diningTableService;
 
-    public ReservationService(ReservationRepository reservationRepository, DiningTableRepository diningTableRepository) {
+    public ReservationService(ReservationRepository reservationRepository, DiningTableRepository diningTableRepository, DiningTableService diningTableService) {
         this.reservationRepository = reservationRepository;
-        this. diningTableRepository = diningTableRepository;
+        this.diningTableRepository = diningTableRepository;
+        this.diningTableService = diningTableService;
     }
 
     public List<Reservation> getAllReservations() {
         return reservationRepository.findAll();
+    }
+
+    public Reservation getReservation(Long id) {
+        return reservationRepository.getReferenceById(id);
     }
 
     public List<Reservation> getAllPendingReservations() {
@@ -33,18 +39,29 @@ public class ReservationService {
         reservationRepository.save(newReservation);
     }
 
+    public void saveUpdatedReservation(Reservation reservation) {
+        Reservation reservationFromDb = getReservation(reservation.getId());
+        reservationFromDb.setNumberOfParty(reservation.getNumberOfParty());
+        reservationFromDb.setStartTime(reservation.getStartTime());
+        reservationFromDb.setEndTime(reservation.getEndTime());
+        reservationFromDb.setStatus(reservation.getStatus());
+        reservationFromDb.setDiningTable(reservation.getDiningTable());
+        reservationRepository.save(reservationFromDb);
+    }
+
     public List<Reservation> getAllUserReservation(Long userId) {
         return reservationRepository.findAllReservationOfUser(userId);
     }
 
-    public boolean getTableReservationAvailability(Date startTime, Date endTime, int capacity) {
-        List<DiningTable> potentialTables = diningTableRepository.findDiningTableWithoutStatus("unavailable", capacity);
+    public List<DiningTable> getTableReservationAvailability(Date start, Date end, int capacity) {
+        List<DiningTable> potentialTables = diningTableService.getPotentialDiningTables(capacity);
         List<DiningTable> toRemoveTables = new ArrayList<>();
         Set<DiningTable> uniqueTables = new HashSet<DiningTable>();
-        List<Reservation> selectedConfirmedReservation = reservationRepository.findSpecificReservation("confirmed", startTime);
-        LocalTime start = startTime.toInstant().atZone(ZoneId.of("America/Montreal")).toLocalTime();
-        LocalTime end = endTime.toInstant().atZone(ZoneId.of("America/Montreal")).toLocalTime();
-
+        //List<DiningTable> allPotentialTables = getAllAvailableDiningTables(start, potentialTables);
+        List<Reservation> selectedConfirmedReservation = reservationRepository.findSpecificReservation("confirmed", start);
+        LocalTime startTime = start.toInstant().atZone(ZoneId.of("America/Montreal")).toLocalTime();
+        LocalTime endTime = end.toInstant().atZone(ZoneId.of("America/Montreal")).toLocalTime();
+        Duration reservationDuration = Duration.between(startTime, endTime);
         //Finding all the available table only
         for (Reservation reservation: selectedConfirmedReservation) {
             for (DiningTable table: potentialTables) {
@@ -57,30 +74,57 @@ public class ReservationService {
         uniqueTables.addAll(toRemoveTables);
         potentialTables.removeAll(uniqueTables);
         System.out.println(potentialTables.size());
+        //Check if there are any available tables left.
         if (potentialTables.size() > 0) {
-            return true;
+            return potentialTables;
         }
         else {
             //need to check if the r.starttime >= c.endtime && r.starttime + duration <= c.starttime of the next reservation on the same table.id
             //list of reservation per table..
+            //uniqueTables = tables that have confirmed reservations.
             for (DiningTable table : uniqueTables) {
-                //order of the list? 
-                List<Reservation> reservationsByTable = reservationRepository.findSpecificReservationById("confirmed", startTime, table.getId());
+                //reservationsByTable = every reservation for specific table and for specific date.
+                List<Reservation> reservationsByTable = reservationRepository.findSpecificReservationById("confirmed", start, table.getId());
 
                 for(int i = 0; i < reservationsByTable.size()-1; i++) {
-                    if (reservationsByTable.get(i).getStartTime().toInstant().compareTo(reservationsByTable.get(i+1).getEndTime().toInstant()) >= 0) {
-
+                    LocalTime firstEndReservation = reservationsByTable.get(i).getEndTime().toInstant().atZone(ZoneId.of("America/Montreal")).toLocalTime();
+                    LocalTime secondStartReservation = reservationsByTable.get(i+1).getStartTime().toInstant().atZone(ZoneId.of("America/Montreal")).toLocalTime();
+                    Duration inBetweenDuration = Duration.between(firstEndReservation, secondStartReservation);
+                    if (reservationDuration.compareTo(inBetweenDuration) < 0) {
+                        //return true;
+                        potentialTables.add(table);
+                        break;
                     }
                 }
             }
-            //List<Reservation> reservationByTable
-            for (Reservation reservation: selectedConfirmedReservation) {
-                if (reservation.getStartTime().toInstant().atZone(ZoneId.of("America/Montreal")).toLocalTime().isAfter(end) ||
-                        reservation.getEndTime().toInstant().atZone(ZoneId.of("America/Montreal")).toLocalTime().isBefore(start)) {
-                    return true;
+        }
+        return potentialTables;
+    }
+
+    public List<DiningTable> getAllAvailableDiningTables(Date start, List<DiningTable> potentialTables) {
+        List<Reservation> selectedConfirmedReservation = reservationRepository.findSpecificReservation("confirmed", start);
+        List<DiningTable> toRemoveTables = new ArrayList<>();
+        Set<DiningTable> uniqueTables = new HashSet<DiningTable>();
+        for (Reservation reservation: selectedConfirmedReservation) {
+            for (DiningTable table: potentialTables) {
+                if (reservation.getDiningTable().equals(table)) {
+                    toRemoveTables.add(table);
                 }
             }
         }
-        return false;
+        uniqueTables.addAll(toRemoveTables);
+        potentialTables.removeAll(uniqueTables);
+        return potentialTables;
     }
+
+    public List<Reservation> getReservationAtDate(Date date) {
+        return reservationRepository.findSpecificReservation("confirmed", date);
+    }
+
+    public List<Reservation> findReservationByStatusTableAndTime(String status, Date start, Long tableId) {
+        return reservationRepository.findSpecificReservationById(status, start, tableId);
+    }
+
+
+
 }

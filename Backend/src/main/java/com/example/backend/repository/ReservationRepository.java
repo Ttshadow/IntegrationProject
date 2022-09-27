@@ -12,7 +12,7 @@ import java.util.List;
 
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
-    @Query(value = "select * from reservations where dining_table_id = 1", nativeQuery = true)
+    @Query(value = "select * from reservations where dining_table_id = 2 order by id", nativeQuery = true)
     List<Reservation> findPendingReservationInOrder();
 
     @Query(value = "select * from reservations where user_id = :userId", nativeQuery = true)
@@ -23,4 +23,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
     @Query(value = "select * from reservations where status = :status and (DATE(start_time) = DATE(:date)) and dining_table_id = :tableId order by start_time", nativeQuery = true)
     List<Reservation> findSpecificReservationById(@Param("status") String status, @Param("date") Date date, @Param("tableId")long tableId);
+//date, diningtable, status
+    //@Query(value = "select * from reservations where status = :status and (DATE(start_time) = DATE(:date)) and dining_table_id = :tableId order by start_time", nativeQuery = true)
+
+
 }
