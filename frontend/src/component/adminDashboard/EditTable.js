@@ -52,7 +52,7 @@ function EditTable(props) {
         Edit {props.tableName}
     </Button>
     <Modal show={showModal}>
-        <Modal.Header closeButton>
+        <Modal.Header>
           <Modal.Title>
           Edit {props.table.name}
           </Modal.Title>

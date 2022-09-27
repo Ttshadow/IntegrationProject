@@ -31,7 +31,7 @@ function EditAllStatus() {
             Edit all table status
         </Button>
         <Modal show={showModal}>
-            <Modal.Header closeButton>
+            <Modal.Header>
             <Modal.Title>
             Edit status for all tables
             </Modal.Title>
