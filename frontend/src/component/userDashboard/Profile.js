@@ -96,7 +96,7 @@
                 <Row className="mb-3">
                     <Form.Group as={Col} controlId="formGroupTel">
                         <Form.Label>Phone Number</Form.Label>
-                        <Form.Control type="tel" format="+1 (###) ###-####" mask="_" defaultValue={user.tel} ref={telRef} />
+                        <Form.Control type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" defaultValue={user.tel} ref={telRef} />
                     </Form.Group>
                     <Form.Group as={Col} controlId="formGroupEmail">
                         <Form.Label>Email</Form.Label>
@@ -108,10 +108,10 @@
                     <Form.Label>Password</Form.Label>
                     <Form.Control type="password" defaultValue={user.password} ref={passRef} />
                 </Form.Group>
-                <Form.Group as={Col} controlId="formGroupPasswordConfirm">
+                {/* <Form.Group as={Col} controlId="formGroupPasswordConfirm">
                     <Form.Label>Confirm Password</Form.Label>
-                    <Form.Control type="password" />
-                </Form.Group>
+                    <Form.Control type="password" defaultValue={user.password} ref={passRef}/>
+                </Form.Group> */}
                 </Row>
                 <Form.Group className="mb-3" controlId="formGroupImage">
                     <Form.Label>Image</Form.Label>
@@ -123,7 +123,7 @@
                 <Button type="submit" variant="warning">Update Profile</Button>
                 
             </Form>
-            <Button type="submit" variant="success">Update Password</Button>
+            {/* <Button type="submit" variant="success">Update Password</Button> */}
         </>
     )
 }

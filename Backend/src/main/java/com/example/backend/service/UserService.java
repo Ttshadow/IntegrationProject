@@ -37,7 +37,7 @@ public class UserService {
     public void updateUser (User editUser) throws RecordNotFoundException {
         if(editUser.getId() ==null){
             throw new RecordNotFoundException("User does not exist!");
-        }else{
+        }else {
             User userFromDb = userRepo.getReferenceById(editUser.getId());
             userFromDb.setFirstName(editUser.getFirstName());
             userFromDb.setLastName(editUser.getLastName());
