@@ -16,7 +16,8 @@ function TableStatusOption(props) {
             break;
           case 'occupied':
             statusOptions = [
-                {value: 'occupied'}
+                {value: 'occupied'},
+                {value: 'available'}
             ];
             break;
           case 'reserved':
@@ -38,8 +39,8 @@ function TableStatusOption(props) {
         }
       })()
 
-    return (
-    <Form.Group className="mb-3">
+    return (<>
+      <Form.Group className="mb-3">
         <Form.Label>Availability</Form.Label>
         <Form.Select onChange={(e) => props.setTableStatus(e.target.value)}>
             {statusOptions.map((option, index) => {
@@ -49,7 +50,20 @@ function TableStatusOption(props) {
                     <option key={index} value={option.value}>{option.value}</option>
             })}
         </Form.Select>
-    </Form.Group>
+      </Form.Group>
+      {/* Get moment() status
+      <Form.Group className="mb-3">
+        <Form.Label>Availability</Form.Label>
+        <Form.Select onChange={(e) => props.setTableStatus(e.target.value)}>
+            {statusOptions.map((option, index) => {
+                return option.value === status ? 
+                    <option key={index} defaultValue={option.value}>{option.value}</option>
+                :
+                    <option key={index} value={option.value}>{option.value}</option>
+            })}
+        </Form.Select>
+      </Form.Group>*/}
+    </>
     )
 };
 export default TableStatusOption;
