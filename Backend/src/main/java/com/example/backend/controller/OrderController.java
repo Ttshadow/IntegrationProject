@@ -2,7 +2,6 @@ package com.example.backend.controller;
 
 import com.example.backend.entity.CartItem;
 import com.example.backend.entity.Order;
-import com.example.backend.entity.OrderItems;
 import com.example.backend.entity.pojo.EditOrderPojo;
 import com.example.backend.entity.pojo.OrderPojo;
 import com.example.backend.exception.RecordNotFoundException;
@@ -11,11 +10,13 @@ import com.example.backend.service.PromotionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@Transactional
 public class OrderController {
     @Autowired
     private OrderService orderService;
@@ -30,15 +31,7 @@ public class OrderController {
             return new ResponseEntity(e.getMessage(),HttpStatus.NOT_FOUND);
         }
     }
-    @PostMapping("/admindashboard/orders")
-    public ResponseEntity<?> saveNewOrder(@RequestBody OrderPojo orderPojo){
-        try {
-            orderService.createNewOrder(orderPojo);
-            return ResponseEntity.ok("Add order successful");
-        } catch (RecordNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
+
     @PatchMapping ("/admindashboard/orders")
     public ResponseEntity<Order> updateOrderStatus(@RequestBody EditOrderPojo orderPojo){
         try {
@@ -59,6 +52,15 @@ public class OrderController {
     @GetMapping("/order/getuserinfo/{userId}")
     public ResponseEntity<?> getUserInfo(@PathVariable Long userId){
         return ResponseEntity.ok(orderService.getUserInfo(userId));
+    }
+
+    @PostMapping("/order/saveorder")
+    public ResponseEntity<?> saveOrder(@RequestBody Order order){
+        try {
+            return ResponseEntity.ok(orderService.saveOrUpdateOrder(order));
+        } catch (RecordNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @GetMapping("/validatepromotion")

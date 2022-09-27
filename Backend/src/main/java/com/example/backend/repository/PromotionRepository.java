@@ -13,7 +13,8 @@ import java.util.Optional;
 public interface PromotionRepository extends JpaRepository<Promotion, Long> {
     @Query(value = "select * from promotions where status = :status", nativeQuery = true)
     List<Promotion> getPromotionByStatus(@Param("status")Boolean status);
-
     @Query(value = "select * from promotions where code = :code", nativeQuery = true)
     Optional<Promotion> getPromotionByPromotionCode(@Param("code")String code);
+    @Query(value = "select * from promotions where description = :description", nativeQuery = true)
+    Optional<Promotion> getPromotionByDescription(@Param("description")String description);
 }

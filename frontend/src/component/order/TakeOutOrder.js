@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Button, Col, Container, Row } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Label } from 'reactstrap';
 import useLocalStorage from '../../util/useLocalStorage';
 import './TakeOutOrder.css';
@@ -9,35 +9,36 @@ import { CardElement, Elements, useElements, useStripe } from '@stripe/react-str
 
 
 const CARD_OPTIONS = {
-	iconStyle: "solid",
-	style: {
-		base: {
-			iconColor: "#c4f0ff",
-			color: "#000",
-			fontWeight: 500,
-			fontFamily: "Roboto, Open Sans, Segoe UI, sans-serif",
-			fontSize: "24px",
-			fontSmoothing: "antialiased",
-			":-webkit-autofill": { color: "#fce883" },
-			"::placeholder": { color: "#87bbfd" }
-		},
-		invalid: {
-			iconColor: "#ffc7ee",
-			color: "#ffc7ee"
-		}
-	}
+    iconStyle: "solid",
+    style: {
+        base: {
+            iconColor: "#c4f0ff",
+            color: "#000",
+            fontWeight: 500,
+            fontFamily: "Roboto, Open Sans, Segoe UI, sans-serif",
+            fontSize: "24px",
+            fontSmoothing: "antialiased",
+            ":-webkit-autofill": { color: "#fce883" },
+            "::placeholder": { color: "#87bbfd" }
+        },
+        invalid: {
+            iconColor: "#ffc7ee",
+            color: "#ffc7ee"
+        }
+    }
 }
 
 const TakeOutOrder = () => {
     const [jwt, setJwt] = useLocalStorage('', 'jwt');
     const [userId, setUserId] = useLocalStorage('', 'userId');
-    const [user,setUser] = useState({});
+    const [user, setUser] = useState({});
     const [orderItems, setOrderItems] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
     const [promotionDesc, setPromotionDesc] = useState('');
     const promotionRef = useRef();
     const stripe = useStripe();
     const elements = useElements();
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetch(`../order/${(userId)}`, {
@@ -64,7 +65,6 @@ const TakeOutOrder = () => {
         })
             .then(response => response.json())
             .then(data => {
-                console.log(data);
                 setUser(data);
             })
     }, []);
@@ -92,14 +92,14 @@ const TakeOutOrder = () => {
         }
     }
 
-    const submitOrder = async(e) => {
+    const submitOrder = async (e) => {
         e.preventDefault();
-        const {error, paymentMethod} = await stripe.createPaymentMethod({
+        const { error, paymentMethod } = await stripe.createPaymentMethod({
             type: "card",
             card: elements.getElement(CardElement)
-    })
+        })
 
-        if(!error){
+        if (!error) {
             try{
                 const {id} = paymentMethod;
                 fetch('/order/payment',{
@@ -115,17 +115,43 @@ const TakeOutOrder = () => {
                     }, 
                 }) 
                 .then((data)=>{
-                    return data.text();
-                })
-                .then((text)=>{
-                    alert(text);
+                    if(data.status === 200){
+                        saveOrder();
+                    }
                 })
             }catch(error){
                 console.log('Error', error);
             }
-        }else{
+        } else {
             alert(error.message)
         }
+    }
+
+    const saveOrder = () => {
+        fetch('../order/saveorder', {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${jwt}`
+            },
+            body: JSON.stringify({
+                takeout: sessionStorage.getItem('isTakeout') === 'true' ? true : false,
+                totalPrice: (totalPrice * 1.1475).toFixed(2),
+                orderItemsList: orderItems,
+                user: {
+                    id: userId
+                },
+                promotion: {
+                    description: promotionDesc
+                }
+            }),
+        }).then(res => {
+            if(res.status === 200){
+                return res.json()
+            }
+        }).then(data => {
+            navigate('/paymentsuccess',{state:{orderId:data.id}}) 
+        })
     }
 
     return (
@@ -146,46 +172,26 @@ const TakeOutOrder = () => {
                                 <Row>
                                     <Col md={6}>
                                         <Label htmlFor='first_name'>First Name:</Label>
-                                        <input placeholder="" id='first_name' type='text' required defaultValue={user.firstName ? user.firstName : ''}/>
+                                        <input placeholder="" id='first_name' type='text' disabled defaultValue={user.firstName ? user.firstName : ''} />
                                     </Col>
                                     <Col md={6}>
                                         <Label htmlFor='last_name'>Last Name:</Label>
-                                        <input placeholder="" id='last_name' type='text' required defaultValue={user.lastName ? user.lastName : ''}/>
+                                        <input placeholder="" id='last_name' type='text' disabled defaultValue={user.lastName ? user.lastName : ''} />
                                     </Col>
                                 </Row>
                                 <Row className='mt-3'>
                                     <Col md={6}>
                                         <Label htmlFor='email'>Email:</Label>
-                                        <input placeholder="" id='email' type='text' required defaultValue={user.email ? user.email : ''}/>
+                                        <input placeholder="" id='email' type='text' disabled defaultValue={user.email ? user.email : ''} />
                                     </Col>
                                     <Col md={6}>
                                         <Label htmlFor='telephone'>Telephone:</Label>
-                                        <input placeholder="" id='telephone' type='text' required defaultValue={user.tel ? user.tel : ''}/>
+                                        <input placeholder="" id='telephone' type='text' disabled defaultValue={user.tel ? user.tel : ''} />
                                     </Col>
                                 </Row>
-                                {/* <Row className='mt-3'>
-                                    <Col md={6}>
-                                        <Label htmlFor='cardHolder'>Cardholder's name:</Label>
-                                        <input placeholder="Linda Williams" id='cardHolder' type='text' />
-                                    </Col>
-                                    <Col md={6}>
-                                        <Label htmlFor='cardNumber'>Cart Number:</Label>
-                                        <input placeholder="0125 6780 4567 9909" id='cardNumber' type='text' />
-                                    </Col>
-                                </Row>
-                                <Row className="mt-3">
-                                    <Col md={6}>
-                                        <Label className='mb-3' htmlFor='expiration'>Expiry date:</Label>
-                                        <input placeholder="YY/MM" id='expiration' type='text' />
-                                    </Col>
-                                    <Col md={6}>
-                                        <Label className='mb-3' htmlFor='cvv'>CVV:</Label>
-                                        <input id="cvv" type='text' />
-                                    </Col>
-                                </Row> */}
                                 <Row className="mt-5">
                                     <Label className='mb-3'><strong>Bank Information:</strong></Label>
-                                    <CardElement className='text-dark border border-primary' options={CARD_OPTIONS}/>
+                                    <CardElement className='text-dark border border-primary' options={CARD_OPTIONS} />
                                 </Row>
                             </form>
                         </div>
