@@ -83,7 +83,12 @@ export function Cart() {
                 body: JSON.stringify({
                     takeout: sessionStorage.getItem('isTakeout') === 'true' ? true : false,
                     status: "Placed",
-                    userId,
+                    user:{
+                        id:userId
+                    },
+                    diningTable:{
+                        id:parseInt(sessionStorage.getItem('table'))
+                    },
                     orderItemsList: carts
                 }),
                 headers: {

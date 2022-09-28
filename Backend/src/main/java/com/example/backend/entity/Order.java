@@ -12,6 +12,7 @@ import java.util.List;
 @Entity
 @Table(name = "orders")
 @Data
+@ToString(exclude = {"orderItemsList"})
 public class Order extends IdBaseEntity{
     private boolean takeout;
     private String status;
@@ -34,8 +35,7 @@ public class Order extends IdBaseEntity{
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Promotion promotion;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL,mappedBy = "order")
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "order")
     @JsonManagedReference
     private List<OrderItems> orderItemsList;
-
 }
