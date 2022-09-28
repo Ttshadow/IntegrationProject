@@ -27,9 +27,9 @@ export default function Header() {
 
   const jumpToDashboard = () => {
     if(authority === "ROLE_ADMIN") {
-      window.location.href = "/admindashboard";
+      window.location.href = "/admindashboard/table";
     }else if(authority === "ROLE_USER") { 
-      window.location.href = "/userdashboard";
+      window.location.href = "/userdashboard/profile";
     }else{
       window.location.href = "/";
     }
