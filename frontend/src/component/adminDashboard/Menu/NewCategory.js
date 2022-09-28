@@ -11,28 +11,33 @@ function NewCategory(){
 
     function addCategory(event){
         event.preventDefault();
-        fetch('/admindashboard/category/add_category', {
-            method:"POST",
-            body: JSON.stringify({    
-                name: nameRef.current.value,
-           }),
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${jwt}`
-            }, 
-        })
-        .then((data) => {
-            if(data.status === 200){
-            navigate('../menuDashboard');}
-            else{
-                return data.text();
-            }
-        })
-        .then((text)=>{
-            setErrorMessage(text);
-        })
-
+        if(nameRef.current.value === ""){
+            setErrorMessage("Please enter a category name.")
+        }
+        else{
+            setErrorMessage("");
+            fetch('/admindashboard/category/add_category', {
+                method:"POST",
+                body: JSON.stringify({    
+                    name: nameRef.current.value,
+            }),
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${jwt}`
+                }, 
+            })
+            .then((data) => {
+                if(data.status === 200){
+                navigate('../menuDashboard');}
+                else{
+                    return data.text();
+                }
+            })
+            .then((text)=>{
+                setErrorMessage(text);
+            })
+        }
     }
 
     return(
