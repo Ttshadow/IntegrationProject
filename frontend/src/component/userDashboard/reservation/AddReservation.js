@@ -132,76 +132,80 @@ function AddReservation() {
             <Alert show={showFailFormAlert} variant="danger">Please verify your reservation information.</Alert>
             <Alert show={showFailLogicTimeAlert} variant="danger">Please verify your start and end time.</Alert>
             <Col className='col-lg-7'>
-                <h1>
-                    RESERVATIONS
-                </h1>
-                <h2>
-                    DINING HOURS
-                </h2>
-                <h3>
-                    LUNCH
-                </h3>
-                <p>Daily from 11:30 am - 2:30 pm</p>
-                <h3>
-                    DINNER
-                </h3>
-                <p>Daily from 5:30 pm - 10:00 pm</p>
-                <br></br>
-                <p>Please note that the last call is one hour before closing</p>
-                <h2>
-                    TAKEOUT HOURS
-                </h2>
-                <p>Daily from 11:30 am - 9:00 pm</p>
+                <div className='transparentBg'>
+                    <h1>
+                        RESERVATIONS
+                    </h1>
+                    <h2>
+                        DINING HOURS
+                    </h2>
+                    <h3>
+                        LUNCH
+                    </h3>
+                    <p>Daily from 11:30 am - 2:30 pm</p>
+                    <h3>
+                        DINNER
+                    </h3>
+                    <p>Daily from 5:30 pm - 10:00 pm</p>
+                    <br></br>
+                    <p>Please note that the last call is one hour before closing</p>
+                    <h2>
+                        TAKEOUT HOURS
+                    </h2>
+                    <p>Daily from 11:30 am - 9:00 pm</p>
+                </div>
             </Col>
             <Col className='col-lg-5'>
-                <h1>
-                    BOOK A TABLE
-                </h1>
-                <Form noValidate>
-                    <Form.Group className="mb-3">
-                        <Form.Label>Number of People</Form.Label>
-                        <Form.Select onChange={(e) => setNumberOfParty(e.target.value)}>
-                            {optionArray.map(function (i) {
-                                return <option key={i} value={i}>{i}</option>;
-                            })}
-                        </Form.Select>
-                    </Form.Group>
-                    <Form.Group className="mb-3">
-                        <Form.Label>Start time</Form.Label>
-                        <Form.Control
-                            required
-                            type="datetime-local"
-                            /*min={moment(Date.now()).toDate()}
-                            max={moment(Date.now()).toDate()}*/
-                            min={dateNow}
-                            value={moment(minValue).isAfter(moment(startTime)) ? minValue : startTime}
-                            onChange={(e) => {
-                                setStartTime(e.target.value);
-                                moment(e.target.value).isBefore(moment(dateNow)) ? setShowFailMinTimeAlert(true) : setShowFailMinTimeAlert(false);
-                                moment(e.target.value).isBefore(moment(minValue)) ? setShowFailTimeAlert(true) : setShowFailTimeAlert(false);
-                                moment(e.target.value).isAfter(moment(maxValue)) ? setShowFailLogicTimeAlert(true) : setShowFailLogicTimeAlert(false);
-                            }}
-                        />
-                    </Form.Group>
-                    
-                    <Form.Group className="mb-3">
-                        <Form.Label>End time</Form.Label>
-                        <Form.Control
-                            required
-                            type="datetime-local"
-                            min={minValue}
-                            max={maxValue}
-                            value={moment(minValue).isAfter(moment(endTime)) ? maxValue : endTime}
-                            onChange={(e) => {
-                                setEndTime(e.target.value);
-                                moment(e.target.value).isBefore(moment(dateNow)) ? setShowFailMinTimeAlert(true) : setShowFailMinTimeAlert(false);
-                                moment(e.target.value).isAfter(moment(maxValue)) ? setShowFailTimeAlert(true) : setShowFailTimeAlert(false);
-                                moment(e.target.value).isBefore(moment(startTime)) ? setShowFailLogicTimeAlert(true) : setShowFailLogicTimeAlert(false);
-                            }}
-                        />
-                    </Form.Group>
-                    <Button onClick={reservationStatus}>Confirm</Button>
-                </Form>
+                <div className='transparentBg'>
+                    <h1>
+                        BOOK A TABLE
+                    </h1>
+                    <Form noValidate>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Number of People</Form.Label>
+                            <Form.Select onChange={(e) => setNumberOfParty(e.target.value)}>
+                                {optionArray.map(function (i) {
+                                    return <option key={i} value={i}>{i}</option>;
+                                })}
+                            </Form.Select>
+                        </Form.Group>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Start time</Form.Label>
+                            <Form.Control
+                                required
+                                type="datetime-local"
+                                /*min={moment(Date.now()).toDate()}
+                                max={moment(Date.now()).toDate()}*/
+                                min={dateNow}
+                                value={moment(minValue).isAfter(moment(startTime)) ? minValue : startTime}
+                                onChange={(e) => {
+                                    setStartTime(e.target.value);
+                                    moment(e.target.value).isBefore(moment(dateNow)) ? setShowFailMinTimeAlert(true) : setShowFailMinTimeAlert(false);
+                                    moment(e.target.value).isBefore(moment(minValue)) ? setShowFailTimeAlert(true) : setShowFailTimeAlert(false);
+                                    moment(e.target.value).isAfter(moment(maxValue)) ? setShowFailLogicTimeAlert(true) : setShowFailLogicTimeAlert(false);
+                                }}
+                            />
+                        </Form.Group>
+                        
+                        <Form.Group className="mb-3">
+                            <Form.Label>End time</Form.Label>
+                            <Form.Control
+                                required
+                                type="datetime-local"
+                                min={minValue}
+                                max={maxValue}
+                                value={moment(minValue).isAfter(moment(endTime)) ? maxValue : endTime}
+                                onChange={(e) => {
+                                    setEndTime(e.target.value);
+                                    moment(e.target.value).isBefore(moment(dateNow)) ? setShowFailMinTimeAlert(true) : setShowFailMinTimeAlert(false);
+                                    moment(e.target.value).isAfter(moment(maxValue)) ? setShowFailTimeAlert(true) : setShowFailTimeAlert(false);
+                                    moment(e.target.value).isBefore(moment(startTime)) ? setShowFailLogicTimeAlert(true) : setShowFailLogicTimeAlert(false);
+                                }}
+                            />
+                        </Form.Group>
+                        <Button onClick={reservationStatus}>Confirm</Button>
+                    </Form>
+                </div>
             </Col>
         </Row>
         </Container>

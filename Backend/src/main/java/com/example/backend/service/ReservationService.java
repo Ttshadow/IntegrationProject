@@ -14,16 +14,16 @@ import java.util.*;
 @Service
 public class ReservationService {
     private final ReservationRepository reservationRepository;
-    private final DiningTableRepository diningTableRepository;
     private final DiningTableService diningTableService;
 
-    public ReservationService(ReservationRepository reservationRepository, DiningTableRepository diningTableRepository, DiningTableService diningTableService) {
+    public ReservationService(ReservationRepository reservationRepository, DiningTableService diningTableService) {
         this.reservationRepository = reservationRepository;
-        this.diningTableRepository = diningTableRepository;
         this.diningTableService = diningTableService;
     }
 
     public List<Reservation> getAllReservations() {
+        Date date = new Date();
+        diningTableService.getCurrentTableStatus(date);
         return reservationRepository.findAll();
     }
 
@@ -50,6 +50,8 @@ public class ReservationService {
     }
 
     public List<Reservation> getAllUserReservation(Long userId) {
+        Date date = new Date();
+        diningTableService.getCurrentTableStatus(date);
         return reservationRepository.findAllReservationOfUser(userId);
     }
 
