@@ -20,17 +20,11 @@ function AddReservation() {
     const [minCount, setMinCount] = useState(0);
     const [maxCount, setMaxCount] = useState(0);
 
-    //console.log(moment(startTime, "hh:mm"));
     var minValue;
     var maxValue;
-    //let minCount = 0;
-   // let maxCount = 0;
     const dateNow = moment().format("yyyy-MM-DDTHH:mm");
     var optionArray = [];
     const partyLimit = 20;
-    /*(() => {
-        
-    })();*/
 
     (() => {
         const format = "HH:mm";
@@ -40,27 +34,25 @@ function AddReservation() {
         const maxDinnerTime = moment().set({'hour': 22, 'minute': 0}).format(format);
         const currentDate = moment(dateNow).format("yyyy-MM-DD");
         const updatedDate = moment(startTime).format("yyyy-MM-DD");
-        const currentTime = moment(dateNow).format(format);
-        const nextDate = moment().add(1, 'd').format("yyyy-MM-DD");
-        
-        console.log(startTime);
-        console.log('now: ' + moment(startTime).format(format));
-        console.log('lunch: ' + startLunchTime);
+        const updatedTime = moment(startTime);
+        const currentTime = moment(minCount === 0 ? dateNow : updatedTime).format(format);
+        const nextDate = moment(minCount === 0 ? currentDate : updatedDate).add(1, 'd').format("yyyy-MM-DD");
+        //console.log("CurrentTime is: " + currentTime);
         if (moment(currentTime, format).isBefore(moment(maxLunchTime, format))) {
             minValue = moment(currentDate + 'T' + startLunchTime).format("yyyy-MM-DDTHH:mm");
             maxValue = moment(updatedDate + 'T' + maxLunchTime).format("yyyy-MM-DDTHH:mm");
-            console.log(minValue);
-            console.log(maxValue);
+            //console.log(minValue);
+            //console.log(maxValue);
         }
         else if (moment(currentTime, format).isBefore(moment(maxDinnerTime, format))) {
             minValue = moment(currentDate + 'T' + startDinnerTime).format("yyyy-MM-DDTHH:mm");
             maxValue = moment(updatedDate + 'T' + maxDinnerTime).format("yyyy-MM-DDTHH:mm");
-            console.log(minValue);
-            console.log(maxValue);
+            //console.log(minValue);
+            //console.log(maxValue);
         }
         else {
             minValue = moment(nextDate + 'T' + startLunchTime).format("yyyy-MM-DDTHH:mm");
-            maxValue = moment(updatedDate + 'T' + maxDinnerTime).format("yyyy-MM-DDTHH:mm");
+            maxValue = moment(updatedDate + 'T' + maxLunchTime).format("yyyy-MM-DDTHH:mm");
             console.log(minValue);
             console.log(maxValue);
         }
@@ -180,7 +172,7 @@ function AddReservation() {
                                 /*min={moment(Date.now()).toDate()}
                                 max={moment(Date.now()).toDate()}*/
                                 min={dateNow}
-                                value={moment(minValue).isAfter(moment(startTime)) && minCount === 0 ? setStartTime(minValue) : startTime}
+                                value={(moment(minValue).isAfter(moment(startTime)) || moment(startTime).isAfter(moment(minValue))) && minCount === 0 ? setStartTime(minValue) : startTime}
                                 onChange={(e) => {
                                     setShowFailFormAlert(false);
                                     setStartTime(e.target.value);
@@ -188,14 +180,16 @@ function AddReservation() {
                                     moment(e.target.value).isBefore(moment(dateNow)) ? setShowFailMinTimeAlert(true) : setShowFailMinTimeAlert(false);
                                     moment(e.target.value).isBefore(moment(minValue)) ? setShowFailTimeAlert(true) : setShowFailTimeAlert(false);
                                     moment(e.target.value).isAfter(moment(maxValue)) ? setShowFailLogicTimeAlert(true) : setShowFailLogicTimeAlert(false);
+                                    moment(e.target.value).isAfter(moment(endTime)) ? setShowFailLogicTimeAlert(true) : setShowFailLogicTimeAlert(false);
                                 }}
                             />
                             
                         </Form.Group> 
-                        <p>
+                        {/*<p>
                             start: {startTime}<br></br>
-                            min: {minValue}
-                        </p>
+                            min: {minValue}<br></br>
+                            minCount {minCount}
+                        </p>*/}
                         <Form.Group className="mb-3">
                             <Form.Label>End time</Form.Label>
                             <Form.Control
@@ -214,11 +208,11 @@ function AddReservation() {
                                 }}
                             />
                         </Form.Group>
-                        <p>
+                        {/*<p>
                             end: {endTime}<br></br>
                             max: {maxValue}<br></br>
                             maxCount {maxCount}
-                        </p>
+                        </p>*/}
                         <Button onClick={reservationStatus}>Confirm</Button>
                     </Form>
                 </div>
