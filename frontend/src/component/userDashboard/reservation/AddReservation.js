@@ -5,7 +5,6 @@ import moment from 'moment';
 
 function AddReservation() {
     const [jwt,setJwt] = useLocalStorage("","jwt")
-    //const [user, setUser] = useState(2);
     const user = localStorage.getItem('userId');
     const [numberOfParty, setNumberOfParty] = useState(1);
     const [startTime, setStartTime] = useState(moment().format("yyyy-MM-DDTHH:mm"));
@@ -37,18 +36,13 @@ function AddReservation() {
         const updatedTime = moment(startTime);
         const currentTime = moment(minCount === 0 ? dateNow : updatedTime).format(format);
         const nextDate = moment(minCount === 0 ? currentDate : updatedDate).add(1, 'd').format("yyyy-MM-DD");
-        //console.log("CurrentTime is: " + currentTime);
         if (moment(currentTime, format).isBefore(moment(maxLunchTime, format))) {
             minValue = moment(currentDate + 'T' + startLunchTime).format("yyyy-MM-DDTHH:mm");
             maxValue = moment(updatedDate + 'T' + maxLunchTime).format("yyyy-MM-DDTHH:mm");
-            //console.log(minValue);
-            //console.log(maxValue);
         }
         else if (moment(currentTime, format).isBefore(moment(maxDinnerTime, format))) {
             minValue = moment(currentDate + 'T' + startDinnerTime).format("yyyy-MM-DDTHH:mm");
             maxValue = moment(updatedDate + 'T' + maxDinnerTime).format("yyyy-MM-DDTHH:mm");
-            //console.log(minValue);
-            //console.log(maxValue);
         }
         else {
             minValue = moment(nextDate + 'T' + startLunchTime).format("yyyy-MM-DDTHH:mm");
@@ -127,11 +121,11 @@ function AddReservation() {
         <Row>
             <Alert show={showSuccessAlert} variant="success">Reservation was successfully added. The status is 'pending' and will be updated soon.</Alert>
             <Alert show={showFailAlert} variant="danger">Reservation was rejected. There is no availability for the requested time slot.</Alert>
-            <Alert show={showFailTimeAlert} variant="danger">Please select a time slot between {moment(minValue).format("HH:mm")} and {moment(maxValue).format("HH:mm")}.</Alert>
+            <Alert show={showFailTimeAlert} variant="danger">Please select a time slot between {moment(minValue).format("HH:mm")} and {moment(maxValue).format("HH:mm")} (or please select a future date).</Alert>
             <Alert show={showFailMinTimeAlert} variant="danger">You cannot select a time slot before the current time: {moment(dateNow).format("yyyy-MM-DD HH:mm")}.</Alert>
             <Alert show={showFailFormAlert} variant="danger">Please verify your reservation information.</Alert>
             <Alert show={showFailLogicTimeAlert} variant="danger">Please verify your start and end time.</Alert>
-            <Col className='col-lg-7'>
+            <Col className='col-lg-7 mt-3'>
                 <div className='transparentBg'>
                     <h1>
                         RESERVATIONS
@@ -150,7 +144,7 @@ function AddReservation() {
                     <br></br>
                 </div>
             </Col>
-            <Col className='col-lg-5'>
+            <Col className='col-lg-5 mt-3'>
                 <div className='transparentBg'>
                     <h1>
                         BOOK A TABLE
@@ -169,8 +163,6 @@ function AddReservation() {
                             <Form.Control
                                 required
                                 type="datetime-local"
-                                /*min={moment(Date.now()).toDate()}
-                                max={moment(Date.now()).toDate()}*/
                                 min={dateNow}
                                 value={(moment(minValue).isAfter(moment(startTime)) || moment(startTime).isAfter(moment(minValue))) && minCount === 0 ? setStartTime(minValue) : startTime}
                                 onChange={(e) => {
@@ -185,11 +177,6 @@ function AddReservation() {
                             />
                             
                         </Form.Group> 
-                        {/*<p>
-                            start: {startTime}<br></br>
-                            min: {minValue}<br></br>
-                            minCount {minCount}
-                        </p>*/}
                         <Form.Group className="mb-3">
                             <Form.Label>End time</Form.Label>
                             <Form.Control
@@ -208,11 +195,6 @@ function AddReservation() {
                                 }}
                             />
                         </Form.Group>
-                        {/*<p>
-                            end: {endTime}<br></br>
-                            max: {maxValue}<br></br>
-                            maxCount {maxCount}
-                        </p>*/}
                         <Button onClick={reservationStatus}>Confirm</Button>
                     </Form>
                 </div>
