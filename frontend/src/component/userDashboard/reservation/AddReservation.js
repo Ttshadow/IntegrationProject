@@ -142,6 +142,8 @@ function AddReservation() {
                     </h3>
                     <p>Daily from 5:30 pm - 10:00 pm</p>
                     <br></br>
+                    <h3>Note</h3>
+                    <p>If your party has not arrived within 15 minutes of your reservation time, it will be cancelled.</p>
                 </div>
             </Col>
             <Col className='col-lg-5 mt-3'>
@@ -164,7 +166,7 @@ function AddReservation() {
                                 required
                                 type="datetime-local"
                                 min={dateNow}
-                                value={(moment(minValue).isAfter(moment(startTime)) || moment(startTime).isAfter(moment(minValue))) && minCount === 0 ? setStartTime(minValue) : startTime}
+                                value={(moment(minValue).isAfter(moment(startTime)) /*|| moment(startTime).isAfter(moment(minValue))*/) && minCount === 0 ? setStartTime(minValue) : startTime}
                                 onChange={(e) => {
                                     setShowFailFormAlert(false);
                                     setStartTime(e.target.value);

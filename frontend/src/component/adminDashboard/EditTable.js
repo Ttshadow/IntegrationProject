@@ -98,7 +98,7 @@ function EditTable(props) {
             </Form.Group>
             <TableStatusOption status={status} setTableStatus={setTableStatus}/>
             <Button variant="primary" type="submit">Save</Button>
-            <Button variant="danger" onClick={deleteTable}>Delete</Button>
+            <Button variant="danger"  type="submit" onClick={deleteTable}>Delete</Button>
           </Form>
           <p className='text-danger' defaultValue={''}>{errorMessage}</p>
         </Modal.Body>

@@ -4,7 +4,7 @@ import AddTable from '../component/adminDashboard/AddTable';
 import EditAllStatus from '../component/adminDashboard/EditAllStatus';
 function AdminTable() {
     return <Row>
-        <Col className="col-12">
+        <Col className="col-12 mt-3">
             <AddTable/>
         </Col>
         <Col className="col-12">

@@ -40,7 +40,7 @@ public class DiningTableService {
         if (newDiningTable.getId() == null) {
             List<DiningTable> tables = getAllDiningTables();
             for (DiningTable table: tables) {
-                if (newDiningTable.getName() == table.getName()) {
+                if (newDiningTable.getName().equals(table.getName())) {
                     throw new RecordAlreadyExistsException("This table name already exists.");
                 }
             }

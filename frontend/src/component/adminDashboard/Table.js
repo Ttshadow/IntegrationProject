@@ -27,7 +27,7 @@ function Table() {
     }, []);
 
     return (
-        <div id="tab">
+        <div id="tab mt-3">
         <Tabs
             transition={false}
         >

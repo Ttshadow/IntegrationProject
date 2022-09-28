@@ -47,9 +47,15 @@ public class DiningTableController {
     }
 
     @PostMapping("/addtable")
-    public List<DiningTable> addDiningTable(@RequestBody DiningTable newDiningtable) throws RecordNotFoundException, RecordAlreadyExistsException {
-        diningTableService.saveOrUpdateDiningTable(newDiningtable);
-        return diningTableService.getAllDiningTables();
+    public ResponseEntity addDiningTable(@RequestBody DiningTable newDiningtable) throws RecordNotFoundException, RecordAlreadyExistsException {
+        try {
+            diningTableService.saveOrUpdateDiningTable(newDiningtable);
+            return ResponseEntity.ok("");
+            //return diningTableService.getAllDiningTables();
+        }
+        catch (RecordAlreadyExistsException ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
     }
 
     @DeleteMapping("/deletetable/{id}")

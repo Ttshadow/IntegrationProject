@@ -9,6 +9,7 @@ function AddTable() {
     const [status, setTableStatus] = useState('available');
     const [validated, setValidated] = useState(false);
     const [jwt,setJwt] = useLocalStorage("","jwt");
+    const [errorMessage, setErrorMessage] = useState("");
 
     const addTable = (event) => {
         const form = event.currentTarget;
@@ -29,7 +30,16 @@ function AddTable() {
                 },
                 body: JSON.stringify(table)
             })
-            alert(name + ' added successfully.');
+            .then((data) => {
+                if(data.status === 200){
+                }
+                else{
+                    return data.text();
+                }
+            })
+            .then((text)=>{
+                  alert(text);
+            })
         }
     }
     const openModal = () => {setShowModal(true)}

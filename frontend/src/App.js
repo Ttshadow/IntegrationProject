@@ -29,7 +29,6 @@ import LeaveComment from "./component/userDashboard/LeaveComment";
 import Profile from "./component/userDashboard/Profile";
 import StripeContainer from "./component/order/StripeContainer";
 import Promotion from "./component/adminDashboard/Promotion";
-import ReservationSuccess from "./component/userDashboard/reservation/ReservationSuccess";
 
 // import UserDashboard from "./component/userDashboard/UserDashboard";
 
@@ -47,7 +46,6 @@ function App() {
           <Route path="menu" element={<UserMenu />}/>
           <Route path="cart" element={<Cart />}/>
         </Route>
-        <Route path="success" element={<ReservationSuccess />}></Route>
       </Route>
       {/*<Route path="/admindashboard" element={<AdminDashboard />}></Route>*/}
       {/*<Route path="/admindashboard/table" element={<AdminTable />}></Route>*/}
