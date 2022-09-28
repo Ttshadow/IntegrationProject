@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { Button, Table } from 'react-bootstrap';
+import { Alert, Button, Table } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import {useNavigate} from 'react-router-dom';
 import useLocalStorage from '../../../util/useLocalStorage';
@@ -13,6 +13,8 @@ export function MenuDashboard(){
     const [menus, setMenus] = useState([]);
     const [status, setStatus] = useState('');
     const navigate = useNavigate();
+    const [show, setShow] = useState(false);
+    const [message, setMessage] = useState("");
 
     //fetch to get all the catogires from the db.
     useEffect(() =>{
@@ -50,7 +52,10 @@ export function MenuDashboard(){
     }
     function navigateToEditCategory(event){ 
         if(selectCategory == 0){
-            alert("Please select a category to edit.")
+            // alert("Please select a category to edit.")
+            setMessage("Please select a category to edit.");
+            setShow(true);
+            
         }
         else{
             navigate(`../editCategory/${selectCategory}`);
@@ -59,13 +64,17 @@ export function MenuDashboard(){
 
     // user select different category.
     function handleChange(e){
+        setShow(false);
+        // setMessage("");
         // console.log(e.target.value);
         setSelectCategory(e.target.value);
     }
 
     function deleteCategory(){
         if(selectCategory == 0){
-            alert("Please select a category to delete.")
+            // alert("Please select a category to delete.")
+            setMessage("Please select a category to delete.");
+            setShow(true);
         }
         else{
             fetch(`/admindashboard/category/${selectCategory}`, 
@@ -77,7 +86,9 @@ export function MenuDashboard(){
             })
             .then((data)=>{
                 if(data.status === 200){
-                    alert("Category Delete Successfully!");
+                    // alert("Category Delete Successfully!");
+                    setMessage("Category Delete Successfully!");
+                    setShow(true);
                 }
             })
             .then(()=>{
@@ -96,7 +107,9 @@ export function MenuDashboard(){
         })
         .then((data)=>{
             if(data.status === 200){
-                alert("Dish Delete Successfully!");
+                // alert("Dish Delete Successfully!");
+                setMessage("Dish Delete Successfully!");
+                setShow(true);
             }
         })
         .then(()=>{
@@ -120,6 +133,7 @@ export function MenuDashboard(){
 
     // handle on change for menu status.
     function selectStatus(e){
+        setShow(false);
         setStatus(e.target.value);
     }
     // change menu status
@@ -134,7 +148,9 @@ export function MenuDashboard(){
         })
         .then((data)=>{
             if(data.status === 200){
-                alert("Dish Status Update Successfully!");
+                // alert("Dish Status Update Successfully!");
+                setMessage("Dish Status Update Successfully!");
+                setShow(true);
             }
         })
     }
@@ -142,6 +158,7 @@ export function MenuDashboard(){
     return (
         <>
         <div>
+            <Alert show={show} >{message}</Alert>
             <Form.Select onChange={handleChange} >
                 <option value={0} >Select a Category</option>
                 {categories?.map((category)=>{

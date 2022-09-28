@@ -16,40 +16,46 @@ export function EditCategory(){
 
     function saveCategory(e){
         e.preventDefault();
-        fetch('/admindashboard/category/edit_category',{
-            method:'PUT',
-            body: JSON.stringify({
-                id : id,
-                name: categoryNameRef.current.value,
-              }),
-              headers: {
-                'Accept': 'application/json',
-                "Content-type": "application/json; charset=UTF-8",
-                Authorization: `Bearer ${jwt}`
-              },
+        if(categoryNameRef.current.value === ""){
+          setErrorMessage("Please enter a category name.");
+        }
+        else{
+          setErrorMessage("");
+          fetch('/admindashboard/category/edit_category',{
+              method:'PUT',
+              body: JSON.stringify({
+                  id : id,
+                  name: categoryNameRef.current.value,
+                }),
+                headers: {
+                  'Accept': 'application/json',
+                  "Content-type": "application/json; charset=UTF-8",
+                  Authorization: `Bearer ${jwt}`
+                },
+              })
+              .then((data) => {
+                if(data.status === 200){
+                navigate('../menuDashboard');}
+                else{
+                    return data.text();
+                }
             })
-            .then((data) => {
-              if(data.status === 200){
-              navigate('../menuDashboard');}
-              else{
-                  return data.text();
-              }
-          })
-          .then((text)=>{
-                setErrorMessage(text);
-          })
+            .then((text)=>{
+                  setErrorMessage(text);
+            })
+        }
     }
 
-    useEffect(() => {
-      fetch(`/admindashboard/category/${id}`, {
-        method:'GET',
-        headers: {
-          Authorization: `Bearer ${jwt}`
-        }
-      })
-      .then((data) => data.json())
-      .then((json) => {setCategory(json)})
-    }, [])
+      useEffect(() => {
+        fetch(`/admindashboard/category/${id}`, {
+          method:'GET',
+          headers: {
+            Authorization: `Bearer ${jwt}`
+          }
+        })
+        .then((data) => data.json())
+        .then((json) => {setCategory(json)})
+      }, [])
 
 
     return (
@@ -63,7 +69,7 @@ export function EditCategory(){
                 </Form.Group>
                 <Form.Group className="mb-3" >
                   <Form.Label >Name</Form.Label>
-                  <Form.Control required type="text" defaultValue={category.name} ref={categoryNameRef}/>
+                  <Form.Control type="text" defaultValue={category.name} ref={categoryNameRef}/>
                   <p className='text-danger' defaultValue={''}>{errorMessage}</p>
                 </Form.Group>
                 <Button type="submit" variant="warning" className="mt-3 mb-3">Save</Button>

@@ -13,12 +13,14 @@ import javax.persistence.*;
 public class OrderItems extends IdBaseEntity{
     @ManyToOne(optional = false)
     @JoinColumn(name = "order_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
+//    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonBackReference
     private Order order;
+
     @ManyToOne(optional = false)
     @JoinColumn(name = "menu_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Menu menu;
+
     private Integer quantity;
 }

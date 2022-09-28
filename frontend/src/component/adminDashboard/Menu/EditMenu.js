@@ -23,6 +23,13 @@ export function EditMenu(){
     
     async function saveMenu(e){
         e.preventDefault();
+        if(nameRef.current.value === ""){
+            setErrorMessage("Please enter a name for the dish.")
+        }
+        else if(categoryId == 0){
+            setErrorMessage("Please select a category.")
+        }
+        else{
         if (imageChange){
             await uploadImage();
         }
@@ -55,7 +62,7 @@ export function EditMenu(){
             })
             .then((text)=>{
                 setErrorMessage(text);
-            })
+            })}
     }
 
     async function uploadImage(e){
@@ -74,6 +81,9 @@ export function EditMenu(){
 
     function handleChange(e){
         setCategoryId(e.target.value);
+        if(categoryId != 0){
+            setErrorMessage("");
+        }
     }
     useEffect(() => {
       fetch(`/admindashboard/menu/${id}`, {
@@ -112,7 +122,7 @@ export function EditMenu(){
                 </Form.Group>
                 <Form.Group className="mb-3" >
                 <Form.Label >Name:</Form.Label>
-                <Form.Control type="text" required defaultValue={menu.name} ref={nameRef}/>
+                <Form.Control type="text" defaultValue={menu.name} ref={nameRef}/>
                 <p className='text-danger' defaultValue={''}>{errorMessage}</p>
                 </Form.Group>
                 <Form.Group className="mb-3" >

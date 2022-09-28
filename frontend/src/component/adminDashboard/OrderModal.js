@@ -12,7 +12,7 @@ function OrderModal({ order, setOrderStatus }) {
     const orderStatusRef = useRef();
     const submitHandler = (e) => {
         e.preventDefault()
-        fetch('admindashboard/orders',{
+        fetch('../admindashboard/orders',{
             method:'PATCH',
             headers: {
                 Authorization: `Bearer ${jwt}`,

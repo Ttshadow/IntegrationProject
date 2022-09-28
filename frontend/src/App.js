@@ -30,6 +30,7 @@ import Profile from "./component/userDashboard/Profile";
 import ShowProfile from "./component/userDashboard/ShowProfile";
 import UserInfo from "./component/adminDashboard/UserInfo";
 import StripeContainer from "./component/order/StripeContainer";
+import PaymentSuccess from "./component/order/PaymentSuccess";
 import Promotion from "./component/adminDashboard/Promotion";
 
 // import UserDashboard from "./component/userDashboard/UserDashboard";
@@ -42,6 +43,7 @@ function App() {
         <Route index element={<Home />}></Route>
         <Route path="takeoutorder" element={<StripeContainer />}></Route>
         <Route path="dineinorder" element={<DineInOrder />}></Route>
+        <Route path="paymentsuccess" element={<PaymentSuccess />}></Route>
         <Route path="/newreservation" element={<LoginWrapper><AddReservation /></LoginWrapper>} />
         <Route path="/dine/" element={<LoginWrapper><Outlet /></LoginWrapper>}>
           <Route path="" element={<TakeoutOrDinein/>}/>

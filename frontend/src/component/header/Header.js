@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./Header.css";
-import { Button, Col, Container } from "react-bootstrap";
+import { Col, Container } from "react-bootstrap";
 import { BsCartDash } from "react-icons/bs";
 import { FaUserCircle } from "react-icons/fa";
 import useLocalStorage from "../../util/useLocalStorage";
@@ -15,21 +15,17 @@ export default function Header() {
       setJwt("");
       setAuthority("");
       setUserId("");
-    } 
-    // else {
-    //   window.location.href = "/";
-
-    // } 
-    else {
+      window.location.href = "/";
+    } else {
       window.location.href = "/login";
     }
   };
 
   const jumpToDashboard = () => {
     if(authority === "ROLE_ADMIN") {
-      window.location.href = "/admindashboard";
+      window.location.href = "/admindashboard/table";
     }else if(authority === "ROLE_USER") { 
-      window.location.href = "/userdashboard";
+      window.location.href = "/userdashboard/profile";
     }else{
       window.location.href = "/";
     }

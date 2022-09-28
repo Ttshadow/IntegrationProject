@@ -3,6 +3,7 @@ package com.example.backend.service;
 import com.example.backend.entity.CartItem;
 import com.example.backend.entity.Order;
 import com.example.backend.entity.OrderItems;
+import com.example.backend.entity.User;
 import com.example.backend.entity.pojo.OrderPojo;
 import com.example.backend.exception.RecordNotFoundException;
 import com.example.backend.repository.*;
@@ -45,7 +46,19 @@ public class OrderService {
 
     public Order saveOrUpdateOrder(Order newOrder) throws RecordNotFoundException {
         if (newOrder.getId() == null) {
-            return orderRepository.save(newOrder);
+            newOrder.setUser(userRepository.findById(newOrder.getUser().getId()).get());
+            if (newOrder.getPromotion().getDescription().length() > 0) {
+                newOrder.setPromotion(promotionRepository.getPromotionByDescription(newOrder.getPromotion().getDescription()).get());
+            }else {
+                newOrder.setPromotion(null);
+            }
+            newOrder.setDiningTable(diningTableRepository.findById(1L).get());
+            newOrder.setDate(new Date());
+            newOrder.setStatus("Paid");
+            Order order = orderRepository.save(newOrder);
+            createNewOrderLists(order);
+            removeAllItemsByUserId(order.getUser().getId());
+            return order;
         } else {
             Order orderFromDb = getOrderById(newOrder.getId());
             orderFromDb.setStatus(newOrder.getStatus());
@@ -68,42 +81,36 @@ public class OrderService {
         return orderRepository.getOrderByTableId(tableId);
     }
 
-    public void createNewOrder(OrderPojo orderPojo) throws RecordNotFoundException {
-        Order order = new Order();
-        order.setStatus(orderPojo.getStatus());
+    public void createNewOrder(Order order) throws RecordNotFoundException {
+        order.setTotalPrice(0.00);
         order.setDate(new Date());
-        order.setTakeout(orderPojo.getTakeout());
-        order.setUser(userRepository.findById(orderPojo.getUserId()).get());
-
-        if (orderPojo.getTakeout()) {
-            order.setTotalPrice(orderPojo.getTotalPrice());
-            order.setPromotion(promotionRepository.findById(orderPojo.getPromotionId()).get());
-            order.setDiningTable(diningTableRepository.findById(orderPojo.getDiningTableId()).get());
-        } else {
-            order.setTotalPrice(0.00);
-            order.setDiningTable(diningTableRepository.findById(1L).get());
-        }
-        Order orderSaved = saveOrUpdateOrder(order);
-        createNewOrderLists(orderPojo,orderSaved);
-        removeAllItemsByUserId(orderPojo.getUserId());
+        order.setUser(userRepository.findById(order.getUser().getId()).get());
+        order.setDiningTable(diningTableRepository.findById(order.getDiningTable().getId()).get());
+        Order orderSaved = orderRepository.save(order);
+        createNewOrderLists(orderSaved);
+        removeAllItemsByUserId(order.getUser().getId());
     }
 
-    public void createNewOrderLists(OrderPojo orderPojo,Order order){
-        List<OrderItems> orderItemsList = orderPojo.getOrderItemsList();
-        for (OrderItems oi : orderItemsList){
+    public void createNewOrderLists(Order order) {
+        List<OrderItems> orderItemsList = order.getOrderItemsList();
+        for (OrderItems oi : orderItemsList) {
             oi.setOrder(order);
         }
         orderItemRepository.saveAll(orderItemsList);
     }
 
-    public void removeAllItemsByUserId(Long userId){
+    public void removeAllItemsByUserId(Long userId) {
         List<CartItem> cartItems = cartItemRepository.getAllCartItemByUserId(userId);
-        for (CartItem item: cartItems) {
+        for (CartItem item : cartItems) {
             cartItemRepository.deleteById(item.getId());
         }
     }
 
     public List<CartItem> getAllOrderItems(Long userId) {
         return cartItemRepository.getAllCartItemByUserId(userId);
+    }
+
+    public User getUserInfo(Long userId) {
+        return userRepository.findById(userId).get();
     }
 }

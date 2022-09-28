@@ -1,8 +1,8 @@
 .customer_order_container{
-    min-height: 100vh;
-    margin: 2vh;
+    min-height: 75vh;
+    margin: 3em auto;
     font-size: 0.9rem;
-    display: flex;
+    width: 80%;
 }
 .customer_order_container-top{
     padding: 0.7rem 5rem;
@@ -149,4 +149,9 @@ input:focus::-webkit-input-placeholder
 	align-items: center;
 	margin-left: 15px;
 	border-top: 1px solid #819efc;
+}
+
+#promo_code{
+    width: 200px;
+    height: 40px;
 }
