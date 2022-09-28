@@ -15,13 +15,10 @@
     const navigate = useNavigate();
     const [userImage, setUserImage] = useState('');
     const [imageChange, setImageChange] = useState(false);
-    const [errorMessage, setErrorMessage] = useState("");
-
+    const [errorMessage, setErrorMessage] = useState();
+    const [pwdError, setPwdError] = useState("");
     const passwordRegex = new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{6,})');
-    const emailRegex = new RegExp('^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$');
-    const nameRegex = new RegExp('/^[a-zA-Z]+$/');
 
-    
     let id = Number(localStorage.getItem('userId'));
     useEffect(() =>{
         fetch('/userdashboard/'+ id, {
@@ -37,14 +34,6 @@
         });
     }, []);
 
-    // function pwdValidation(){
-    //     if(!passwordRegex.test(passRef.current.value)){
-    //         setPwdError("Password should contain at least one upper case character, one numeric character, one special character, and must be 6 characters or longer.");
-    //         return false;
-    //     }else{
-    //         return true;
-    //     }
-    // }
     // function nameValidation(){
     //     if(fNameRef.current.value.length > 30 || lNameRef.current.value.length > 30 || !nameRegex.test(fNameRef.current.value) ||!nameRegex.test(lNameRef.current.value) ){
     //         setNameError("name should be less than 30 characters and only alphabetic characters allowed");
@@ -60,33 +49,40 @@
         if(imageChange){
             await uploadImage();
         }
-        fetch('/userdashboard/edituser', {
-            method: 'PUT',
-            headers:{
-                'Accept': 'application/json', 
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${jwt}`
-            },
-            body: JSON.stringify({              
-                    id: userId,
-                    firstName: fNameRef.current.value,
-                    lastName: lNameRef.current.value,
-                    email: emailRef.current.value,
-                    tel: telRef.current.value,
-                    password: passRef.current.value,
-                    image: imageSrc,
+        if(passwordRegex.test(passRef.current.value)){
+            setPwdError("");
+
+            fetch('/userdashboard/edituser', {
+                method: 'PUT',
+                headers:{
+                    'Accept': 'application/json', 
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${jwt}`
+                },
+                body: JSON.stringify({              
+                        id: userId,
+                        firstName: fNameRef.current.value,
+                        lastName: lNameRef.current.value,
+                        email: emailRef.current.value,
+                        tel: telRef.current.value,
+                        password: passRef.current.value,
+                        image: imageSrc,
+                })
             })
-        })
-        .then((response) => {
-            if (response.status === 200) {
-                navigate('/userdashboard/profile');
-            } else {
-                return response.text();
-            }
-        })
-        .then((text) =>{
-            setErrorMessage(text);
-        })
+            .then((response) => {
+                if (response.status === 200) {
+                    navigate('/userdashboard/profile');
+                } else {
+                    return response.text();
+                }
+            })
+            .then((text) =>{
+                setErrorMessage(text);
+            })
+        }else{
+            setPwdError("Password should contain at least one upper case character, one numeric character, one special character, and must be 6 characters or longer.");
+        }
+        
     }
 
     async function uploadImage(e){
@@ -109,6 +105,7 @@
             <h3>Edit Profile</h3>
             <Form onSubmit={saveProfile}>
             <p className='text-danger' >{errorMessage}</p>
+            <p className='text-danger' >{pwdError}</p>
                 <Row className="mb-3">
                     <Form.Group as={Col} controlId="formGroupFirstName">
                         <Form.Label>First Name</Form.Label>
