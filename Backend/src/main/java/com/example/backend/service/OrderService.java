@@ -81,6 +81,16 @@ public class OrderService {
         return orderRepository.getOrderByTableId(tableId);
     }
 
+    public void createNewOrder(Order order) throws RecordNotFoundException {
+        order.setTotalPrice(0.00);
+        order.setDate(new Date());
+        order.setUser(userRepository.findById(order.getUser().getId()).get());
+        order.setDiningTable(diningTableRepository.findById(order.getDiningTable().getId()).get());
+        Order orderSaved = orderRepository.save(order);
+        createNewOrderLists(orderSaved);
+        removeAllItemsByUserId(order.getUser().getId());
+    }
+
     public void createNewOrderLists(Order order) {
         List<OrderItems> orderItemsList = order.getOrderItemsList();
         for (OrderItems oi : orderItemsList) {

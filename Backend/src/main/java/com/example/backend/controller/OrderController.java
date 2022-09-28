@@ -47,6 +47,16 @@ public class OrderController {
             throw new RuntimeException(e);
         }
     }
+
+    @PostMapping("/admindashboard/orders")
+    public ResponseEntity<?> saveNewOrder(@RequestBody Order order){
+        try {
+            orderService.createNewOrder(order);
+            return ResponseEntity.ok("Add order successful");
+        } catch (RecordNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
     @GetMapping("/order/{userId}")
     public ResponseEntity<List<CartItem>> getAllOrderItems(@PathVariable Long userId){
         List<CartItem> orderItems = orderService.getAllOrderItems(userId);

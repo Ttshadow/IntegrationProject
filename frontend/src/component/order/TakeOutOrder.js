@@ -44,6 +44,10 @@ const TakeOutOrder = () => {
     const stripe = useStripe();
     const elements = useElements();
     const navigate = useNavigate();
+    const [firstNameErrMessage, setFirstNameErrMessage] = useState('');
+    const [lastNameErrMessage, setLastNameErrMessage] = useState('');
+    const [emailErrMessage, setEmailErrMessage] = useState('');
+    const [telErrMessage, setTelErrMessage] = useState('');
 
     useEffect(() => {
         fetch(`../order/${(userId)}`, {
@@ -100,6 +104,7 @@ const TakeOutOrder = () => {
 
     const submitOrder = async (e) => {
         e.preventDefault();
+        if(firstNameErrMessage || lastNameErrMessage || emailErrMessage || telErrMessage) return
         const { error, paymentMethod } = await stripe.createPaymentMethod({
             type: "card",
             card: elements.getElement(CardElement)
@@ -145,8 +150,8 @@ const TakeOutOrder = () => {
                 id: userId,
                 email: emailRef.current.value,
                 tel: telRef.current.value,
-                firstName: firstNameRef.current.value,
-                lastName: lastNameRef.current.value
+                firstName: firstNameRef.current.value.trim(),
+                lastName: lastNameRef.current.value.trim()
             }),
         })
     }
@@ -178,6 +183,69 @@ const TakeOutOrder = () => {
         })
     }
 
+    function containsSpecialChars(str) {
+        const specialChars = /[`!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?~]/;
+        return specialChars.test(str);
+    }
+
+    function hasNumber(myString) {
+        return /\d/.test(myString);
+    }
+
+    function validEmail(str){
+        const emailExp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+        return emailExp.test(str);
+    }
+
+    function validPhoneNumber(str){
+        const phoneExp = /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/;
+        return phoneExp.test(str);
+    }
+
+    const firstNameCheck = () => {
+        let input = firstNameRef.current.value.trim();
+        if (input === '') {
+            setFirstNameErrMessage('The first name can not be empty')
+        } else if (containsSpecialChars(input)) {
+            setFirstNameErrMessage('Special characters are not allowed here')
+        } else if (hasNumber(input)) {
+            setFirstNameErrMessage('Numbers are not allowed here')
+        } else {
+            setFirstNameErrMessage('')
+        }
+    }
+
+    const lastNameCheck = () => {
+        let input = lastNameRef.current.value.trim();
+        if (input === '') {
+            setLastNameErrMessage('The first name can not be empty')
+        } else if (containsSpecialChars(input)) {
+            setLastNameErrMessage('Special characters are not allowed here')
+        } else if (hasNumber(input)) {
+            setLastNameErrMessage('Numbers are not allowed here')
+        } else {
+            setLastNameErrMessage('')
+        }
+    }
+
+    const emailCheck = () => {
+        let input = emailRef.current.value.trim()
+        if(!validEmail(input)){
+            setEmailErrMessage('Invalid email address')
+        }else{
+            setEmailErrMessage('')
+        }
+    }
+
+    const phoneCheck = () => {
+        let input = telRef.current.value.trim()
+        if(!validPhoneNumber(input)){
+            setTelErrMessage('Invalid phone number')
+        }else{
+            setTelErrMessage('')
+        }
+    }
+
     return (
         <div className="customer_order_container">
             <div className="customer_order_container-body">
@@ -195,22 +263,22 @@ const TakeOutOrder = () => {
                             <form className='mt-4'>
                                 <Row>
                                     <Col md={6}>
-                                        <Label htmlFor='first_name'>First Name:</Label>
-                                        <input placeholder="" id='first_name' type='text' defaultValue={user.firstName ? user.firstName : ''} ref={firstNameRef} />
+                                        <Label htmlFor='first_name'>First Name: {firstNameErrMessage ? <span style={{ color: 'red' }}>{firstNameErrMessage}</span> : ''}</Label>
+                                        <input placeholder="" id='first_name' type='text' defaultValue={user.firstName ? user.firstName : ''} ref={firstNameRef} onChange={firstNameCheck} />
                                     </Col>
                                     <Col md={6}>
-                                        <Label htmlFor='last_name'>Last Name:</Label>
-                                        <input placeholder="" id='last_name' type='text' defaultValue={user.lastName ? user.lastName : ''} ref={lastNameRef} />
+                                        <Label htmlFor='last_name'>Last Name: {lastNameErrMessage ? <span style={{ color: 'red' }}>{lastNameErrMessage}</span> : ''}</Label>
+                                        <input placeholder="" id='last_name' type='text' defaultValue={user.lastName ? user.lastName : ''} ref={lastNameRef} onChange={lastNameCheck}/>
                                     </Col>
                                 </Row>
                                 <Row className='mt-3'>
                                     <Col md={6}>
-                                        <Label htmlFor='email'>Email:</Label>
-                                        <input placeholder="" id='email' type='text' defaultValue={user.email ? user.email : ''} ref={emailRef} />
+                                        <Label htmlFor='email'>Email: {emailErrMessage ? <span style={{ color: 'red' }}>{emailErrMessage}</span> : ''}</Label>
+                                        <input placeholder="" id='email' type='text' defaultValue={user.email ? user.email : ''} ref={emailRef} onChange={emailCheck}/>
                                     </Col>
                                     <Col md={6}>
-                                        <Label htmlFor='telephone'>Telephone:</Label>
-                                        <input placeholder="" id='telephone' type='text' defaultValue={user.tel ? user.tel : ''} ref={telRef} />
+                                        <Label htmlFor='telephone'>Telephone: {telErrMessage ? <span style={{ color: 'red' }}>{telErrMessage}</span> : ''}</Label>
+                                        <input placeholder="" id='telephone' type='text' defaultValue={user.tel ? user.tel : ''} ref={telRef} onChange={phoneCheck}/>
                                     </Col>
                                 </Row>
                                 <Row className="mt-5">
@@ -272,7 +340,7 @@ const TakeOutOrder = () => {
                             <Row className="lower mt-4">
                                 <Col>
                                     <Row className='my-4'>
-                                        <Col style={{lineHeight:'40px'}}>Promotion Code</Col>
+                                        <Col style={{ lineHeight: '40px' }}>Promotion Code</Col>
                                         <Col><input type='text' id='promo_code' ref={promotionRef} /></Col>
                                     </Row>
                                     <Button onClick={applyPromotion}>Apply</Button>
