@@ -1,4 +1,4 @@
-import { Button, Form, Modal } from 'react-bootstrap';
+import { Button, Form, Modal, Alert } from 'react-bootstrap';
 import React, { useState } from 'react';
 import TableStatusOption from './TableStatusOption';
 import useLocalStorage from "../../util/useLocalStorage";
@@ -11,6 +11,7 @@ function EditTable(props) {
     const [status, setTableStatus] = useState(props.table.status);
     const [validated, setValidated] = useState(false);
     const [jwt,setJwt] = useLocalStorage("","jwt");
+    const [errorMessage, setErrorMessage] = useState("");
     
     const editTable = (event) => {
         const form = event.currentTarget;
@@ -42,7 +43,16 @@ function EditTable(props) {
                 "Content-type": "application/json; charset=UTF-8", 
             },
         })
-        alert(name + " has been deleted.");
+        .then((data) => {
+            if(data.status === 200){
+            }
+            else{
+                return data.text();
+            }
+        })
+        .then((text)=>{
+              setErrorMessage(text);
+        })
     };
 
     const openModal = () => {setShowModal(true)}
@@ -90,9 +100,10 @@ function EditTable(props) {
             <Button variant="primary" type="submit">Save</Button>
             <Button variant="danger" onClick={deleteTable}>Delete</Button>
           </Form>
+          <p className='text-danger' defaultValue={''}>{errorMessage}</p>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="warning" onClick={() => setShowModal(false)}>Close</Button>
+          <Button variant="warning" onClick={() => {setErrorMessage('');setShowModal(false);}}>Close</Button>
           
         </Modal.Footer>
     </Modal>

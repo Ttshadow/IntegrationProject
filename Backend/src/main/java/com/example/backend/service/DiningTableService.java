@@ -4,6 +4,7 @@ import com.example.backend.entity.DiningTable;
 import com.example.backend.entity.Reservation;
 import com.example.backend.exception.RecordAlreadyExistsException;
 import com.example.backend.exception.RecordNotFoundException;
+import com.example.backend.exception.TableIsOccupiedException;
 import com.example.backend.repository.DiningTableRepository;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -87,7 +88,10 @@ public class DiningTableService {
 
     }
 
-    public void deleteDiningTableById(Long id) {
+    public void deleteDiningTableById(Long id) throws RecordNotFoundException, TableIsOccupiedException {
+        if (getDiningTableById(id).getStatus().equals("occupied")) {
+            throw new TableIsOccupiedException("Cannot delete a table that is occupied.");
+        }
         diningTableRepository.deleteById(id);
     }
 

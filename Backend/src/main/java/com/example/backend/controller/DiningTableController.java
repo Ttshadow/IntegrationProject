@@ -1,14 +1,18 @@
 package com.example.backend.controller;
 
+import com.example.backend.constant.ErrorMessage;
 import com.example.backend.entity.DiningTable;
 import com.example.backend.exception.RecordAlreadyExistsException;
 import com.example.backend.exception.RecordNotFoundException;
+import com.example.backend.exception.TableIsOccupiedException;
 import com.example.backend.service.DiningTableService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
@@ -49,8 +53,13 @@ public class DiningTableController {
     }
 
     @DeleteMapping("/deletetable/{id}")
-    public void deleteDiningTable(@PathVariable(value = "id")long id) {
-        diningTableService.deleteDiningTableById(id);
+    public ResponseEntity deleteDiningTable(@PathVariable(value = "id")long id) throws RecordNotFoundException {
+        try{
+            diningTableService.deleteDiningTableById(id);
+            return ResponseEntity.ok("");
+        }catch(TableIsOccupiedException ex){
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
     }
 
     @GetMapping("/diningtable/{id}")

@@ -17,9 +17,14 @@ function AddReservation() {
     const [showFailMinTimeAlert, setShowFailMinTimeAlert] = useState(false);
     const [showFailFormAlert, setShowFailFormAlert] = useState(false);
     const [showFailLogicTimeAlert, setShowFailLogicTimeAlert] = useState(false);
+    const [minCount, setMinCount] = useState(0);
+    const [maxCount, setMaxCount] = useState(0);
+
     //console.log(moment(startTime, "hh:mm"));
     var minValue;
     var maxValue;
+    //let minCount = 0;
+   // let maxCount = 0;
     const dateNow = moment().format("yyyy-MM-DDTHH:mm");
     var optionArray = [];
     const partyLimit = 20;
@@ -175,15 +180,22 @@ function AddReservation() {
                                 /*min={moment(Date.now()).toDate()}
                                 max={moment(Date.now()).toDate()}*/
                                 min={dateNow}
-                                value={moment(minValue).isAfter(moment(startTime)) ? minValue : startTime}
+                                value={moment(minValue).isAfter(moment(startTime)) && minCount === 0 ? setStartTime(minValue) : startTime}
                                 onChange={(e) => {
+                                    setShowFailFormAlert(false);
                                     setStartTime(e.target.value);
+                                    setMinCount(minCount+1);
                                     moment(e.target.value).isBefore(moment(dateNow)) ? setShowFailMinTimeAlert(true) : setShowFailMinTimeAlert(false);
                                     moment(e.target.value).isBefore(moment(minValue)) ? setShowFailTimeAlert(true) : setShowFailTimeAlert(false);
                                     moment(e.target.value).isAfter(moment(maxValue)) ? setShowFailLogicTimeAlert(true) : setShowFailLogicTimeAlert(false);
                                 }}
                             />
+                            
                         </Form.Group> 
+                        <p>
+                            start: {startTime}<br></br>
+                            min: {minValue}
+                        </p>
                         <Form.Group className="mb-3">
                             <Form.Label>End time</Form.Label>
                             <Form.Control
@@ -191,15 +203,22 @@ function AddReservation() {
                                 type="datetime-local"
                                 min={minValue}
                                 max={maxValue}
-                                value={moment(endTime).isAfter(moment(maxValue)) || moment(minValue).isAfter(moment(endTime))  ? maxValue : endTime}
+                                value={(moment(endTime).isAfter(moment(maxValue)) || moment(minValue).isAfter(moment(endTime))) && maxCount === 0  ? setEndTime(maxValue) : endTime}
                                 onChange={(e) => {
+                                    setShowFailFormAlert(false);
                                     setEndTime(e.target.value);
+                                    setMaxCount(maxCount+1);
                                     moment(e.target.value).isBefore(moment(dateNow)) ? setShowFailMinTimeAlert(true) : setShowFailMinTimeAlert(false);
                                     moment(e.target.value).isAfter(moment(maxValue)) ? setShowFailTimeAlert(true) : setShowFailTimeAlert(false);
                                     moment(e.target.value).isBefore(moment(startTime)) ? setShowFailLogicTimeAlert(true) : setShowFailLogicTimeAlert(false);
                                 }}
                             />
                         </Form.Group>
+                        <p>
+                            end: {endTime}<br></br>
+                            max: {maxValue}<br></br>
+                            maxCount {maxCount}
+                        </p>
                         <Button onClick={reservationStatus}>Confirm</Button>
                     </Form>
                 </div>
