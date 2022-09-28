@@ -36,14 +36,14 @@ public class ReservationController {
     }
 
     @PostMapping("/userdashboard/reservation/new")
-    public Reservation addDiningTable(@RequestBody Reservation newReservation) throws RecordNotFoundException {
+    public Reservation addDReservation(@RequestBody Reservation newReservation) throws RecordNotFoundException {
         reservationService.saveReservation(newReservation);
         return reservationService.getReservation(newReservation.getId());
     }
 
     @PostMapping("/userdashboard/reservation/statusrequest")
     public String getNewReservationStatus(@RequestBody ReservationPojo reservation) {
-        //JSONObject jsonObject = new JSONObject();
+        //TODO: CHECK TIME PERIOD FOR VALIDATION IN THE BACKEND!! return httprequest bad request
         if (reservationService.getTableReservationAvailability(reservation.getStartTime(), reservation.getEndTime(), reservation.getNumberOfParty()).size() > 0) {
             return "pending";
         }
