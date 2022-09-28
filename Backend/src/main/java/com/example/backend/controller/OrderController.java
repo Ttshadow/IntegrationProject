@@ -68,8 +68,8 @@ public class OrderController {
     }
 
     @GetMapping("/validatepromotion")
-    public ResponseEntity<?> validatePromotionCode(@RequestParam String promotion){
-        return ResponseEntity.ok(promotionService.validatePromotionByCode(promotion));
+    public ResponseEntity<?> validatePromotionCode(@RequestParam String promotionCode){
+        return ResponseEntity.ok(promotionService.validatePromotionByCode(promotionCode));
     }
 
     @PostMapping("/order/edituser")

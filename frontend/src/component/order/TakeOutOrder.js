@@ -34,7 +34,8 @@ const TakeOutOrder = () => {
     const [user, setUser] = useState({});
     const [orderItems, setOrderItems] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
-    const [promotionDesc, setPromotionDesc] = useState('');
+    const [promotionTitle, setPromotionTitle] = useState('');
+    const [moneySaved, setMoneySaved] = useState(0);
     const promotionRef = useRef();
     const firstNameRef = useRef();
     const lastNameRef = useRef();
@@ -75,8 +76,8 @@ const TakeOutOrder = () => {
 
     const applyPromotion = (e) => {
         e.preventDefault()
-        if (!promotionDesc) {
-            fetch(`../validatepromotion?promotion=${promotionRef.current.value}`, {
+        if (!promotionTitle) {
+            fetch(`../validatepromotion?promotionCode=${promotionRef.current.value}`, {
                 method: 'get',
                 headers: {
                     Authorization: `Bearer ${jwt}`,
@@ -84,9 +85,10 @@ const TakeOutOrder = () => {
             })
                 .then(response => response.json())
                 .then(data => {
-                    if (data.isValid) {
+                    if (data.status) {
+                        setMoneySaved(totalPrice * (1 - data.discount))
                         setTotalPrice(totalPrice * data.discount)
-                        setPromotionDesc(data.description)
+                        setPromotionTitle(data.title)
                     } else {
                         alert('Promotion code is not valid')
                     }
@@ -104,9 +106,9 @@ const TakeOutOrder = () => {
         })
 
         if (!error) {
-            try{
-                const {id} = paymentMethod;
-                fetch('/order/payment',{
+            try {
+                const { id } = paymentMethod;
+                fetch('/order/payment', {
                     method: "POST",
                     body: JSON.stringify({
                         id: id,
@@ -116,15 +118,15 @@ const TakeOutOrder = () => {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',
                         Authorization: `Bearer ${jwt}`
-                    }, 
-                }) 
-                .then((data)=>{
-                    if(data.status === 200){
-                        editUser();
-                        saveOrder();
-                    }
+                    },
                 })
-            }catch(error){
+                    .then((data) => {
+                        if (data.status === 200) {
+                            editUser();
+                            saveOrder();
+                        }
+                    })
+            } catch (error) {
                 console.log('Error', error);
             }
         } else {
@@ -164,15 +166,15 @@ const TakeOutOrder = () => {
                     id: userId
                 },
                 promotion: {
-                    description: promotionDesc
+                    description: promotionTitle
                 }
             }),
         }).then(res => {
-            if(res.status === 200){
+            if (res.status === 200) {
                 return res.json()
             }
         }).then(data => {
-            navigate('/paymentsuccess',{state:{orderId:data.id}}) 
+            navigate('/paymentsuccess', { state: { orderId: data.id } })
         })
     }
 
@@ -194,21 +196,21 @@ const TakeOutOrder = () => {
                                 <Row>
                                     <Col md={6}>
                                         <Label htmlFor='first_name'>First Name:</Label>
-                                        <input placeholder="" id='first_name' type='text' defaultValue={user.firstName ? user.firstName : ''} ref={firstNameRef}/>
+                                        <input placeholder="" id='first_name' type='text' defaultValue={user.firstName ? user.firstName : ''} ref={firstNameRef} />
                                     </Col>
                                     <Col md={6}>
                                         <Label htmlFor='last_name'>Last Name:</Label>
-                                        <input placeholder="" id='last_name' type='text' defaultValue={user.lastName ? user.lastName : ''} ref={lastNameRef}/>
+                                        <input placeholder="" id='last_name' type='text' defaultValue={user.lastName ? user.lastName : ''} ref={lastNameRef} />
                                     </Col>
                                 </Row>
                                 <Row className='mt-3'>
                                     <Col md={6}>
                                         <Label htmlFor='email'>Email:</Label>
-                                        <input placeholder="" id='email' type='text' defaultValue={user.email ? user.email : ''} ref={emailRef}/>
+                                        <input placeholder="" id='email' type='text' defaultValue={user.email ? user.email : ''} ref={emailRef} />
                                     </Col>
                                     <Col md={6}>
                                         <Label htmlFor='telephone'>Telephone:</Label>
-                                        <input placeholder="" id='telephone' type='text' defaultValue={user.tel ? user.tel : ''} ref={telRef}/>
+                                        <input placeholder="" id='telephone' type='text' defaultValue={user.tel ? user.tel : ''} ref={telRef} />
                                     </Col>
                                 </Row>
                                 <Row className="mt-5">
@@ -251,26 +253,32 @@ const TakeOutOrder = () => {
                                 <Col className="text-right">14.75%</Col>
                             </Row>
                             {
-                                promotionDesc ? (<Row className="lower">
+                                promotionTitle ? (<Row className="lower">
                                     <Col className="text-left">Discount</Col>
-                                    <Col className="text-right">{promotionDesc}</Col>
+                                    <Col className="text-right">{promotionTitle}</Col>
                                 </Row>) : ''
                             }
-
+                            {
+                                promotionTitle ? (<Row className="lower">
+                                    <Col className="text-left">Money Saved</Col>
+                                    <Col className="text-right bold" style={{ color: 'red' }}><b>- {moneySaved.toFixed(2)}</b></Col>
+                                </Row>) : ''
+                            }
                             <Row className="lower mt-4">
                                 <Col className="text-left"><b>Total to pay</b></Col>
                                 <Col className="text-right"><b>{(totalPrice * 1.1475).toFixed(2)}</b></Col>
                             </Row>
-                            <Row className="lower mt-5">
-                                <Col md={{ span: 4, offset: 4 }}>
-                                    <Label htmlFor='promo_code'>Promotion Code</Label>
-                                    <Row>
+                            <hr />
+                            <Row className="lower mt-4">
+                                <Col>
+                                    <Row className='my-4'>
+                                        <Col style={{lineHeight:'40px'}}>Promotion Code</Col>
                                         <Col><input type='text' id='promo_code' ref={promotionRef} /></Col>
-                                        <Col><Button onClick={applyPromotion}>Apply</Button></Col>
                                     </Row>
+                                    <Button onClick={applyPromotion}>Apply</Button>
                                 </Col>
                             </Row>
-                            <Button className="order_btn" onClick={submitOrder}>Place order</Button>
+                            <Button className="order_btn mt-5" onClick={submitOrder}>Place order</Button>
                         </div>
                     </Col>
                 </Row>
