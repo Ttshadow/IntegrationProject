@@ -20,41 +20,52 @@ function NewMenu(){
 
     const saveMenu = async (e) => {
         e.preventDefault();
-        await uploadImage();
-        await fetch('/admindashboard/menu/add_menu',{
-            method: 'POST',
-            body: JSON.stringify({    
-                name: nameRef.current.value,
-                description: descriptionRef.current.value,
-                price: priceRef.current.value,
-                category: 
-                {
-                    id: categoryId,
-                },
-                image: imageSrc,
-                status: statusRef.current.value
-           }),
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${jwt}`
-  
-            }
-        })
-        .then((data) => {
-            if(data.status === 200){
-            navigate('../menuDashboard');}
-            else{
-                return data.text();
-            }
-        })
-        .then((text)=>{
-              setErrorMessage(text);
-        })
+        if(nameRef.current.value === ""){
+            setErrorMessage("Please enter a name for the dish.")
+        }
+        else if(categoryId == 0){
+            setErrorMessage("Please select a category.")
+        }
+        else{
+            setErrorMessage("");
+            await uploadImage();
+            await fetch('/admindashboard/menu/add_menu',{
+                method: 'POST',
+                body: JSON.stringify({    
+                    name: nameRef.current.value,
+                    description: descriptionRef.current.value,
+                    price: priceRef.current.value,
+                    category: 
+                    {
+                        id: categoryId,
+                    },
+                    image: imageSrc,
+                    status: statusRef.current.value
+            }),
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${jwt}`
+    
+                }
+            })
+            .then((data) => {
+                if(data.status === 200){
+                navigate('../menuDashboard');}
+                else{
+                    return data.text();
+                }
+            })
+            .then((text)=>{
+                setErrorMessage(text);
+            })}
     }
 
     function handleChange(e){
         setCategoryId(e.target.value);
+        if(categoryId != 0){
+            setErrorMessage("");
+        }
     }
 
     async function uploadImage(){
@@ -82,7 +93,6 @@ function NewMenu(){
                 <Form.Group className="mb-3" >
                     <Form.Label >Name</Form.Label>
                     <Form.Control type="text" ref={nameRef}/>
-                    <p className='text-danger' defaultValue={''}>{errorMessage}</p>
                 </Form.Group>
                 <Form.Group className="mb-3" >
                     <Form.Label >Description</Form.Label>
@@ -112,6 +122,7 @@ function NewMenu(){
                     <Form.Label >Image</Form.Label>
                     <Form.Control type="file" onChange={(event)=>{setSelectImage(event.target.files[0])}}/>
                 </Form.Group>
+                <p className='text-danger' defaultValue={''}>{errorMessage}</p>
                 <Button type="submit" variant="warning" className="mt-3 mb-3" onClick={saveMenu}>Save</Button>
             </Form>
         </div>

@@ -1,7 +1,10 @@
 import React from "react";
 import { useEffect, useRef, useState } from "react";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
+import { toast, ToastContainer } from "react-toastify";
 import useLocalStorage from "../../util/useLocalStorage";
+import 'react-toastify/dist/ReactToastify.css';
+
 
 export function MenuCardGroup(props){
     const [jwt, setJwt] = useLocalStorage('', 'jwt');
@@ -51,11 +54,15 @@ export function MenuCardGroup(props){
             }, 
         })
         .then(()=>{
-            alert("Added to your cart.")
+            toast.success("Added to your cart.")
         })
     }
     return (
+        <>
+        <ToastContainer hideProgressBar={true} theme="colored" position="top-center" autoClose={1000} closeOnClick />
+
     <Row xs={1} md={4} className="g-4">
+
     {
         menus?.map((menu)=>{
             return <Col key={menu.id} >
@@ -75,5 +82,5 @@ export function MenuCardGroup(props){
     }
     
         </Row>
-        )}
- 
+        
+        </>)}
