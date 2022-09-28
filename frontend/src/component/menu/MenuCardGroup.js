@@ -59,8 +59,7 @@ export function MenuCardGroup(props){
     }
     return (
         <>
-        <ToastContainer hideProgressBar={true} theme="colored" position="top-center" autoClose={1000} closeOnClick
-/>
+        <ToastContainer hideProgressBar={true} theme="colored" position="top-center" autoClose={1000} closeOnClick />
 
     <Row xs={1} md={4} className="g-4">
 

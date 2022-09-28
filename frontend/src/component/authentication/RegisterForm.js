@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 
 function RegisterForm() {
   const [message, setMessage] = useState("");
@@ -24,10 +25,12 @@ function RegisterForm() {
       }).then((response) => {
         if (response.status === 200) {
           // setMessage("Registration success");
-          alert("Registration Successful");
-          navigate("/login");
+          toast.success("Registration Successful");
+          setTimeout(()=>{
+            navigate("/login");
+          }, 1500)
         } else {
-          alert("Username already exists, Please choose another one!");
+          toast.error("Username already exists, Please choose another one!");
           // setMessage("Username already exists, Please choose another one!");
         }
       })}
@@ -46,6 +49,7 @@ function RegisterForm() {
 
   return (
     <div className="login-container">
+      <ToastContainer hideProgressBar={true} theme="colored" position="top-center" closeOnClick />
       <div className="login-form">
         <h1>Register</h1>
         {/* <p>{message}</p> */}
