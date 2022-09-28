@@ -43,7 +43,7 @@ public class UserService {
             userFromDb.setLastName(editUser.getLastName());
             userFromDb.setTel(editUser.getTel());
             userFromDb.setEmail(editUser.getEmail());
-            userFromDb.setPassword(passwordEncoder.encode(editUser.getPassword()));
+            //userFromDb.setPassword(passwordEncoder.encode(editUser.getPassword()));
             userFromDb.setImage(editUser.getImage());
             userRepo.save(userFromDb);
         }
@@ -54,6 +54,16 @@ public class UserService {
             return user.get();
         }
         throw new RecordNotFoundException("User not found.");
+    }
+
+    public void updateUserPass(User updateUser) throws RecordNotFoundException{
+        if(updateUser.getId() ==null){
+            throw new RecordNotFoundException("User does not exist!");
+        }else{
+            User userFromDb = userRepo.getReferenceById(updateUser.getId());
+            userFromDb.setPassword(passwordEncoder.encode(updateUser.getPassword()));
+            userRepo.save(userFromDb);
+        }
     }
 
     public List<User> getAllUsers(){

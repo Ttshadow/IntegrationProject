@@ -13,10 +13,10 @@ function AdminDashboard() {
         authority === 'ROLE_ADMIN' ?
         (<Container>
             <Row>
-                <Col className="col-3">
+                <Col className="col-3 sm-col-1">
                     <SideBar />
                 </Col>
-                <Col className="col-9">
+                <Col className="col-9 sm-col-11">
                     <Outlet />
                 </Col>
             </Row>

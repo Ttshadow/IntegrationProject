@@ -125,6 +125,8 @@ public class ReservationService {
         return reservationRepository.findSpecificReservationById(status, start, tableId);
     }
 
-
+    public List<Reservation> getReservationStatusOfUser(Long userId){
+        return reservationRepository.findReservationStatusOfUser("fulfilled", userId);
+    }
 
 }
