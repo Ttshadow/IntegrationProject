@@ -61,7 +61,7 @@ function Testimonials() {
 
   return (
     <>
-    <div className="section-testimonials mt-0">
+    <div className="section-testimonials mt-0" id="testimonial">
     <div className='pt-5'><h2 className='pt-4'>Our customers can't live without us</h2></div>
     <Slider {...settings} >
       {comments.map((comment)=>{
