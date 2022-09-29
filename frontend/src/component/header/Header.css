@@ -1,32 +1,116 @@
-.navbar {
-    font-size: 16px;
-    top:0;
-    left: 0;
+#logo{
+    background-image: url("../../../public/images/logo.jpeg");
+    width: 50px;
+    height: 50px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    margin-left: 50px;
+    margin-right: 100px;
 }
 
-.navbar-light .navbar-nav .nav-link {
-    padding: 0 20px;
+.nav-container{
+    top: 0;
+    left: 0;
+    width: 100%;
+    border-bottom: 1px solid #000;
+}
+
+.navigation {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navigation ul{
+    margin-right: 10px;
+    margin-bottom: 0;
+}
+
+.navigation ul li{
+    list-style: none;
+}
+
+.navMenu {
+    display: block;
+    margin: 0 auto;
+}
+
+nav ul li {
+    display: inline-block;
+    margin: 0 0.5rem;
+}
+
+nav ul li a{
+    font-size: 1rem;
+    font-weight: 500;
+    display: inline-block;
+    padding: 0.5rem 0.5rem;
+    text-decoration: none;
     color: black;
     transition: 0.3s ease;
 }
 
-.navbar-light .navbar-nav .nav-link:hover,
-.navbar i:hover,
-.navbar-light .navbar-nav .nav-link.active,
-.navbar i.active {
+nav ul li a:hover{
     color: coral;
 }
 
-.navbar i {
-    font-size: 1.2rem;
-    padding: 0 7px;
-    cursor: 500;
-    transition: 0.3s ease;
+.navMenu {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
 }
 
-#logo{
-    background-image: url("../../../public/images/logo.jpeg");
-    height: 50px;
-    background-repeat: no-repeat;
-    background-size: contain;
+.menuIcon,
+.closeIcon {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    margin-left: 10px;
+    padding: 3px;
+}
+
+.closeIcon {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    color: #fff;
+}
+
+@media only screen and (max-width: 768px) {
+    nav {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: fixed;
+      width: 90%;
+      max-width: 200px;
+      top: 0;
+      right: 0%;
+      height: 100vh;
+      z-index: 100;
+      transform: translateX(100%);
+      transition: 0.3s ease transform;
+      overflow: hidden;
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+    nav.open {
+      transform: translateX(0);
+    }
+    nav ul li {
+      display: block;
+      text-align: right;
+      width: 100%;
+      margin: 0.5rem 0;
+      color: #fff;
+    }
+    nav ul{
+        margin-top: 20px;
+    }
+
+    nav ul li a {
+        display: block;
+        width: 100%;
+        margin-bottom: 25px;
+        color: #fff;
+    }
 }
