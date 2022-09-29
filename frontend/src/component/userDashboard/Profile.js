@@ -78,8 +78,9 @@
 
     function editPassword (e) {
         e.preventDefault();
-        if(passwordRegex.test(passRef.current.value)){
-            setPwdError("");
+        if(pwdError==="" && passError === ""){
+            // setPwdError("");
+            // setPassError("");
             setShow(false);
         fetch('/userdashboard/editdetail', {
             method: 'PUT',
@@ -97,11 +98,22 @@
                 if (response.status === 200) {
                     setModalShow(false);
                     navigate('/userdashboard/profile');
+                }else{
+                    return response.text();
                 }
+            }).then((text) =>{
+                setPwdError(text);
             })
         }
-        else{
+        // else{
+        //     setPwdError("Password should contain at least one upper case character, one numeric character, one special character, and must be 6 characters or longer, and can not be empty.");
+        // }
+    }
+    const PwdValidator = () =>{
+        if(!passwordRegex.test(passRef.current.value)){
             setPwdError("Password should contain at least one upper case character, one numeric character, one special character, and must be 6 characters or longer, and can not be empty.");
+        }else{
+            setPwdError("");
         }
     }
 
@@ -174,7 +186,7 @@
                 <Form>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                         <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" ref={passRef}/>
+                        <Form.Control type="password" ref={passRef} onChange={PwdValidator} />
                         <p className='text-danger' defaultValue={''}>{pwdError}</p>
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">

@@ -43,6 +43,9 @@ public class UserController {
 
     @PutMapping("userdashboard/editdetail")
     public ResponseEntity updatePass(@RequestBody User user)throws RecordNotFoundException{
+        if(user.getPassword().isEmpty()){
+            return ResponseEntity.internalServerError().body("Password can not be empty.");
+        }
         userService.updateUserPass(user);
         return ResponseEntity.ok(user);
     }
