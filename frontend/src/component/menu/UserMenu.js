@@ -15,7 +15,7 @@ export function UserMenu(){
                 className="mb-3"
                 
                 >
-                    <Tab eventKey={0} title="All" >
+                    <Tab eventKey={0} title="All">
                         <MenuCardGroup selectCategory={0} />
                     </Tab>
                     {categories?.map((category)=>{

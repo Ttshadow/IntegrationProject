@@ -61,7 +61,7 @@ export function MenuCardGroup(props){
         <>
         <ToastContainer hideProgressBar={true} theme="colored" position="top-center" autoClose={1000} closeOnClick />
 
-    <Row xs={1} md={4} className="g-4" >
+    <Row xs={1} md={2} lg={4} className="g-4" >
 
     {
         menus?.map((menu)=>{
