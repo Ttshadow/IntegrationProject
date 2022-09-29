@@ -1,5 +1,6 @@
 package com.example.backend.entity;
 
+import com.example.backend.constant.*;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -8,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.persistence.Table;
+import javax.validation.constraints.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -20,9 +22,15 @@ import java.util.List;
 @NoArgsConstructor
 public class User extends IdBaseEntity implements UserDetails {
     private String username;
+    @Email
+    @Pattern(regexp = "^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$")
     private String email;
     private String tel;
+    @Pattern(regexp = "^[\\p{L} .'-]+$")
+    @Size(max = 30, message = ErrorMessage.FIRSTNAME_SIZE_LIMIT_ERROR_MESSAGE)
     private String firstName;
+    @Pattern(regexp = "^[\\p{L} .'-]+$")
+    @Size(max = 30, message = ErrorMessage.LASTNAME_SIZE_LIMIT_ERROR_MESSAGE)
     private String lastName;
     private String image;
     private String password;
@@ -32,6 +40,17 @@ public class User extends IdBaseEntity implements UserDetails {
 
     public User(String username, String password, Authority authority) {
         this.username = username;
+        this.password = password;
+        this.authority = authority;
+    }
+
+    public User(String username, String email, String tel, String firstName, String lastName, String image, String password, Authority authority) {
+        this.username = username;
+        this.email = email;
+        this.tel = tel;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.image = image;
         this.password = password;
         this.authority = authority;
     }

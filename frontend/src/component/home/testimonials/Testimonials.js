@@ -45,7 +45,7 @@ function Testimonials() {
     const [comments, setComments] = useState([])
 
     useEffect(() =>{
-        fetch('../admindashboard/review', {
+        fetch('../home/testimonial', {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${jwt}`

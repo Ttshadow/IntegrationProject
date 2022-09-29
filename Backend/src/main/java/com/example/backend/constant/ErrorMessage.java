@@ -13,6 +13,8 @@ public class ErrorMessage {
     //CartItem:
     public static final String QUANTITY_SIZE_LIMIT_ERROR_MESSAGE = "Maximum 10 items can be added.";
     //Menu:
-
+    //User:
+    public static final String FIRSTNAME_SIZE_LIMIT_ERROR_MESSAGE = "First name should be less than 30 characters.";
+    public static final String LASTNAME_SIZE_LIMIT_ERROR_MESSAGE = "Last name should be less than 30 characters.";
 
 }

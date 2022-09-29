@@ -27,6 +27,8 @@ import DineInOrder from "./component/order/DineInOrder";
 import Comment from "./component/adminDashboard/Comment";
 import LeaveComment from "./component/userDashboard/LeaveComment";
 import Profile from "./component/userDashboard/Profile";
+import ShowProfile from "./component/userDashboard/ShowProfile";
+import UserInfo from "./component/adminDashboard/UserInfo";
 import StripeContainer from "./component/order/StripeContainer";
 import PaymentSuccess from "./component/order/PaymentSuccess";
 import Promotion from "./component/adminDashboard/Promotion";
@@ -57,7 +59,8 @@ function App() {
       <Route path="/userdashboard/" element={<UserDashboard />}>
         <Route path="leavecomment" element={<LeaveComment />}/>
         <Route path="reservation" element={<UserReservation />} />
-        <Route path="profile" element={<Profile />}/>
+        <Route path="/userdashboard/profile/edit" element={<Profile />}/>
+        <Route path="profile" element={<ShowProfile />}/>
 
       </Route>
 
@@ -77,6 +80,7 @@ function App() {
         <Route path="table" element={<AdminTable />}/>
         <Route path="reservation" element={<AdminReservation />}/>
         <Route path="comment" element={<Comment />}/>
+        <Route path="userinfo" element={<UserInfo />}/>
       </Route>
 
       <Route path="/dine/" element={<Outlet />}>

@@ -2,7 +2,7 @@ import { BiFoodMenu, BiCommentDots } from "react-icons/bi";
 import { ImPriceTag } from "react-icons/im";
 import { BsCartFill, BsCalendarCheckFill } from "react-icons/bs";
 import { SiAirtable } from "react-icons/si";
-import { FiArrowLeftCircle, FiArrowRightCircle, FiLogOut } from "react-icons/fi";
+import { FiArrowLeftCircle, FiArrowRightCircle, FiLogOut, FiUsers } from "react-icons/fi";
 import {Link} from "react-router-dom";
 import React, { useState } from "react";
 import {
@@ -57,6 +57,10 @@ return(
                     <MenuItem icon={<BiCommentDots />}>
                         Reviews
                         <Link to="/admindashboard/comment" />
+                    </MenuItem>
+                    <MenuItem icon={<FiUsers />}>
+                        Users
+                        <Link to="/admindashboard/userinfo" />
                     </MenuItem>
 
                     {/*TEMP FOR USERDASHBOARD*/}

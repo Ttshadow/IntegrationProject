@@ -1,11 +1,12 @@
 package com.example.backend.service;
 
-import com.example.backend.entity.User;
+import com.example.backend.entity.*;
 import com.example.backend.entity.pojo.AuthCredentialsRequest;
 import com.example.backend.exception.*;
 import com.example.backend.repository.AuthorityRepository;
 import com.example.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -36,15 +37,36 @@ public class UserService {
     public void updateUser (User editUser) throws RecordNotFoundException {
         if(editUser.getId() ==null){
             throw new RecordNotFoundException("User does not exist!");
-        }else{
+        }else {
             User userFromDb = userRepo.getReferenceById(editUser.getId());
             userFromDb.setFirstName(editUser.getFirstName());
             userFromDb.setLastName(editUser.getLastName());
             userFromDb.setTel(editUser.getTel());
             userFromDb.setEmail(editUser.getEmail());
+            //userFromDb.setPassword(passwordEncoder.encode(editUser.getPassword()));
             userFromDb.setImage(editUser.getImage());
             userRepo.save(userFromDb);
         }
+    }
+    public User getUserById(Long id) throws RecordNotFoundException{
+        Optional<User> user = userRepo.findById(id);
+        if(user.isPresent()){
+            return user.get();
+        }
+        throw new RecordNotFoundException("User not found.");
+    }
 
+    public void updateUserPass(User updateUser) throws RecordNotFoundException{
+        if(updateUser.getId() ==null){
+            throw new RecordNotFoundException("User does not exist!");
+        }else{
+            User userFromDb = userRepo.getReferenceById(updateUser.getId());
+            userFromDb.setPassword(passwordEncoder.encode(updateUser.getPassword()));
+            userRepo.save(userFromDb);
+        }
+    }
+
+    public List<User> getAllUsers(){
+        return userRepo.findAll(Sort.by(Sort.Direction.DESC, "id"));
     }
 }
