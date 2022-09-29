@@ -37,16 +37,11 @@ function LeaveComment() {
         .then((text) =>{
             setErrorMessage(text);
         })
-        // .then(()=>{
-        //     navigate("/");
-        // })
     }
 
     const onSubmit = (event) => {
         event.preventDefault();
         addComment();
-        // console.log(moment(dateCreate).toDate());
-        // console.log(commentRef);
     }
 
     const backClick = (event) => {

@@ -35,7 +35,6 @@
         })
         .then((data)=> data.json())
         .then((json)=> {
-            //console.log(json)
             setUser(JSON.parse(JSON.stringify(json)))
         });
     }, []);
@@ -105,13 +104,10 @@
                 setPwdError(text);
             })
         }
-        // else{
-        //     setPwdError("Password should contain at least one upper case character, one numeric character, one special character, and must be 6 characters or longer, and can not be empty.");
-        // }
     }
     const PwdValidator = () =>{
         if(!passwordRegex.test(passRef.current.value)){
-            setPwdError("Password should contain at least one upper case character, one numeric character, one special character, and must be 6 characters or longer, and can not be empty.");
+            setPwdError("Password should contain at least one upper case character, one numeric character, one special character, and must be 6 characters or longer.");
         }else{
             setPwdError("");
         }

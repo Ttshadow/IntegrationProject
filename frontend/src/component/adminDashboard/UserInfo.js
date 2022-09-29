@@ -12,7 +12,6 @@ function UserInfo(){
 
     const searchForUser = (searchValue) =>{
         setSearchUser(searchValue);
-        //console.log(searchValue);
         if(searchUser !== ""){
             const filterData = users.filter((item) => {
                 return Object.values(item).join('').toLowerCase().includes(searchUser.toLowerCase());
@@ -32,7 +31,6 @@ function UserInfo(){
         })
         .then((data)=> data.json())
         .then((json)=> {
-            console.log(json)
             setUsers(JSON.parse(JSON.stringify(json)))
 
         });
