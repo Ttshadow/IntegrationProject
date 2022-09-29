@@ -73,7 +73,7 @@ export default function Header() {
                 </Link>
               </li>
               <li className="nav-item">
-                <a href="#testimonial">
+                <a href="../#testimonial">
                   Testimonials
                 </a>
               </li>
