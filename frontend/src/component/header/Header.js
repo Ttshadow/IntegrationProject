@@ -38,7 +38,7 @@ export default function Header() {
     } else if (authority === "ROLE_USER") {
       window.location.href = "/userdashboard/profile";
     } else {
-      window.location.href = "/";
+      window.location.href = "/login";
     }
   };
 
