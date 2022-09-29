@@ -19,7 +19,7 @@ export default function Footer() {
                 <ul className="text-uppercase list-unstyled">
                     <li><Link to="/">Home</Link></li>
                     <li><Link to="/newreservation">Reservation</Link></li>
-                    <li><Link to="">Testimonial</Link></li>
+                    <li><a href="#testimonial">Testimonial</a></li>
                     {/* <li><Link to="">Contact Us</Link></li> */}
                 </ul>
         </Col>

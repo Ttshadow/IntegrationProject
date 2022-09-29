@@ -73,9 +73,9 @@ export default function Header() {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to="">
+                <a href="#testimonial">
                   Testimonials
-                </Link>
+                </a>
               </li>
             </ul>
           </nav>

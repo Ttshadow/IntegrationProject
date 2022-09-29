@@ -25,8 +25,7 @@ function ReservationTable() {
         allReservationById();
     }, []);
     return <>
-        <h2>User Reservation table</h2>
-        <Table striped bordered hover>
+        <Table striped bordered hover className='mt-3'>
             <thead>
                 <tr>
                 <th>Reservation number</th>
