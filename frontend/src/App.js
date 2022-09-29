@@ -50,7 +50,6 @@ function App() {
           <Route path="menu" element={<UserMenu />}/>
           <Route path="cart" element={<Cart />}/>
         </Route>
-
       </Route>
       {/*<Route path="/admindashboard" element={<AdminDashboard />}></Route>*/}
       {/*<Route path="/admindashboard/table" element={<AdminTable />}></Route>*/}

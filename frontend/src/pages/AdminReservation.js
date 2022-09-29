@@ -1,9 +1,8 @@
 import ReservationTable from '../component/reservation/ReservationTable';
 
 function AdminReservation() {
-    return <>
-        <h1>Reservations</h1>
+    return <div className="mt-3">
         <ReservationTable/>
-    </>
+    </div>
 };
 export default AdminReservation;

@@ -4,6 +4,7 @@ import com.example.backend.entity.DiningTable;
 import com.example.backend.entity.Reservation;
 import com.example.backend.exception.RecordAlreadyExistsException;
 import com.example.backend.exception.RecordNotFoundException;
+import com.example.backend.exception.TableIsOccupiedException;
 import com.example.backend.repository.DiningTableRepository;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -36,16 +37,19 @@ public class DiningTableService {
     }
 
     public void saveOrUpdateDiningTable(DiningTable newDiningTable) throws RecordNotFoundException, RecordAlreadyExistsException {
+        List<DiningTable> tables = getAllDiningTables();
         if (newDiningTable.getId() == null) {
-            List<DiningTable> tables = getAllDiningTables();
-            for (DiningTable table: tables) {
-                if (newDiningTable.getName() == table.getName()) {
+
+            /*for (DiningTable table: tables) {
+                if (newDiningTable.getName().equals(table.getName())) {
                     throw new RecordAlreadyExistsException("This table name already exists.");
                 }
-            }
+            }*/
+            validateName(newDiningTable.getName(), tables);
             diningTableRepository.save(newDiningTable);
         } else {
             DiningTable diningTableFromDb = getDiningTableById(newDiningTable.getId());
+            validateName(newDiningTable.getName(), tables);
             diningTableFromDb.setName(newDiningTable.getName());
             diningTableFromDb.setCapacity(newDiningTable.getCapacity());
             if(diningTableFromDb.getStatus().equals("reserved")) {
@@ -83,11 +87,18 @@ public class DiningTableService {
     }
 
     //Take status and modify reservation.status if needed.
-    public void updateReservationStatus(String status) {
-
+    public void validateName(String name, List<DiningTable> tables) throws RecordAlreadyExistsException{
+        for (DiningTable table: tables) {
+            if (table.getName().equals(name)) {
+                throw new RecordAlreadyExistsException("This table name already exists.");
+            }
+        }
     }
 
-    public void deleteDiningTableById(Long id) {
+    public void deleteDiningTableById(Long id) throws RecordNotFoundException, TableIsOccupiedException {
+        if (getDiningTableById(id).getStatus().equals("occupied")) {
+            throw new TableIsOccupiedException("Cannot delete a table that is occupied.");
+        }
         diningTableRepository.deleteById(id);
     }
 

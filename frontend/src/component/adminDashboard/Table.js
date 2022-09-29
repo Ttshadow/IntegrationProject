@@ -5,11 +5,7 @@ import useLocalStorage from "../../util/useLocalStorage";
 
 function Table() {
     const [table, setTable] = useState([]);
-    const [id, setTableId] = useState(null);
-    const [name, setTableName] = useState('');
-    const [capacity, setTableCapacity] = useState(0);
-    const [status, setTableStatus] = useState('');
-    const [jwt,setJwt] = useLocalStorage("","jwt")
+    const [jwt,setJwt] = useLocalStorage("","jwt");
     
     const allTable = () => {
         fetch('diningtable', {
@@ -27,7 +23,7 @@ function Table() {
     }, []);
 
     return (
-        <div id="tab">
+        <div id="tab mt-3">
         <Tabs
             transition={false}
         >
@@ -60,10 +56,9 @@ function Table() {
                             />
                         </Form.Group>
                         <div className="align-self-end">
-                        <EditTable tableName={table.name} table={table} ></EditTable>
+                        <EditTable tableName={table.name} table={table}></EditTable>
                         </div>
                     </Form>
-                    
                 </Tab>
             )})}
         </Tabs>

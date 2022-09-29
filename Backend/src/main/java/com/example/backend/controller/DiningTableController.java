@@ -1,14 +1,18 @@
 package com.example.backend.controller;
 
+import com.example.backend.constant.ErrorMessage;
 import com.example.backend.entity.DiningTable;
 import com.example.backend.exception.RecordAlreadyExistsException;
 import com.example.backend.exception.RecordNotFoundException;
+import com.example.backend.exception.TableIsOccupiedException;
 import com.example.backend.service.DiningTableService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
@@ -28,29 +32,39 @@ public class DiningTableController {
         return diningTableService.getCurrentTableStatus(date);
     }
     @PutMapping("/updatetable")
-    public List<DiningTable> saveDiningTable(@RequestBody DiningTable newDiningtable) throws RecordNotFoundException, RecordAlreadyExistsException {
-        //get list of reservation
-        //check status. if reserved - occupied, reservation.status=fulfilled
-        //if reserved - available = unfulfilled
-        //if reserved - occupied = fulfilled
-        //if reserved - unavailable = cancelled
-        //if available - occupied = nothing
-        //if available - unavailable = cancelled(for the day/alert admin)
-        //if unavailable - available = nothing
-        //if occupied - available = nothing
-        diningTableService.saveOrUpdateDiningTable(newDiningtable);
-        return diningTableService.getAllDiningTables();
+    public ResponseEntity saveDiningTable(@RequestBody DiningTable newDiningtable) throws RecordNotFoundException, RecordAlreadyExistsException {
+        try {
+            diningTableService.saveOrUpdateDiningTable(newDiningtable);
+            return ResponseEntity.ok("");
+        }
+        catch (RecordAlreadyExistsException ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+
     }
 
     @PostMapping("/addtable")
-    public List<DiningTable> addDiningTable(@RequestBody DiningTable newDiningtable) throws RecordNotFoundException, RecordAlreadyExistsException {
-        diningTableService.saveOrUpdateDiningTable(newDiningtable);
-        return diningTableService.getAllDiningTables();
+    public ResponseEntity addDiningTable(@RequestBody DiningTable newDiningtable) throws RecordNotFoundException, RecordAlreadyExistsException {
+        try {
+            diningTableService.saveOrUpdateDiningTable(newDiningtable);
+            return ResponseEntity.ok("");
+            //return diningTableService.getAllDiningTables();
+        }
+        catch (RecordAlreadyExistsException ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
     }
 
+
+
     @DeleteMapping("/deletetable/{id}")
-    public void deleteDiningTable(@PathVariable(value = "id")long id) {
-        diningTableService.deleteDiningTableById(id);
+    public ResponseEntity deleteDiningTable(@PathVariable(value = "id")long id) throws RecordNotFoundException {
+        try{
+            diningTableService.deleteDiningTableById(id);
+            return ResponseEntity.ok("");
+        }catch(TableIsOccupiedException ex){
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
     }
 
     @GetMapping("/diningtable/{id}")

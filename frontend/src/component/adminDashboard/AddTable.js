@@ -9,14 +9,16 @@ function AddTable() {
     const [status, setTableStatus] = useState('available');
     const [validated, setValidated] = useState(false);
     const [jwt,setJwt] = useLocalStorage("","jwt");
+    const [errorMessage, setErrorMessage] = useState("");
 
     const addTable = (event) => {
+        event.preventDefault();
+        event.stopPropagation();
         const form = event.currentTarget;
         
         if (form.checkValidity() === false) {
-            event.preventDefault();
-            event.stopPropagation();
-            alert("Please verify the information entered.")
+            
+            setErrorMessage("Please verify the information entered.");
         }
         else {
             setValidated(true);
@@ -29,7 +31,19 @@ function AddTable() {
                 },
                 body: JSON.stringify(table)
             })
-            alert(name + ' added successfully.');
+            .then((data) => {
+                if(data.status === 200){
+                    alert(name + ' added successfully.');
+                    setShowModal(false);
+                    window.location.reload(false);
+                }
+                else{
+                    return data.text();
+                }
+            })
+            .then((text)=>{
+                  setErrorMessage(text);
+            })
         }
     }
     const openModal = () => {setShowModal(true)}
@@ -45,6 +59,7 @@ function AddTable() {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
+            <p className="text-danger">{errorMessage}</p>
           <Form noValidate validated={validated} onSubmit={addTable}>
             <Form.Group className="mb-3">
                 <Form.Label>Table Name</Form.Label>

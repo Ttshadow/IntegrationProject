@@ -93,12 +93,12 @@ function ReservationStatusOption(props) {
             <Form.Label>Assign a table</Form.Label>
             {props.status === 'pending' ? 
                 <Form.Select onChange={(e) => props.setTable(e.target.value)}>
-                    {tables.length > 0 ? 
+                    {tables.length > 0 && selectedStatus === 'confirmed' ? 
                         tables.map((table, index) => {
-                            return <option key={index} value={table.id} disabled={selectedStatus === 'confirmed' ? null : true}>{table.name}</option>
+                            return <option key={index} value={table.id} /*disabled={selectedStatus === 'confirmed' ? null : true}*/ >{table.name}</option>
                         })
                         :
-                        <option defaultValue={2}>No table available</option>
+                        <option value={2}>{tables.length > 0 ? "No selection to make" : "No table available"}</option>
                     }
                 </Form.Select>
             :
@@ -109,8 +109,6 @@ function ReservationStatusOption(props) {
                 />
             }
         </Form.Group>
-    
-        {status}
     </>        
     
     )
