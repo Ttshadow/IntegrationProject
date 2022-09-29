@@ -28,6 +28,10 @@ public class UserController {
             return ResponseEntity.internalServerError().body("First name should not be empty.");
         }else if(user.getLastName().isEmpty()){
             return ResponseEntity.internalServerError().body("Last name should not be empty.");
+        }else if(user.getTel().isEmpty()){
+            return ResponseEntity.internalServerError().body("Phone number should not be empty.");
+        }else if(user.getEmail().isEmpty()){
+            return ResponseEntity.internalServerError().body("Email should not be empty.");
         }
         else if(!user.getFirstName().matches("^[\\p{L} .'-]+$")){
             return ResponseEntity.internalServerError().body("First name should only contain letters.");
