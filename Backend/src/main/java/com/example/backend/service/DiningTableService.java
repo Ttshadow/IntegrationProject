@@ -43,7 +43,9 @@ public class DiningTableService {
             diningTableRepository.save(newDiningTable);
         } else {
             DiningTable diningTableFromDb = getDiningTableById(newDiningTable.getId());
-            validateName(newDiningTable.getName(), tables);
+            if (!newDiningTable.getName().equals(diningTableFromDb.getName())) {
+                validateName(newDiningTable.getName(), tables);
+            }
             diningTableFromDb.setName(newDiningTable.getName());
             diningTableFromDb.setCapacity(newDiningTable.getCapacity());
             if(diningTableFromDb.getStatus().equals("reserved")) {

@@ -11,8 +11,7 @@ function UserReservation() {
     };
     return <Container>
     <Row>
-        <Col className='col-9'>
-        <h1>User Reservations</h1>
+        <Col className='col-9 mt-3'>
         <Button onClick={handleClick}>New reservation</Button>
         <ReservationTable/>
         </Col>
