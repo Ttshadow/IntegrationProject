@@ -32,7 +32,7 @@ import UserInfo from "./component/adminDashboard/UserInfo";
 import StripeContainer from "./component/order/StripeContainer";
 import PaymentSuccess from "./component/order/PaymentSuccess";
 import Promotion from "./component/adminDashboard/Promotion";
-
+import OrderHistory from "./component/userDashboard/OrderHistory";
 // import UserDashboard from "./component/userDashboard/UserDashboard";
 
 
@@ -62,7 +62,7 @@ function App() {
         <Route path="reservation" element={<UserReservation />} />
         <Route path="/userdashboard/profile/edit" element={<Profile />}/>
         <Route path="profile" element={<ShowProfile />}/>
-
+        <Route path="history" element={<OrderHistory />} />
       </Route>
 
 
