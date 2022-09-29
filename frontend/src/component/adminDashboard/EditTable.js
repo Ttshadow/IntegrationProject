@@ -1,4 +1,4 @@
-import { Button, Form, Modal, Alert } from 'react-bootstrap';
+import { Button, Form, Modal } from 'react-bootstrap';
 import React, { useState } from 'react';
 import TableStatusOption from './TableStatusOption';
 import useLocalStorage from "../../util/useLocalStorage";
@@ -15,11 +15,11 @@ function EditTable(props) {
     
     const editTable = (event) => {
         const form = event.currentTarget;
+        event.preventDefault();
+        event.stopPropagation();
         const updatetable = {id, name, capacity, status};
         if (form.checkValidity() === false) {
-            event.preventDefault();
-            event.stopPropagation();
-            alert('Please verify the information entered.');
+            setErrorMessage('Please verify the information entered.');
         }
         else {
             setValidated(true);
@@ -31,7 +31,19 @@ function EditTable(props) {
                 },
                 body: JSON.stringify(updatetable)
             })
-            alert(name + " has been updated.");
+            .then((data) => {
+                if(data.status === 200){
+                    alert(name + ' updated successfully.');
+                    setShowModal(false);
+                    window.location.reload(false);
+                }
+                else{
+                    return data.text();
+                }
+            })
+            .then((text)=>{
+                setErrorMessage(text);
+            })
         }
     };
 
@@ -68,6 +80,7 @@ function EditTable(props) {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
+            <p className="text-danger">{errorMessage}</p>
           <Form noValidate validated={validated} onSubmit={editTable}>
             <Form.Group className="mb-3">
                 <Form.Label>Table Name</Form.Label>
@@ -79,6 +92,7 @@ function EditTable(props) {
                     onChange={(e)=> setTableName(e.target.value)}
                 />
             </Form.Group>
+            
             <Form.Group className="mb-3">
                 <Form.Label>Capacity</Form.Label>
                 <Form.Control  
@@ -100,7 +114,6 @@ function EditTable(props) {
             <Button variant="primary" type="submit">Save</Button>
             <Button variant="danger"  type="submit" onClick={deleteTable}>Delete</Button>
           </Form>
-          <p className='text-danger' defaultValue={''}>{errorMessage}</p>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="warning" onClick={() => {setErrorMessage('');setShowModal(false);}}>Close</Button>

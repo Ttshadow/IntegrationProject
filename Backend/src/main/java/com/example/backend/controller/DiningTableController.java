@@ -32,18 +32,15 @@ public class DiningTableController {
         return diningTableService.getCurrentTableStatus(date);
     }
     @PutMapping("/updatetable")
-    public List<DiningTable> saveDiningTable(@RequestBody DiningTable newDiningtable) throws RecordNotFoundException, RecordAlreadyExistsException {
-        //get list of reservation
-        //check status. if reserved - occupied, reservation.status=fulfilled
-        //if reserved - available = unfulfilled
-        //if reserved - occupied = fulfilled
-        //if reserved - unavailable = cancelled
-        //if available - occupied = nothing
-        //if available - unavailable = cancelled(for the day/alert admin)
-        //if unavailable - available = nothing
-        //if occupied - available = nothing
-        diningTableService.saveOrUpdateDiningTable(newDiningtable);
-        return diningTableService.getAllDiningTables();
+    public ResponseEntity saveDiningTable(@RequestBody DiningTable newDiningtable) throws RecordNotFoundException, RecordAlreadyExistsException {
+        try {
+            diningTableService.saveOrUpdateDiningTable(newDiningtable);
+            return ResponseEntity.ok("");
+        }
+        catch (RecordAlreadyExistsException ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+
     }
 
     @PostMapping("/addtable")
@@ -57,6 +54,8 @@ public class DiningTableController {
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
     }
+
+
 
     @DeleteMapping("/deletetable/{id}")
     public ResponseEntity deleteDiningTable(@PathVariable(value = "id")long id) throws RecordNotFoundException {
