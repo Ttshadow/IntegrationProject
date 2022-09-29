@@ -154,7 +154,7 @@
                 <Row className="mb-3">
                     <Form.Group as={Col} controlId="formGroupTel">
                         <Form.Label>Phone Number</Form.Label>
-                        <Form.Control type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" defaultValue={user.tel} ref={telRef} />
+                        <Form.Control type="tel" defaultValue={user.tel} ref={telRef} />
                     </Form.Group>
                     <Form.Group as={Col} controlId="formGroupEmail">
                         <Form.Label>Email</Form.Label>

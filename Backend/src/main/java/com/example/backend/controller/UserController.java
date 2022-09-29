@@ -32,6 +32,8 @@ public class UserController {
             return ResponseEntity.internalServerError().body("Phone number should not be empty.");
         }else if(user.getEmail().isEmpty()){
             return ResponseEntity.internalServerError().body("Email should not be empty.");
+        }else if(!user.getTel().matches("^[1-9]\\d{2}-\\d{3}-\\d{4}")){
+            return ResponseEntity.internalServerError().body("Phone number format ###-###-####");
         }
         else if(!user.getFirstName().matches("^[\\p{L} .'-]+$")){
             return ResponseEntity.internalServerError().body("First name should only contain letters.");

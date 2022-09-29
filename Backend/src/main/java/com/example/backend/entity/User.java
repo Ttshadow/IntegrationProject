@@ -25,6 +25,7 @@ public class User extends IdBaseEntity implements UserDetails {
     @Email
     @Pattern(regexp = "^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$")
     private String email;
+    @Pattern(regexp = "^[1-9]\\d{2}-\\d{3}-\\d{4}")
     private String tel;
     @Pattern(regexp = "^[\\p{L} .'-]+$")
     @Size(max = 30, message = ErrorMessage.FIRSTNAME_SIZE_LIMIT_ERROR_MESSAGE)
