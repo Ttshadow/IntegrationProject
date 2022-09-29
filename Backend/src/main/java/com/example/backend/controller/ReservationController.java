@@ -29,6 +29,21 @@ public class ReservationController {
         return reservationService.getAllPendingReservations();
     }
 
+    @GetMapping("/admindashboard/reservation/test")
+    public void test() throws RecordNotFoundException{
+
+    }
+
+    @PostMapping("/admindashboard/reservation/tables")
+    public List<DiningTable> getDiningTableForReservation(@RequestBody ReservationPojo reservation) {
+        return reservationService.getTableReservationAvailability(reservation.getStartTime(), reservation.getEndTime(), reservation.getNumberOfParty());
+    }
+
+    @PutMapping("/admindashboard/reservation/editreservation")
+    public void editReservation(@RequestBody Reservation reservation) {
+        reservationService.saveUpdatedReservation(reservation);
+    }
+
     //USER SIDE
     @GetMapping("/userdashboard/reservation/{id}")
     public List<Reservation> getAllUserReservations(@PathVariable(value = "id")long id) {
@@ -48,20 +63,5 @@ public class ReservationController {
             return "pending";
         }
         return "rejected";
-    }
-
-    @GetMapping("/admindashboard/reservation/test")
-    public void test() throws RecordNotFoundException{
-
-    }
-
-    @PostMapping("/admindashboard/reservation/tables")
-    public List<DiningTable> getDiningTableForReservation(@RequestBody ReservationPojo reservation) {
-        return reservationService.getTableReservationAvailability(reservation.getStartTime(), reservation.getEndTime(), reservation.getNumberOfParty());
-    }
-
-    @PutMapping("/admindashboard/reservation/editreservation")
-    public void editReservation(@RequestBody Reservation reservation) {
-        reservationService.saveUpdatedReservation(reservation);
     }
 }

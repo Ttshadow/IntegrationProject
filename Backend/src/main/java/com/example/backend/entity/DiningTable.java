@@ -14,7 +14,6 @@ import javax.validation.constraints.NotEmpty;
 @Entity
 @Table(name = "dining_tables")
 public class DiningTable extends IdBaseEntity{
-    /*@NotNull (message = ErrorMessage.CAPACITY_IS_REQUIRED_ERROR_MESSAGE)*/
     @Max(value = 50, message = ErrorMessage.CAPACITY_SIZE_LIMIT_ERROR_MESSAGE)
     @Min(value = 1, message = ErrorMessage.CAPACITY_SIZE_LIMIT_ERROR_MESSAGE)
     private Integer capacity;

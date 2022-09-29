@@ -1,10 +1,7 @@
 package com.example.backend.service;
 
-
 import com.example.backend.entity.DiningTable;
 import com.example.backend.entity.Reservation;
-import com.example.backend.entity.User;
-import com.example.backend.repository.DiningTableRepository;
 import com.example.backend.repository.ReservationRepository;
 import org.springframework.stereotype.Service;
 
@@ -59,12 +56,11 @@ public class ReservationService {
         List<DiningTable> potentialTables = diningTableService.getPotentialDiningTables(capacity);
         List<DiningTable> toRemoveTables = new ArrayList<>();
         Set<DiningTable> uniqueTables = new HashSet<DiningTable>();
-        //List<DiningTable> allPotentialTables = getAllAvailableDiningTables(start, potentialTables);
         List<Reservation> selectedConfirmedReservation = reservationRepository.findSpecificReservation("confirmed", start);
         LocalTime startTime = start.toInstant().atZone(ZoneId.of("America/Montreal")).toLocalTime();
         LocalTime endTime = end.toInstant().atZone(ZoneId.of("America/Montreal")).toLocalTime();
         Duration reservationDuration = Duration.between(startTime, endTime);
-        //Finding all the available table only
+
         for (Reservation reservation: selectedConfirmedReservation) {
             for (DiningTable table: potentialTables) {
                 if (reservation.getDiningTable().equals(table)) {
@@ -75,19 +71,13 @@ public class ReservationService {
 
         uniqueTables.addAll(toRemoveTables);
         potentialTables.removeAll(uniqueTables);
-        System.out.println(potentialTables.size());
-        //Check if there are any available tables left.
+
         if (potentialTables.size() > 0) {
             return potentialTables;
         }
         else {
-            //need to check if the r.starttime >= c.endtime && r.starttime + duration <= c.starttime of the next reservation on the same table.id
-            //list of reservation per table..
-            //uniqueTables = tables that have confirmed reservations.
             for (DiningTable table : uniqueTables) {
-                //reservationsByTable = every reservation for specific table and for specific date.
                 List<Reservation> reservationsByTable = reservationRepository.findSpecificReservationById("confirmed", start, table.getId());
-
                 for(int i = 0; i < reservationsByTable.size()-1; i++) {
                     LocalTime firstEndReservation = reservationsByTable.get(i).getEndTime().toInstant().atZone(ZoneId.of("America/Montreal")).toLocalTime();
                     LocalTime secondStartReservation = reservationsByTable.get(i+1).getStartTime().toInstant().atZone(ZoneId.of("America/Montreal")).toLocalTime();
@@ -103,22 +93,6 @@ public class ReservationService {
         return potentialTables;
     }
 
-    public List<DiningTable> getAllAvailableDiningTables(Date start, List<DiningTable> potentialTables) {
-        List<Reservation> selectedConfirmedReservation = reservationRepository.findSpecificReservation("confirmed", start);
-        List<DiningTable> toRemoveTables = new ArrayList<>();
-        Set<DiningTable> uniqueTables = new HashSet<DiningTable>();
-        for (Reservation reservation: selectedConfirmedReservation) {
-            for (DiningTable table: potentialTables) {
-                if (reservation.getDiningTable().equals(table)) {
-                    toRemoveTables.add(table);
-                }
-            }
-        }
-        uniqueTables.addAll(toRemoveTables);
-        potentialTables.removeAll(uniqueTables);
-        return potentialTables;
-    }
-
     public List<Reservation> getReservationAtDate(Date date) {
         return reservationRepository.findSpecificReservation("confirmed", date);
     }
@@ -130,5 +104,4 @@ public class ReservationService {
     public List<Reservation> getReservationStatusOfUser(Long userId){
         return reservationRepository.findReservationStatusOfUser("fulfilled", userId);
     }
-
 }

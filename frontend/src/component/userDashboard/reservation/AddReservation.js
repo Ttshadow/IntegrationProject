@@ -47,8 +47,6 @@ function AddReservation() {
         else {
             minValue = moment(nextDate + 'T' + startLunchTime).format("yyyy-MM-DDTHH:mm");
             maxValue = moment(updatedDate + 'T' + maxLunchTime).format("yyyy-MM-DDTHH:mm");
-            console.log(minValue);
-            console.log(maxValue);
         }
         
         for (let i = 1; i < partyLimit+1; i++) {
@@ -83,7 +81,6 @@ function AddReservation() {
     };
 
     const addReservation = (status2) => {
-        console.log(status2);
         const reservation = {diningTable: {id: diningTable}, user: {id: user}, startTime: moment(startTime).toDate(), endTime: moment(endTime).toDate(), numberOfParty: numberOfParty, status: status2};
         fetch('/userdashboard/reservation/new', {
             method: 'POST',
@@ -96,7 +93,6 @@ function AddReservation() {
         .then((data) => data.json())
         .then((json) => {
             var info = json;
-            console.log(json);
             if (info.status === 'pending') {
                 setShowFailAlert(false);
                 setShowSuccessAlert(true);

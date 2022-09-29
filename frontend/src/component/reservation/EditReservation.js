@@ -19,7 +19,6 @@ function EditReservation(props) {
         event.preventDefault();
         event.stopPropagation();
         const reservation = {id: props.id, user: {id: props.user}, numberOfParty: props.numberOfParty, startTime: props.startTime, endTime: props.endTime, status: status, diningTable: {id: table}};
-        console.log(reservation);
         fetch('/admindashboard/reservation/editreservation', {
             method: 'PUT',
             headers: {
