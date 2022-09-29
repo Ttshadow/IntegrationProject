@@ -90,4 +90,9 @@ public class OrderController {
             throw new RuntimeException(e);
         }
     }
+
+    @GetMapping("/userdashboard/order/{userId}")
+    public List<Order> getOrderByUser(@PathVariable Long userId){
+        return orderService.getOrderByUserId(userId);
+    }
 }

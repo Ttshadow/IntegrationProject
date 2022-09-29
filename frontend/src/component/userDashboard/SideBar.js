@@ -40,7 +40,7 @@ return(
                     </MenuItem>
                     <MenuItem icon={<RiFileHistoryFill />}>
                         Order History
-                        <Link to="" />
+                        <Link to="history" />
                     </MenuItem>
                     <MenuItem icon={<ImCalendar />}>
                         Reservations

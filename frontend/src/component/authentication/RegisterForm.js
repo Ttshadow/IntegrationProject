@@ -8,36 +8,41 @@ function RegisterForm() {
   const passwordRef = useRef();
   const navigate = useNavigate();
   const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{6,})");
+  const usernameRegex = new RegExp("[^a-zA-Z0-9]");
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if(checkValidation()){
-      setMessage("");
-      fetch("/user/register", {
-        method: "POST",
-        body: JSON.stringify({
-          username: usernameRef.current.value,
-          password: passwordRef.current.value,
-        }),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
-      }).then((response) => {
-        if (response.status === 200) {
-          // setMessage("Registration success");
-          toast.success("Registration Successful");
-          setTimeout(()=>{
-            navigate("/login");
-          }, 1500)
-        } else {
-          toast.error("Username already exists, Please choose another one!");
-          // setMessage("Username already exists, Please choose another one!");
-        }
-      })}
-    else{
-      setMessage("Password should contain at least one upper case character, one numeric character, one special character, and must be 6 characters or longer.");
+    if (usernameRegex.test(usernameRef.current.value)){
+      toast.error("Username should not contain any special characters.")
     }
-  };
+    else{
+      if(checkValidation()){
+        setMessage("");
+        fetch("/user/register", {
+          method: "POST",
+          body: JSON.stringify({
+            username: usernameRef.current.value,
+            password: passwordRef.current.value,
+          }),
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        }).then((response) => {
+          if (response.status === 200) {
+            // setMessage("Registration success");
+            toast.success("Registration Successful");
+            setTimeout(()=>{
+              navigate("/login");
+            }, 1500)
+          } else {
+            toast.error("Username already exists, Please choose another one!");
+            // setMessage("Username already exists, Please choose another one!");
+          }
+      })}
+      else{
+        setMessage("Password should contain at least one upper case character, one numeric character, one special character, and must be 6 characters or longer.");
+      }}
+    };
 
   function checkValidation(){
     if(strongRegex.test(passwordRef.current.value)){
