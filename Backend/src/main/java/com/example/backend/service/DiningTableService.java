@@ -102,9 +102,9 @@ public class DiningTableService {
         diningTableRepository.deleteById(id);
     }
 
-    public void changeDiningTableStatus(Long id, String status) throws RecordNotFoundException {
+    public void statusToOccupîed(Long id) throws RecordNotFoundException {
         DiningTable diningTable = getDiningTableById((id));
-        diningTable.setStatus(status);
+        diningTable.setStatus("occupied");
         diningTableRepository.save(diningTable);
     }
 

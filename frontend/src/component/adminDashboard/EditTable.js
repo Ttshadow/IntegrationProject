@@ -2,6 +2,8 @@ import { Button, Form, Modal } from 'react-bootstrap';
 import React, { useState } from 'react';
 import TableStatusOption from './TableStatusOption';
 import useLocalStorage from "../../util/useLocalStorage";
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 function EditTable(props) {
     const [showModal, setShowModal] = useState(false);
@@ -33,9 +35,9 @@ function EditTable(props) {
             })
             .then((data) => {
                 if(data.status === 200){
-                    alert(name + ' updated successfully.');
+                    toast.success(name + ' updated successfully.');
                     setShowModal(false);
-                    window.location.reload(false);
+                    window.setTimeout(function(){window.location.reload(false)}, 2500);
                 }
                 else{
                     return data.text();
@@ -70,6 +72,7 @@ function EditTable(props) {
     const openModal = () => {setShowModal(true)}
     return (
     <div>
+    <ToastContainer hideProgressBar={true} theme="colored" position="top-center" autoClose={1000} closeButton={false} />
     <Button onClick={openModal}>
         Edit {props.tableName}
     </Button>

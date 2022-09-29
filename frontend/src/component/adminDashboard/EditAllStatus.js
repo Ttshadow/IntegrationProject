@@ -1,12 +1,16 @@
 import { Button, Form, Modal } from 'react-bootstrap';
 import React, { useState } from 'react';
 import useLocalStorage from "../../util/useLocalStorage";
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 function EditAllStatus() {
     const [jwt,setJwt] = useLocalStorage("","jwt")
     const [showModal, setShowModal] = useState(false);
     const [status, setStatus] = useState('available');
-    const editAll = () => {
+    const editAll = (event) => {
+        event.preventDefault();
+        event.stopPropagation();
         fetch('updatealltable/' + status, {
             method: 'PUT',
             headers: {
@@ -14,7 +18,11 @@ function EditAllStatus() {
                 "Content-type": "application/json; charset=UTF-8", 
             },
         })
-        alert("All tables' status has been updated.");
+        .then(() =>{
+        toast.success("All tables' status has been updated.");
+        setShowModal(false);
+        window.setTimeout(function(){window.location.reload(false)}, 2500);
+        })
     };
 
     const openModal = () => {setShowModal(true)}
@@ -27,6 +35,7 @@ function EditAllStatus() {
     ];
 
     return <>
+        <ToastContainer hideProgressBar={true} theme="colored" position="top-center" autoClose={1000} closeButton={false} />
         <Button className="mt-3" onClick={openModal}>
             Edit all table status
         </Button>

@@ -43,6 +43,16 @@ public class DiningTableController {
 
     }
 
+    @PutMapping("/occupyTable/{id}")
+    public void occupyTable (@PathVariable(value = "id")long id) throws RecordNotFoundException {
+        try {
+            diningTableService.statusToOccupîed(id);
+        }
+        catch (RecordNotFoundException ex) {
+            throw new RecordNotFoundException("Table does not exist.");
+        }
+    }
+
     @PostMapping("/addtable")
     public ResponseEntity addDiningTable(@RequestBody DiningTable newDiningtable) throws RecordNotFoundException, RecordAlreadyExistsException {
         try {

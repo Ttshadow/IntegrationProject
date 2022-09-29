@@ -42,7 +42,13 @@ export function TakeoutOrDinein(){
             alert("Please select a table.")
         }
         else{
-            navigate(`menu`);
+            fetch('/admindashboard/occupyTable/' + sessionStorage.getItem("table"), {
+                method: 'PUT',
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                }
+            })
+            .then(navigate(`menu`))
          }
     }
 
