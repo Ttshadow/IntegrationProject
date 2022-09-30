@@ -47,8 +47,8 @@ public class OrderService {
     public Order saveOrUpdateOrder(Order newOrder) throws RecordNotFoundException {
         if (newOrder.getId() == null) {
             newOrder.setUser(userRepository.findById(newOrder.getUser().getId()).get());
-            if (newOrder.getPromotion().getDescription().length() > 0) {
-                newOrder.setPromotion(promotionRepository.getPromotionByDescription(newOrder.getPromotion().getDescription()).get());
+            if (newOrder.getPromotion().getTitle().length() > 0) {
+                newOrder.setPromotion(promotionRepository.getPromotionByTitle(newOrder.getPromotion().getTitle()).get());
             }else {
                 newOrder.setPromotion(null);
             }

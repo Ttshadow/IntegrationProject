@@ -171,7 +171,7 @@ const TakeOutOrder = () => {
                     id: userId
                 },
                 promotion: {
-                    description: promotionTitle
+                    title: promotionTitle
                 }
             }),
         }).then(res => {

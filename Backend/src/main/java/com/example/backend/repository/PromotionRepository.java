@@ -17,4 +17,7 @@ public interface PromotionRepository extends JpaRepository<Promotion, Long> {
     Optional<Promotion> getPromotionByPromotionCode(@Param("code")String code);
     @Query(value = "select * from promotions where description = :description", nativeQuery = true)
     Optional<Promotion> getPromotionByDescription(@Param("description")String description);
+
+    @Query(value = "select * from promotions where title = :title", nativeQuery = true)
+    Optional<Promotion> getPromotionByTitle(@Param("title")String title);
 }
