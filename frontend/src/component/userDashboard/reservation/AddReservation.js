@@ -29,7 +29,7 @@ function AddReservation() {
         const format = "HH:mm";
         const startLunchTime = moment().set({'hour': 11, 'minute': 30}).format(format);
         const maxLunchTime = moment().set({'hour': 14, 'minute': 30}).format(format);
-        const startDinnerTime = moment().set({'hour': 17, 'minute': 30}).format(format);
+        const startDinnerTime = moment().set({'hour': 15, 'minute': 0}).format(format);
         const maxDinnerTime = moment().set({'hour': 22, 'minute': 0}).format(format);
         const currentDate = moment(dateNow).format("yyyy-MM-DD");
         const updatedDate = moment(startTime).format("yyyy-MM-DD");

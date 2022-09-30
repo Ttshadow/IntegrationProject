@@ -31,10 +31,10 @@ public class CommentController {
 
     @PostMapping("/userdashboard/review")
     public ResponseEntity addComment(@RequestBody Comment newComment) throws RecordNotFoundException {
-        List <Reservation> reservations = reservationService.getAllUserReservation(newComment.getUser().getId());
+        List <Reservation> reservations = reservationService.getReservationStatusOfUser(newComment.getUser().getId());
         try{
             if(orderService.getOrderByUserId(newComment.getUser().getId()).isEmpty() && reservations.isEmpty()){
-                return ResponseEntity.badRequest().body("You can leave a comment after you make an order or make a reservation.");
+                return ResponseEntity.badRequest().body("You can leave a comment after you make an order or fulfill a reservation.");
             }
 //            else if(reservations.isEmpty()){
 //                return ResponseEntity.badRequest().body("You can leave comment after fulfill your reservation.");
