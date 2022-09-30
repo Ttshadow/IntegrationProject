@@ -1,7 +1,8 @@
-  #side_bar {
+#side_bar {
     position: absolute;
     width: 220px;
   }
+  
   #side_bar .pro-sidebar {
     height: 100vh;
   }
@@ -66,6 +67,6 @@
   
   @media only screen and (max-width: 720px) {
     html {
-      overflow: hidden;
+      
     }
   }
