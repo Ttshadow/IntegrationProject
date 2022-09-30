@@ -18,7 +18,6 @@ export default function OrderHistory(){
         })
         .then((data)=> data.json())
         .then((json)=> {
-            console.log(json)
             setOrders(JSON.parse(JSON.stringify(json)))
         });
     }, []);

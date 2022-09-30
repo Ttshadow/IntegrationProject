@@ -19,7 +19,6 @@ import { useNavigate } from "react-router-dom";
         })
         .then((data)=> data.json())
         .then((json)=> {
-            console.log(json)
             setUser(JSON.parse(JSON.stringify(json)))
         });
     }, []);

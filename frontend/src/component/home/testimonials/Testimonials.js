@@ -53,7 +53,6 @@ function Testimonials() {
         })
         .then((data)=> data.json())
         .then((json)=> {
-            console.log(json)
             setComments(JSON.parse(JSON.stringify(json)))
         });
     }, []);
