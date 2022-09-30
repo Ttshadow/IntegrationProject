@@ -117,7 +117,7 @@ function AddReservation() {
         <Row>
             <Alert show={showSuccessAlert} variant="success">Reservation was successfully added. The status is 'pending' and will be updated soon.</Alert>
             <Alert show={showFailAlert} variant="danger">Reservation was rejected. There is no availability for the requested time slot.</Alert>
-            <Alert show={showFailTimeAlert} variant="danger">Please select a time slot between {moment(minValue).format("HH:mm")} and {moment(maxValue).format("HH:mm")} (or please select a future date).</Alert>
+            <Alert show={showFailTimeAlert} variant="danger">Please select a time slot between {moment(minValue).format("HH:mm")} and {moment(maxValue).format("HH:mm")} (or please select an allowed time slot for a future date).</Alert>
             <Alert show={showFailMinTimeAlert} variant="danger">You cannot select a time slot before the current time: {moment(dateNow).format("yyyy-MM-DD HH:mm")}.</Alert>
             <Alert show={showFailFormAlert} variant="danger">Please verify your reservation information.</Alert>
             <Alert show={showFailLogicTimeAlert} variant="danger">Please verify your start and end time.</Alert>
@@ -164,6 +164,7 @@ function AddReservation() {
                                 min={dateNow}
                                 value={(moment(minValue).isAfter(moment(startTime)) /*|| moment(startTime).isAfter(moment(minValue))*/) && minCount === 0 ? setStartTime(minValue) : startTime}
                                 onChange={(e) => {
+                                    setShowFailAlert(false);
                                     setShowFailFormAlert(false);
                                     setStartTime(e.target.value);
                                     setMinCount(minCount+1);
@@ -184,6 +185,7 @@ function AddReservation() {
                                 max={maxValue}
                                 value={(moment(endTime).isAfter(moment(maxValue)) || moment(minValue).isAfter(moment(endTime))) && maxCount === 0  ? setEndTime(maxValue) : endTime}
                                 onChange={(e) => {
+                                    setShowFailAlert(false);
                                     setShowFailFormAlert(false);
                                     setEndTime(e.target.value);
                                     setMaxCount(maxCount+1);

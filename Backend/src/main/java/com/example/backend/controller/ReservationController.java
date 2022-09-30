@@ -58,7 +58,6 @@ public class ReservationController {
 
     @PostMapping("/userdashboard/reservation/statusrequest")
     public String getNewReservationStatus(@RequestBody ReservationPojo reservation) {
-        //TODO: CHECK TIME PERIOD FOR VALIDATION IN THE BACKEND!! return httprequest bad request
         if (reservationService.getTableReservationAvailability(reservation.getStartTime(), reservation.getEndTime(), reservation.getNumberOfParty()).size() > 0) {
             return "pending";
         }
