@@ -101,7 +101,7 @@ public class DiningTableService {
         List<DiningTable> allDiningTables = getAllDiningTables();
         List<Reservation> reservationList = reservationService.getReservationAtDate(date);
         for(Reservation reservation : reservationList) {
-            if (!status.equals("available") && reservation.getStatus().equals("confirmed")) {
+            if (!status.equals("available") && (reservation.getStatus().equals("confirmed") || reservation.getStatus().equals("pending"))) {
                 reservation.setStatus("cancelled");
                 reservationService.saveUpdatedReservation(reservation);
             }
@@ -139,12 +139,12 @@ public class DiningTableService {
                     reservation.getDiningTable().setStatus("reserved");
                     diningTableRepository.save(reservation.getDiningTable());
                 }
-                else if (inBetweenDuration.toMinutesPart() >= 15 && reservation.getDiningTable().getStatus().equals("reserved")) {
-                    reservation.setStatus("unfulfilled");
-                    reservation.getDiningTable().setStatus("available");
-                    reservationService.saveUpdatedReservation(reservation);
-                    diningTableRepository.save(reservation.getDiningTable());
-                }
+            }
+            else if (inBetweenDuration.toMinutesPart() >= 2 && (reservation.getDiningTable().getStatus().equals("reserved") || reservation.getStatus().equals("confirmed"))) {
+                reservation.setStatus("unfulfilled");
+                reservation.getDiningTable().setStatus("available");
+                reservationService.saveUpdatedReservation(reservation);
+                diningTableRepository.save(reservation.getDiningTable());
             }
         }
         return getAllDiningTables();
