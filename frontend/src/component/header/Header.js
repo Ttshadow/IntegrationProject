@@ -49,7 +49,7 @@ export default function Header() {
           <div id="logo"></div>
         </Link>
         <div className="navMenu">
-          <nav className={isMobile && isNavOpen ? "open" : undefined}>
+          <nav id="mainNav" className={isMobile && isNavOpen ? "open" : undefined}>
             {isMobile && (
               <div
                 className="closeIcon"

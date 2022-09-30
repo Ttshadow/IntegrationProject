@@ -23,7 +23,7 @@ function SideBar(){
 return(
 <>
     <div id="side_bar">
-        <ProSidebar collapsed={isOpen}>
+        <ProSidebar collapsed={isOpen} toggled="true">
             <SidebarHeader>
                 <div className="maintext">
                     <p>{isOpen ? "Admin" : "Admin Dashboard"}</p>
